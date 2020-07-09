@@ -11,28 +11,28 @@ import android.preference.TwoStatePreference;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class UiUtils {
 
-	private static final boolean IS_ICS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+    private static final boolean IS_ICS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
-	private UiUtils() {
-	}
+    private UiUtils() {
+    }
 
-	public static boolean isChecked(Preference pref) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			return ((TwoStatePreference) pref).isChecked();
-		}
+    public static boolean isChecked(Preference pref) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            return ((TwoStatePreference) pref).isChecked();
+        }
 
-		return ((CheckBoxPreference) pref).isChecked();
-	}
+        return ((CheckBoxPreference) pref).isChecked();
+    }
 
-	public static void setChecked(Preference pref, boolean checked) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			((TwoStatePreference) pref).setChecked(checked);
-		} else {
-			((CheckBoxPreference) pref).setChecked(checked);
-		}
-	}
+    public static void setChecked(Preference pref, boolean checked) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            ((TwoStatePreference) pref).setChecked(checked);
+        } else {
+            ((CheckBoxPreference) pref).setChecked(checked);
+        }
+    }
 
-	public static Preference createTwoStatePreference(Context ctx) {
-		return IS_ICS ? new SwitchPreference(ctx) : new CheckBoxPreference(ctx);
-	}
+    public static Preference createTwoStatePreference(Context ctx) {
+        return IS_ICS ? new SwitchPreference(ctx) : new CheckBoxPreference(ctx);
+    }
 }

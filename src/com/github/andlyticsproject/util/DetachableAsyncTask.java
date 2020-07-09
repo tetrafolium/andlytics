@@ -4,25 +4,25 @@ import android.os.AsyncTask;
 
 
 public abstract class DetachableAsyncTask<Params, Progress, Result, Parent> extends
-		AsyncTask<Params, Progress, Result> {
+    AsyncTask<Params, Progress, Result> {
 
-	protected Parent activity;
+    protected Parent activity;
 
-	public DetachableAsyncTask(Parent activity) {
-		this.activity = activity;
-	}
+    public DetachableAsyncTask(Parent activity) {
+        this.activity = activity;
+    }
 
-	public void attach(Parent activity) {
-		this.activity = activity;
-	}
+    public void attach(Parent activity) {
+        this.activity = activity;
+    }
 
-	public DetachableAsyncTask<Params, Progress, Result, Parent> detach() {
-		activity = null;
+    public DetachableAsyncTask<Params, Progress, Result, Parent> detach() {
+        activity = null;
 
-		return this;
-	}
+        return this;
+    }
 
-	Parent getParent() {
-		return activity;
-	}
+    Parent getParent() {
+        return activity;
+    }
 }

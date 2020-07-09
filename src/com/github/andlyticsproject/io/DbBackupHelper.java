@@ -5,7 +5,7 @@ import android.content.Context;
 
 public class DbBackupHelper extends FileBackupHelper {
 
-	public DbBackupHelper(Context ctx, String dbName) {
-		super(ctx, "../databases/" + dbName);
-	}
+    public DbBackupHelper(Context ctx, String dbName) {
+        super(ctx, "../databases/" + dbName);
+    }
 }

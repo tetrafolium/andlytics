@@ -4,9 +4,9 @@ import com.github.andlyticsproject.model.Comment;
 
 public interface CommentReplier {
 
-	public void showReplyDialog(Comment comment);
+    public void showReplyDialog(Comment comment);
 
-	public void hideReplyDialog();
+    public void hideReplyDialog();
 
-	public void replyToComment(String commentUniqueId, String reply);
+    public void replyToComment(String commentUniqueId, String reply);
 }

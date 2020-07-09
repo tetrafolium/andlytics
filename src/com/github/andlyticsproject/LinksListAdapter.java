@@ -13,63 +13,63 @@ import com.github.andlyticsproject.model.Link;
 
 public class LinksListAdapter extends BaseAdapter {
 
-	private LayoutInflater layoutInflater;
+    private LayoutInflater layoutInflater;
 
-	private List<Link> links;
+    private List<Link> links;
 
-	public LinksListAdapter(AppInfoActivity activity) {
-		this.layoutInflater = activity.getLayoutInflater();
-		this.links = new ArrayList<Link>();
-	}
+    public LinksListAdapter(AppInfoActivity activity) {
+        this.layoutInflater = activity.getLayoutInflater();
+        this.links = new ArrayList<Link>();
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-		final Link link = getItem(position);
-		ViewHolderChild holder;
+        final Link link = getItem(position);
+        ViewHolderChild holder;
 
-		if (convertView == null) {
-			convertView = layoutInflater.inflate(
-					R.layout.appinfo_links_list_item, null);
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(
+                              R.layout.appinfo_links_list_item, null);
 
-			holder = new ViewHolderChild();
-			holder.name = (TextView) convertView
-					.findViewById(R.id.appinfo_link_list_item_name);
-			holder.url = (TextView) convertView
-					.findViewById(R.id.appinfo_link_list_item_url);
+            holder = new ViewHolderChild();
+            holder.name = (TextView) convertView
+                          .findViewById(R.id.appinfo_link_list_item_name);
+            holder.url = (TextView) convertView
+                         .findViewById(R.id.appinfo_link_list_item_url);
 
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolderChild) convertView.getTag();
-		}
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolderChild) convertView.getTag();
+        }
 
-		holder.name.setText(link.getName());
-		holder.url.setText(link.getURL());
+        holder.name.setText(link.getName());
+        holder.url.setText(link.getURL());
 
-		return convertView;
-	}
+        return convertView;
+    }
 
-	static class ViewHolderChild {
-		TextView name;
-		TextView url;
-	}
+    static class ViewHolderChild {
+        TextView name;
+        TextView url;
+    }
 
-	public void setLinks(List<Link> links) {
-		this.links = links;
-	}
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
 
-	@Override
-	public int getCount() {
-		return links.size();
-	}
+    @Override
+    public int getCount() {
+        return links.size();
+    }
 
-	@Override
-	public Link getItem(int position) {
-		return links.get(position);
-	}
+    @Override
+    public Link getItem(int position) {
+        return links.get(position);
+    }
 
-	@Override
-	public long getItemId(int position) {
-		return links.get(position).getId().longValue();
-	}
+    @Override
+    public long getItemId(int position) {
+        return links.get(position).getId().longValue();
+    }
 }

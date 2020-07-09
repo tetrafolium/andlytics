@@ -8,166 +8,166 @@ import java.util.Locale;
 // XXX this is a bit of a kludge...
 public class Comment extends Statistic {
 
-	private boolean isReply = false;
+    private boolean isReply = false;
 
-	// used for replies
-	// looks like this: 'gp:AOqpTOGnebkY.....'
-	private String uniqueId;
+    // used for replies
+    // looks like this: 'gp:AOqpTOGnebkY.....'
+    private String uniqueId;
 
-	private String title;
-	
-	// this is either the translated text, or the same as originalText, 
-	// depending on display language (current locale)
-	private String text;
+    private String title;
 
-	private String originalTitle;
-	
-	// text in original language
-	private String originalText;
+    // this is either the translated text, or the same as originalText,
+    // depending on display language (current locale)
+    private String text;
 
-	// language of the original comment
-	private String language;
+    private String originalTitle;
 
-	private Date originalCommentDate;
+    // text in original language
+    private String originalText;
 
-	private int rating;
+    // language of the original comment
+    private String language;
 
-	private String user;
+    private Date originalCommentDate;
 
-	private String appVersion;
+    private int rating;
 
-	private String device;
+    private String user;
 
-	private Comment reply;
+    private String appVersion;
 
-	public Comment() {
+    private String device;
 
-	}
+    private Comment reply;
 
-	public Comment(boolean isReply) {
-		this.isReply = isReply;
-	}
+    public Comment() {
 
-	public String getUniqueId() {
-		return uniqueId;
-	}
+    }
 
-	public void setUniqueId(String uniqueId) {
-		this.uniqueId = uniqueId;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
+    public Comment(boolean isReply) {
+        this.isReply = isReply;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getUniqueId() {
+        return uniqueId;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getOriginalTitle() {
-		return originalTitle;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setOriginalTitle(String originalTitle) {
-		this.originalTitle = originalTitle;
-	}
-	
-	public String getOriginalText() {
-		return originalText;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public void setOriginalText(String originalText) {
-		this.originalText = originalText;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public String getLanguage() {
-		return language;
-	}
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
 
-	public void setLanguage(String language) {
-		this.language = language;
-	}
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
 
-	/**
-	 * Date of the original comment that this reply refers to
-	 * Only valid for replies
-	 * 
-	 * @return
-	 */
-	public Date getOriginalCommentDate() {
-		return originalCommentDate;
-	}
+    public String getOriginalText() {
+        return originalText;
+    }
 
-	public void setOriginalCommentDate(Date date) {
-		this.originalCommentDate = date;
-	}
+    public void setOriginalText(String originalText) {
+        this.originalText = originalText;
+    }
 
-	public int getRating() {
-		return rating;
-	}
+    public String getLanguage() {
+        return language;
+    }
 
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
-	public String getUser() {
-		return user;
-	}
+    /**
+     * Date of the original comment that this reply refers to
+     * Only valid for replies
+     *
+     * @return
+     */
+    public Date getOriginalCommentDate() {
+        return originalCommentDate;
+    }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+    public void setOriginalCommentDate(Date date) {
+        this.originalCommentDate = date;
+    }
 
-	public void setAppVersion(String appVersion) {
-		this.appVersion = appVersion;
-	}
+    public int getRating() {
+        return rating;
+    }
 
-	public String getAppVersion() {
-		return appVersion;
-	}
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
-	public void setDevice(String device) {
-		this.device = device;
-	}
+    public String getUser() {
+        return user;
+    }
 
-	public String getDevice() {
-		return device;
-	}
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-	public Comment getReply() {
-		return reply;
-	}
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
 
-	public void setReply(Comment reply) {
-		this.reply = reply;
-	}
+    public String getAppVersion() {
+        return appVersion;
+    }
 
-	public boolean isReply() {
-		return isReply;
-	}
+    public void setDevice(String device) {
+        this.device = device;
+    }
 
-	public static List<Comment> expandReplies(List<Comment> result) {
-		List<Comment> withReplies = new ArrayList<Comment>();
-		for (Comment comment : result) {
-			withReplies.add(comment);
-			if (comment.getReply() != null) {
-				withReplies.add(comment.getReply());
-			}
-		}
+    public String getDevice() {
+        return device;
+    }
 
-		return withReplies;
-	}
+    public Comment getReply() {
+        return reply;
+    }
 
-	public boolean isTranslated() {
-		return language != null && !language.contains(Locale.getDefault().getLanguage());
-	}
+    public void setReply(Comment reply) {
+        this.reply = reply;
+    }
+
+    public boolean isReply() {
+        return isReply;
+    }
+
+    public static List<Comment> expandReplies(List<Comment> result) {
+        List<Comment> withReplies = new ArrayList<Comment>();
+        for (Comment comment : result) {
+            withReplies.add(comment);
+            if (comment.getReply() != null) {
+                withReplies.add(comment.getReply());
+            }
+        }
+
+        return withReplies;
+    }
+
+    public boolean isTranslated() {
+        return language != null && !language.contains(Locale.getDefault().getLanguage());
+    }
 
 }

@@ -7,14 +7,14 @@ import android.util.Log;
 
 public class AccountsChangedReceiver extends BroadcastReceiver {
 
-	private static final String TAG = AccountsChangedReceiver.class.getSimpleName();
+    private static final String TAG = AccountsChangedReceiver.class.getSimpleName();
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		Log.d(TAG, "System Google accounts changed. Will sync accounts and data.");
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "System Google accounts changed. Will sync accounts and data.");
 
-		Intent syncServiceIntent = new Intent(context, SyncDeveloperAccountsService.class);
-		context.startService(syncServiceIntent);
-	}
+        Intent syncServiceIntent = new Intent(context, SyncDeveloperAccountsService.class);
+        context.startService(syncServiceIntent);
+    }
 
 }
