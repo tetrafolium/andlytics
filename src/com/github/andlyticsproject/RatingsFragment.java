@@ -35,7 +35,7 @@ public class RatingsFragment extends ChartFragment<AppStats> implements
     }
 
     @Override
-    public Loader<LoaderResult<AppStatsSummary>> onCreateLoader(int id, Bundle args) {
+    public Loader<LoaderResult<AppStatsSummary>> onCreateLoader(final int id, final Bundle args) {
         String packageName = null;
         Timeframe timeframe = null;
         boolean smoothEnabled = false;
@@ -49,8 +49,8 @@ public class RatingsFragment extends ChartFragment<AppStats> implements
     }
 
     @Override
-    public void onLoadFinished(Loader<LoaderResult<AppStatsSummary>> loader,
-                               LoaderResult<AppStatsSummary> result) {
+    public void onLoadFinished(final Loader<LoaderResult<AppStatsSummary>> loader,
+                               final LoaderResult<AppStatsSummary> result) {
         if (getActivity() == null) {
             return;
         }
@@ -76,17 +76,17 @@ public class RatingsFragment extends ChartFragment<AppStats> implements
     }
 
     @Override
-    public void onLoaderReset(Loader<LoaderResult<AppStatsSummary>> loader) {
+    public void onLoaderReset(final Loader<LoaderResult<AppStatsSummary>> loader) {
     }
 
     @Override
-    public void initLoader(Bundle args) {
+    public void initLoader(final Bundle args) {
         getLoaderManager().initLoader(0, args, this);
 
     }
 
     @Override
-    public void restartLoader(Bundle args) {
+    public void restartLoader(final Bundle args) {
         getLoaderManager().restartLoader(0, args, this);
     }
 
@@ -96,8 +96,8 @@ public class RatingsFragment extends ChartFragment<AppStats> implements
     }
 
     @Override
-    public void setupListAdapter(ChartListAdapter<AppStats> listAdapter,
-                                 StatsSummary<AppStats> statsSummary) {
+    public void setupListAdapter(final ChartListAdapter<AppStats> listAdapter,
+                                 final StatsSummary<AppStats> statsSummary) {
         RatingsChartListAdapter adapter = (RatingsChartListAdapter) listAdapter;
         AppStatsSummary summary = (AppStatsSummary) statsSummary;
         adapter.setHighestRatingChange(summary.getHighestRatingChange());

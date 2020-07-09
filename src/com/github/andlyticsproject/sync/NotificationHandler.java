@@ -33,8 +33,8 @@ public class NotificationHandler {
 
     static final String EXTRA_DESCRIPTION = "description";
 
-    public static void handleNotificaions(Context context, List<AppStatsDiff> diffs,
-                                          String accountName) {
+    public static void handleNotificaions(final Context context, final List<AppStatsDiff> diffs,
+                                          final String accountName) {
         NotificationManager nm = (NotificationManager) context
                                  .getSystemService(Context.NOTIFICATION_SERVICE);
 

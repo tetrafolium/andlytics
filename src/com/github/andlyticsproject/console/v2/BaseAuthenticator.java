@@ -38,11 +38,11 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
 
     protected String accountName;
 
-    protected BaseAuthenticator(String accountName) {
+    protected BaseAuthenticator(final String accountName) {
         this.accountName = accountName;
     }
 
-    protected String findXsrfToken(JSONObject startupData) {
+    protected String findXsrfToken(final JSONObject startupData) {
         try {
             return new JSONObject(startupData.getString("XsrfToken")).getString("1");
         } catch (JSONException e) {
@@ -50,7 +50,7 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
         }
     }
 
-    protected DeveloperConsoleAccount[] findDeveloperAccounts(JSONObject startupData) {
+    protected DeveloperConsoleAccount[] findDeveloperAccounts(final JSONObject startupData) {
         List<DeveloperConsoleAccount> devAccounts = new ArrayList<DeveloperConsoleAccount>();
 
         try {
@@ -63,7 +63,7 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
                 String developerName = StringEscapeUtils.unescapeJava(accountObj.getString("2"));
                 // Cannot access apps if e.g. a developer agreement needs to be accepted
                 // XXX seems to be always false? Disable check for now
-                //				boolean canAccessApps = accountObj.getBoolean("3");
+                //                              boolean canAccessApps = accountObj.getBoolean("3");
                 boolean canAccessApps = true;
                 devAccounts.add(new DeveloperConsoleAccount(developerId, developerName, canAccessApps));
             }
@@ -76,7 +76,7 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
         }
     }
 
-    protected List<String> findWhitelistedFeatures(JSONObject startupData) {
+    protected List<String> findWhitelistedFeatures(final JSONObject startupData) {
         List<String> result = new ArrayList<String>();
 
         try {
@@ -92,7 +92,7 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
         }
     }
 
-    public JSONObject getStartupData(String responseStr) {
+    public JSONObject getStartupData(final String responseStr) {
         try {
             Matcher m = STARTUP_DATA_PATTERN.matcher(responseStr);
             if (m.find()) {
@@ -106,7 +106,7 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
         }
     }
 
-    protected String findPreferredCurrency(JSONObject startupData) {
+    protected String findPreferredCurrency(final JSONObject startupData) {
         // fallback
         String result = "USD";
 
@@ -126,12 +126,12 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
         return accountName;
     }
 
-    protected void debugAuthFailure(String responseStr, String webloginUrl) {
+    protected void debugAuthFailure(final String responseStr, final String webloginUrl) {
         FileUtils.writeToAndlyticsDir("console-response.html", responseStr);
         openAuthUrlInBrowser(webloginUrl);
     }
 
-    protected void openAuthUrlInBrowser(String webloginUrl) {
+    protected void openAuthUrlInBrowser(final String webloginUrl) {
         if (webloginUrl == null) {
             Log.d(TAG, "Null webloginUrl?");
             return;
@@ -162,8 +162,8 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
         nm.notify(accountName.hashCode(), builder.build());
     }
 
-    protected SessionCredentials createSessionCredentials(String accountName, String webloginUrl,
-            String responseStr, List<Cookie> cookies) {
+    protected SessionCredentials createSessionCredentials(final String accountName, final String webloginUrl,
+            final String responseStr, final List<Cookie> cookies) {
         JSONObject startupData = getStartupData(responseStr);
         if (startupData == null) {
             debugAuthFailure(responseStr, webloginUrl);
@@ -184,8 +184,8 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
             } else {
                 // TODO Report this to the user properly, but don't spam them because they may
                 // never be able to resolve the problem e.g. the account owner needs to agree to new terms
-                Log.w(TAG, "Not allowed to fetch app info for " + account.getDeveloperId() + ". " +
-                      "Log into the account via your browser to resolve the problem.");
+                Log.w(TAG, "Not allowed to fetch app info for " + account.getDeveloperId() + ". "
+                      + "Log into the account via your browser to resolve the problem.");
             }
         }
         if (!allowedToAccessAppsForSomeAccounts) {

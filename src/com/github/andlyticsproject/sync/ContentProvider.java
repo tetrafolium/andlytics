@@ -13,28 +13,28 @@ public class ContentProvider extends android.content.ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-                        String sortOrder) {
+    public Cursor query(final Uri uri, final String[] projection, final String selection, final String[] selectionArgs,
+                        final String sortOrder) {
         return null;
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(final Uri uri) {
         return null;
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(final Uri uri, final ContentValues values) {
         return null;
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(final Uri uri, final String selection, final String[] selectionArgs) {
         return 0;
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(final Uri uri, final ContentValues values, final String selection, final String[] selectionArgs) {
         return 0;
     }
 

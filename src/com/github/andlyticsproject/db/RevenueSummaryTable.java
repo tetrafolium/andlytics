@@ -31,7 +31,7 @@ public class RevenueSummaryTable {
             + OVERALL_TOTAL + " double not null, " + APPINFO_ID
             + " integer not null, foreign key(appinfo_id) references appinfo(_id))";
 
-    public static final String[] ALL_COLUMNS = { ROWID, TYPE, CURRENCY, DATE, LAST_DAY_TOTAL,
+    public static final String[] ALL_COLUMNS = {ROWID, TYPE, CURRENCY, DATE, LAST_DAY_TOTAL,
                                                  LAST_7DAYS_TOTAL, LAST_30DAYS_TOTAL, OVERALL_TOTAL, APPINFO_ID
                                                };
 

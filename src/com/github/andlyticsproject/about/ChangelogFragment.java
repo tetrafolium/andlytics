@@ -17,13 +17,13 @@ public class ChangelogFragment extends Fragment {
     private static final String TAG = "ChangelogFragment";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup group,
-                             Bundle saved) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup group,
+                             final Bundle saved) {
         return inflater.inflate(R.layout.changelog, group, false);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         WebView webView = (WebView) getActivity().findViewById(
                               R.id.changelogcontent);

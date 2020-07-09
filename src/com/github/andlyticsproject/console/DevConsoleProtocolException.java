@@ -10,21 +10,21 @@ public class DevConsoleProtocolException extends DevConsoleException {
     private String postData;
     private String consoleResponse;
 
-    public DevConsoleProtocolException(String message) {
+    public DevConsoleProtocolException(final String message) {
         super(message);
     }
 
-    public DevConsoleProtocolException(String message, String postData, String consoleResponse) {
+    public DevConsoleProtocolException(final String message, final String postData, final String consoleResponse) {
         super(message);
         this.postData = postData;
         this.consoleResponse = consoleResponse;
     }
 
-    public DevConsoleProtocolException(Throwable cause) {
+    public DevConsoleProtocolException(final Throwable cause) {
         super(cause);
     }
 
-    public DevConsoleProtocolException(String message, Throwable cause) {
+    public DevConsoleProtocolException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

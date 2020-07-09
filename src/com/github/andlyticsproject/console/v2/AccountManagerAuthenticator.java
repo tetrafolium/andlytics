@@ -51,7 +51,7 @@ public class AccountManagerAuthenticator extends BaseAuthenticator {
 
     private DefaultHttpClient httpClient;
 
-    public AccountManagerAuthenticator(String accountName, DefaultHttpClient httpClient) {
+    public AccountManagerAuthenticator(final String accountName, final DefaultHttpClient httpClient) {
         super(accountName);
         this.accountManager = AccountManager.get(AndlyticsApp.getInstance());
         this.httpClient = httpClient;
@@ -63,19 +63,19 @@ public class AccountManagerAuthenticator extends BaseAuthenticator {
     // packages/apps/Browser/src/com/android/browser/GoogleAccountLogin.java
     // packages/apps/Browser/src/com/android/browser/DeviceAccountLogin.java
     @Override
-    public SessionCredentials authenticate(Activity activity, boolean invalidate)
+    public SessionCredentials authenticate(final Activity activity, final boolean invalidate)
     throws AuthenticationException {
         return authenticateInternal(activity, invalidate);
     }
 
     @Override
-    public SessionCredentials authenticateSilently(boolean invalidate)
+    public SessionCredentials authenticateSilently(final boolean invalidate)
     throws AuthenticationException {
         return authenticateInternal(null, invalidate);
     }
 
     @SuppressWarnings("deprecation")
-    private SessionCredentials authenticateInternal(Activity activity, boolean invalidate)
+    private SessionCredentials authenticateInternal(final Activity activity, final boolean invalidate)
     throws AuthenticationException {
         try {
             Account[] accounts = accountManager.getAccountsByType("com.google");

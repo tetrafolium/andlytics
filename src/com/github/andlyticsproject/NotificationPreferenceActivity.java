@@ -25,7 +25,7 @@ public class NotificationPreferenceActivity extends PreferenceActivity {
     private PreferenceCategory notificationSignalPrefCat;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class NotificationPreferenceActivity extends PreferenceActivity {
                           Preferences.NOTIFICATION_CHANGES_RATING);
         ratingsPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 Boolean notificationsEnabled = (Boolean) newValue || commentsPref.isChecked()
                                                || downloadsPref.isChecked();
                 notificationSignalPrefCat.setEnabled(notificationsEnabled);
@@ -58,7 +58,7 @@ public class NotificationPreferenceActivity extends PreferenceActivity {
                            Preferences.NOTIFICATION_CHANGES_COMMENTS);
         commentsPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 Boolean notificationsEnabled = (Boolean) newValue || ratingsPref.isChecked()
                                                || downloadsPref.isChecked();
                 notificationSignalPrefCat.setEnabled(notificationsEnabled);
@@ -70,7 +70,7 @@ public class NotificationPreferenceActivity extends PreferenceActivity {
                             Preferences.NOTIFICATION_CHANGES_DOWNLOADS);
         downloadsPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 Boolean notificationsEnabled = (Boolean) newValue || ratingsPref.isChecked()
                                                || commentsPref.isChecked();
                 notificationSignalPrefCat.setEnabled(notificationsEnabled);
@@ -88,7 +88,7 @@ public class NotificationPreferenceActivity extends PreferenceActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
@@ -99,13 +99,13 @@ public class NotificationPreferenceActivity extends PreferenceActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         getDelegate().onPostCreate(savedInstanceState);
     }
 
     @Override
-    public void setContentView(@LayoutRes int layoutResID) {
+    public void setContentView(final @LayoutRes int layoutResID) {
         getDelegate().setContentView(layoutResID);
     }
 
@@ -127,7 +127,7 @@ public class NotificationPreferenceActivity extends PreferenceActivity {
         getDelegate().onDestroy();
     }
 
-    private void setSupportActionBar(@Nullable Toolbar toolbar) {
+    private void setSupportActionBar(final @Nullable Toolbar toolbar) {
         getDelegate().setSupportActionBar(toolbar);
     }
 

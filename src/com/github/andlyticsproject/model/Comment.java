@@ -44,7 +44,7 @@ public class Comment extends Statistic {
 
     }
 
-    public Comment(boolean isReply) {
+    public Comment(final boolean isReply) {
         this.isReply = isReply;
     }
 
@@ -52,7 +52,7 @@ public class Comment extends Statistic {
         return uniqueId;
     }
 
-    public void setUniqueId(String uniqueId) {
+    public void setUniqueId(final String uniqueId) {
         this.uniqueId = uniqueId;
     }
 
@@ -60,7 +60,7 @@ public class Comment extends Statistic {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -68,7 +68,7 @@ public class Comment extends Statistic {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(final String text) {
         this.text = text;
     }
 
@@ -76,7 +76,7 @@ public class Comment extends Statistic {
         return originalTitle;
     }
 
-    public void setOriginalTitle(String originalTitle) {
+    public void setOriginalTitle(final String originalTitle) {
         this.originalTitle = originalTitle;
     }
 
@@ -84,7 +84,7 @@ public class Comment extends Statistic {
         return originalText;
     }
 
-    public void setOriginalText(String originalText) {
+    public void setOriginalText(final String originalText) {
         this.originalText = originalText;
     }
 
@@ -92,7 +92,7 @@ public class Comment extends Statistic {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(final String language) {
         this.language = language;
     }
 
@@ -106,7 +106,7 @@ public class Comment extends Statistic {
         return originalCommentDate;
     }
 
-    public void setOriginalCommentDate(Date date) {
+    public void setOriginalCommentDate(final Date date) {
         this.originalCommentDate = date;
     }
 
@@ -114,7 +114,7 @@ public class Comment extends Statistic {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(final int rating) {
         this.rating = rating;
     }
 
@@ -122,11 +122,11 @@ public class Comment extends Statistic {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(final String user) {
         this.user = user;
     }
 
-    public void setAppVersion(String appVersion) {
+    public void setAppVersion(final String appVersion) {
         this.appVersion = appVersion;
     }
 
@@ -134,7 +134,7 @@ public class Comment extends Statistic {
         return appVersion;
     }
 
-    public void setDevice(String device) {
+    public void setDevice(final String device) {
         this.device = device;
     }
 
@@ -146,7 +146,7 @@ public class Comment extends Statistic {
         return reply;
     }
 
-    public void setReply(Comment reply) {
+    public void setReply(final Comment reply) {
         this.reply = reply;
     }
 
@@ -154,7 +154,7 @@ public class Comment extends Statistic {
         return isReply;
     }
 
-    public static List<Comment> expandReplies(List<Comment> result) {
+    public static List<Comment> expandReplies(final List<Comment> result) {
         List<Comment> withReplies = new ArrayList<Comment>();
         for (Comment comment : result) {
             withReplies.add(comment);

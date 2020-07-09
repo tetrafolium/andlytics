@@ -18,11 +18,11 @@ public class DevConsoleRegistry {
         return instance;
     }
 
-    public synchronized void put(String accountName, DevConsoleV2 devConsole) {
+    public synchronized void put(final String accountName, final DevConsoleV2 devConsole) {
         registry.put(accountName, devConsole);
     }
 
-    public synchronized DevConsoleV2 get(String accountName) {
+    public synchronized DevConsoleV2 get(final String accountName) {
         DevConsoleV2 result = registry.get(accountName);
         if (result == null) {
             DefaultHttpClient httpClient = HttpClientFactory

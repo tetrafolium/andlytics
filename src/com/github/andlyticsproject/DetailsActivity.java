@@ -28,7 +28,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
 
     private static final String REPLY_DIALOG_FRAGMENT = "reply_dialog_fragment";
 
-    private static final String[] TAB_TAGS = { "comments_tab", "ratings_tab", "downloads_tab",
+    private static final String[] TAB_TAGS = {"comments_tab", "ratings_tab", "downloads_tab",
                                                "revenue_tab", "admob_tab"
                                              };
 
@@ -51,7 +51,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
         private String tag;
         private Class<T> clazz;
 
-        public TabListener(DetailsActivity activity, String tag, Class<T> clz) {
+        public TabListener(final DetailsActivity activity, final String tag, final Class<T> clz) {
             this.activity = activity;
             this.tag = tag;
             this.clazz = clz;
@@ -60,7 +60,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
         }
 
         @Override
-        public void onTabSelected(Tab tab, FragmentTransaction ft) {
+        public void onTabSelected(final Tab tab, final FragmentTransaction ft) {
             if (fragment == null) {
                 fragment = Fragment.instantiate(activity, clazz.getName());
                 ft.add(android.R.id.content, fragment, tag);
@@ -75,21 +75,21 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
         }
 
         @Override
-        public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+        public void onTabUnselected(final Tab tab, final FragmentTransaction ft) {
             if (fragment != null) {
                 ft.detach(fragment);
             }
         }
 
         @Override
-        public void onTabReselected(Tab tab, FragmentTransaction ft) {
+        public void onTabReselected(final Tab tab, final FragmentTransaction ft) {
         }
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
-        //		FragmentManager.enableDebugLogging(true);
+        //              FragmentManager.enableDebugLogging(true);
 
         super.onCreate(savedInstanceState);
 
@@ -161,7 +161,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
     }
 
     @Override
-    public void setActionBarTitle(String title) {
+    public void setActionBarTitle(final String title) {
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle(title);
     }
@@ -171,13 +171,13 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
         super.onResume();
     }
 
-    protected void onSaveInstanceState(Bundle state) {
+    protected void onSaveInstanceState(final Bundle state) {
         super.onSaveInstanceState(state);
         state.putInt(EXTRA_SELECTED_TAB_IDX, getSupportActionBar().getSelectedNavigationIndex());
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             // XXX finish?!
@@ -189,7 +189,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
         }
     }
 
-    public void showReplyDialog(Comment comment) {
+    public void showReplyDialog(final Comment comment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag(REPLY_DIALOG_FRAGMENT);
         if (prev != null) {
@@ -233,7 +233,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
             }
 
             @Override
-            protected Comment doInBackground(Void... arg0) {
+            protected Comment doInBackground(final Void... arg0) {
                 if (activity == null) {
                     return null;
                 }
@@ -250,7 +250,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
             }
 
             @Override
-            protected void onPostExecute(Comment reply) {
+            protected void onPostExecute(final Comment reply) {
                 if (activity == null) {
                     return;
                 }
@@ -277,7 +277,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
     }
 
     @Override
-    public void setCurrentChart(int currentPage, int column) {
+    public void setCurrentChart(final int currentPage, final int column) {
         String tabTag = TAB_TAGS[getSupportActionBar().getSelectedNavigationIndex()];
         StatsView<?> chartFargment = (StatsView<?>) getSupportFragmentManager().findFragmentByTag(
                                          tabTag);
@@ -287,7 +287,7 @@ public class DetailsActivity extends BaseActivity implements DetailedStatsActivi
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQUEST_GOOGLE_PLAY_SERVICES) {
             if (resultCode != Activity.RESULT_OK) {
                 checkGooglePlayServicesAvailable();

@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 public class CrashDialog extends Dialog {
 
-    public CrashDialog(Context context, int theme) {
+    public CrashDialog(final Context context, final int theme) {
         super(context, theme);
     }
 
-    public CrashDialog(Context context) {
+    public CrashDialog(final Context context) {
         super(context);
     }
 
@@ -36,7 +36,7 @@ public class CrashDialog extends Dialog {
                 negativeViewClickListener;
         private int messageStringId;
 
-        public CrashDialogBuilder(Context context) {
+        public CrashDialogBuilder(final Context context) {
             this.context = context;
         }
 
@@ -46,7 +46,7 @@ public class CrashDialog extends Dialog {
          * @param title
          * @return
          */
-        public CrashDialogBuilder setMessage(String message) {
+        public CrashDialogBuilder setMessage(final String message) {
             this.message = message;
             return this;
         }
@@ -57,7 +57,7 @@ public class CrashDialog extends Dialog {
          * @param title
          * @return
          */
-        public CrashDialogBuilder setMessage(int message) {
+        public CrashDialogBuilder setMessage(final int message) {
             this.messageStringId = message;
             return this;
         }
@@ -68,7 +68,7 @@ public class CrashDialog extends Dialog {
          * @param title
          * @return
          */
-        public CrashDialogBuilder setTitle(int title) {
+        public CrashDialogBuilder setTitle(final int title) {
             this.title = (String) context.getText(title);
             return this;
         }
@@ -79,7 +79,7 @@ public class CrashDialog extends Dialog {
          * @param title
          * @return
          */
-        public CrashDialogBuilder setTitle(String title) {
+        public CrashDialogBuilder setTitle(final String title) {
             this.title = title;
             return this;
         }
@@ -91,8 +91,8 @@ public class CrashDialog extends Dialog {
          * @param listener
          * @return
          */
-        public CrashDialogBuilder setPositiveButton(int positiveViewText,
-                DialogInterface.OnClickListener listener) {
+        public CrashDialogBuilder setPositiveButton(final int positiveViewText,
+                final DialogInterface.OnClickListener listener) {
             this.positiveViewText = (String) context.getText(positiveViewText);
             this.positiveViewClickListener = listener;
             return this;
@@ -105,8 +105,8 @@ public class CrashDialog extends Dialog {
          * @param listener
          * @return
          */
-        public CrashDialogBuilder setPositiveButton(String positiveViewText,
-                DialogInterface.OnClickListener listener) {
+        public CrashDialogBuilder setPositiveButton(final String positiveViewText,
+                final DialogInterface.OnClickListener listener) {
             this.positiveViewText = positiveViewText;
             this.positiveViewClickListener = listener;
             return this;
@@ -119,8 +119,8 @@ public class CrashDialog extends Dialog {
          * @param listener
          * @return
          */
-        public CrashDialogBuilder setNegativeButton(int negativeViewText,
-                DialogInterface.OnClickListener listener) {
+        public CrashDialogBuilder setNegativeButton(final int negativeViewText,
+                final DialogInterface.OnClickListener listener) {
             this.negativeViewText = (String) context.getText(negativeViewText);
             this.negativeViewClickListener = listener;
             return this;
@@ -133,8 +133,8 @@ public class CrashDialog extends Dialog {
          * @param listener
          * @return
          */
-        public CrashDialogBuilder setNegativeButton(String negativeViewText,
-                DialogInterface.OnClickListener listener) {
+        public CrashDialogBuilder setNegativeButton(final String negativeViewText,
+                final DialogInterface.OnClickListener listener) {
             this.negativeViewText = negativeViewText;
             this.negativeViewClickListener = listener;
             return this;
@@ -164,7 +164,7 @@ public class CrashDialog extends Dialog {
                 if (positiveViewClickListener != null) {
                     ((View) layout.findViewById(R.id.crash_dialog_positive_button))
                     .setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             positiveViewClickListener.onClick(dialog,
                                                               DialogInterface.BUTTON_POSITIVE);
                         }
@@ -181,7 +181,7 @@ public class CrashDialog extends Dialog {
                 if (negativeViewClickListener != null) {
                     ((View) layout.findViewById(R.id.crash_dialog_negative_button))
                     .setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             negativeViewClickListener.onClick(dialog,
                                                               DialogInterface.BUTTON_NEGATIVE);
                         }

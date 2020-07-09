@@ -5,7 +5,7 @@ public class AdmobInvalidTokenException extends AdmobException {
 
     private static final long serialVersionUID = 1L;
 
-    public AdmobInvalidTokenException(String string) {
+    public AdmobInvalidTokenException(final String string) {
         super(string);
     }
 

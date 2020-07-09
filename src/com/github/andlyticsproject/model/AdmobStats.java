@@ -29,7 +29,7 @@ public class AdmobStats extends Statistic {
         return siteId;
     }
 
-    public void setSiteId(String siteId) {
+    public void setSiteId(final String siteId) {
         this.siteId = siteId;
     }
 
@@ -37,7 +37,7 @@ public class AdmobStats extends Statistic {
         return requests;
     }
 
-    public void setRequests(Integer requests) {
+    public void setRequests(final Integer requests) {
         this.requests = requests;
     }
 
@@ -45,7 +45,7 @@ public class AdmobStats extends Statistic {
         return houseadRequests;
     }
 
-    public void setHouseadRequests(Integer houseadRequests) {
+    public void setHouseadRequests(final Integer houseadRequests) {
         this.houseadRequests = houseadRequests;
     }
 
@@ -53,7 +53,7 @@ public class AdmobStats extends Statistic {
         return interstitialRequests;
     }
 
-    public void setInterstitialRequests(Integer interstitialRequests) {
+    public void setInterstitialRequests(final Integer interstitialRequests) {
         this.interstitialRequests = interstitialRequests;
     }
 
@@ -61,7 +61,7 @@ public class AdmobStats extends Statistic {
         return impressions;
     }
 
-    public void setImpressions(Integer impressions) {
+    public void setImpressions(final Integer impressions) {
         this.impressions = impressions;
     }
 
@@ -69,7 +69,7 @@ public class AdmobStats extends Statistic {
         return fillRate;
     }
 
-    public void setFillRate(Float fillRate) {
+    public void setFillRate(final Float fillRate) {
         this.fillRate = fillRate;
     }
 
@@ -77,7 +77,7 @@ public class AdmobStats extends Statistic {
         return houseadFillRate;
     }
 
-    public void setHouseadFillRate(Float houseadFillRate) {
+    public void setHouseadFillRate(final Float houseadFillRate) {
         this.houseadFillRate = houseadFillRate;
     }
 
@@ -85,7 +85,7 @@ public class AdmobStats extends Statistic {
         return overallFillRate;
     }
 
-    public void setOverallFillRate(Float overallFillRate) {
+    public void setOverallFillRate(final Float overallFillRate) {
         this.overallFillRate = overallFillRate;
     }
 
@@ -93,7 +93,7 @@ public class AdmobStats extends Statistic {
         return clicks;
     }
 
-    public void setClicks(Integer clicks) {
+    public void setClicks(final Integer clicks) {
         this.clicks = clicks;
     }
 
@@ -101,7 +101,7 @@ public class AdmobStats extends Statistic {
         return houseAdClicks;
     }
 
-    public void setHouseAdClicks(Integer houseAdClicks) {
+    public void setHouseAdClicks(final Integer houseAdClicks) {
         this.houseAdClicks = houseAdClicks;
     }
 
@@ -109,7 +109,7 @@ public class AdmobStats extends Statistic {
         return ctr;
     }
 
-    public void setCtr(Float ctr) {
+    public void setCtr(final Float ctr) {
         this.ctr = ctr;
     }
 
@@ -125,7 +125,7 @@ public class AdmobStats extends Statistic {
         return clicks > 0 ? (revenue * 100.f / clicks) : 0;
     }
 
-    public void setEcpm(Float ecpm) {
+    public void setEcpm(final Float ecpm) {
         this.ecpm = ecpm;
     }
 
@@ -133,7 +133,7 @@ public class AdmobStats extends Statistic {
         return revenue;
     }
 
-    public void setRevenue(Float revenue) {
+    public void setRevenue(final Float revenue) {
         this.revenue = revenue;
     }
 
@@ -141,7 +141,7 @@ public class AdmobStats extends Statistic {
         return cpcRevenue;
     }
 
-    public void setCpcRevenue(Float cpcRevenue) {
+    public void setCpcRevenue(final Float cpcRevenue) {
         this.cpcRevenue = cpcRevenue;
     }
 
@@ -149,11 +149,11 @@ public class AdmobStats extends Statistic {
         return cpmRevenue;
     }
 
-    public void setCpmRevenue(Float cpmRevenue) {
+    public void setCpmRevenue(final Float cpmRevenue) {
         this.cpmRevenue = cpmRevenue;
     }
 
-    public void setExchangeDownloads(Integer exchangeDownloads) {
+    public void setExchangeDownloads(final Integer exchangeDownloads) {
         this.exchangeDownloads = exchangeDownloads;
     }
 
@@ -165,7 +165,7 @@ public class AdmobStats extends Statistic {
         return currencyCode;
     }
 
-    public void setCurrencyCode(String currencyCode) {
+    public void setCurrencyCode(final String currencyCode) {
         this.currencyCode = currencyCode;
     }
 

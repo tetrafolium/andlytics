@@ -28,8 +28,8 @@ public class ReplyDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.comment_reply_dialog,
                                      container);
 
@@ -46,7 +46,7 @@ public class ReplyDialog extends DialogFragment {
         // show keyboard
         replyText.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+            public void onFocusChange(final View v, final boolean hasFocus) {
                 if (hasFocus) {
                     showKeyboard();
                 }
@@ -55,12 +55,12 @@ public class ReplyDialog extends DialogFragment {
 
         // live count comment reply characters
         replyText.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence reply, int start,
-                                          int count, int after) {
+            public void beforeTextChanged(final CharSequence reply, final int start,
+                                          final int count, final int after) {
             }
 
-            public void onTextChanged(CharSequence reply, int start,
-                                      int before, int count) {
+            public void onTextChanged(final CharSequence reply, final int start,
+                                      final int before, final int count) {
                 // set counter view to current comment length
                 comment_reply_dialog_counter.setText(String.valueOf(reply
                                                      .length()));
@@ -85,7 +85,7 @@ public class ReplyDialog extends DialogFragment {
                 }
             }
 
-            public void afterTextChanged(Editable e) {
+            public void afterTextChanged(final Editable e) {
             }
         });
 
@@ -99,13 +99,13 @@ public class ReplyDialog extends DialogFragment {
 
         view.findViewById(R.id.comment_reply_dialog_negative_button)
         .setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 dismiss();
             }
         });
         view.findViewById(R.id.comment_reply_dialog_positive_button)
         .setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 String reply = replyText.getText().toString();
                 CommentReplier activity = (CommentReplier) getActivity();
                 if (activity != null) {
@@ -122,7 +122,7 @@ public class ReplyDialog extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
         getDialog().getWindow().setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         super.onViewCreated(view, savedInstanceState);

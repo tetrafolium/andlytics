@@ -15,12 +15,12 @@ public class AutosyncHandler {
     public static final String ACCOUNT_AUTHORITY = "com.github.andlyticsproject";
     public static final String ACCOUNT_TYPE_GOOGLE = "com.google";
 
-    public boolean isAutosyncEnabled(String accountName) {
+    public boolean isAutosyncEnabled(final String accountName) {
         Account account = new Account(accountName, AutosyncHandler.ACCOUNT_TYPE_GOOGLE);
         return ContentResolver.getSyncAutomatically(account, AutosyncHandler.ACCOUNT_AUTHORITY);
     }
 
-    public void setAutosyncEnabled(String accountName, boolean enabled) {
+    public void setAutosyncEnabled(final String accountName, final boolean enabled) {
         Account account = new Account(accountName, AutosyncHandler.ACCOUNT_TYPE_GOOGLE);
         ContentResolver.setSyncAutomatically(account, AutosyncHandler.ACCOUNT_AUTHORITY, enabled);
     }
@@ -30,7 +30,7 @@ public class AutosyncHandler {
      * @param accountName
      * @return The sync period in minutes
      */
-    public int getAutosyncPeriod(String accountName) {
+    public int getAutosyncPeriod(final String accountName) {
 
         int result = 0;
 
@@ -52,7 +52,7 @@ public class AutosyncHandler {
      * @param accountName
      * @param periodInMins
      */
-    public void setAutosyncPeriod(String accountName, Integer periodInMins) {
+    public void setAutosyncPeriod(final String accountName, final Integer periodInMins) {
 
         Bundle extras = new Bundle();
         Account account = new Account(accountName, AutosyncHandler.ACCOUNT_TYPE_GOOGLE);

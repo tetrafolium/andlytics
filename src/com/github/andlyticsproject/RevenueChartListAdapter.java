@@ -18,7 +18,7 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
     private static final int COL_REVENUE = 1;
     private static final int COL_DEVELOPER_CUT = 2;
 
-    public RevenueChartListAdapter(Activity activity) {
+    public RevenueChartListAdapter(final Activity activity) {
         super(activity);
     }
 
@@ -28,7 +28,7 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public int getNumCharts(int page) throws IndexOutOfBoundsException {
+    public int getNumCharts(final int page) throws IndexOutOfBoundsException {
         switch (page) {
         case 0:
             return 3;
@@ -37,7 +37,7 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public String getChartTitle(int page, int column) throws IndexOutOfBoundsException {
+    public String getChartTitle(final int page, final int column) throws IndexOutOfBoundsException {
         if (column == COL_DATE) {
             return "";
         }
@@ -56,7 +56,7 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public void updateChartValue(int position, int page, int column, TextView tv)
+    public void updateChartValue(final int position, final int page, final int column, final TextView tv)
     throws IndexOutOfBoundsException {
         AppStats appStats = getItem(position);
         Revenue totalRevenue = appStats.getTotalRevenue();
@@ -89,8 +89,8 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
 
     }
 
-    public View buildChart(Context context, Chart baseChart, List<?> statsForApp, int page,
-                           int column) throws IndexOutOfBoundsException {
+    public View buildChart(final Context context, final Chart baseChart, final List<?> statsForApp, final int page,
+                           final int column) throws IndexOutOfBoundsException {
         ValueCallbackHander handler = null;
         switch (page) {
         case 0:
@@ -98,7 +98,7 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
             case COL_REVENUE:
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         AppStats stats = (AppStats) appInfo;
                         return stats.getTotalRevenue() == null ? 0 : stats.getTotalRevenue()
                                .getAmount();
@@ -108,7 +108,7 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
             case COL_DEVELOPER_CUT:
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         AppStats stats = (AppStats) appInfo;
                         return stats.getTotalRevenue() == null ? 0 : stats.getTotalRevenue()
                                .getDeveloperCut();
@@ -124,7 +124,7 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public String getSubHeadLine(int page, int column) throws IndexOutOfBoundsException {
+    public String getSubHeadLine(final int page, final int column) throws IndexOutOfBoundsException {
         if (column == COL_DATE) {
             return "";
         }
@@ -148,12 +148,12 @@ public class RevenueChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public AppStats getItem(int position) {
+    public AppStats getItem(final int position) {
         return getStats().get(position);
     }
 
     @Override
-    protected boolean isSmothValue(int page, int position) {
+    protected boolean isSmothValue(final int page, final int position) {
         return page == 0 ? getItem(position).isSmoothingApplied() : false;
     }
 

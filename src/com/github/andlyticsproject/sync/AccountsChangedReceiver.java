@@ -10,7 +10,7 @@ public class AccountsChangedReceiver extends BroadcastReceiver {
     private static final String TAG = AccountsChangedReceiver.class.getSimpleName();
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, final Intent intent) {
         Log.d(TAG, "System Google accounts changed. Will sync accounts and data.");
 
         Intent syncServiceIntent = new Intent(context, SyncDeveloperAccountsService.class);

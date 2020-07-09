@@ -108,8 +108,8 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
      * @param scope
      * scope to use on {@link GoogleAuthUtil#getToken}
      */
-    public BackgroundGoogleAccountCredential(Context context, String scope, Bundle extras,
-            String authority, Bundle syncBundle) {
+    public BackgroundGoogleAccountCredential(final Context context, final String scope, final Bundle extras,
+            final String authority, final Bundle syncBundle) {
         accountManager = new GoogleAccountManager(context);
         this.context = context;
         this.scope = scope;
@@ -132,15 +132,15 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
      * @deprecated (scheduled to be removed in 1.16) Use {@link #usingOAuth2(Context, Collection)}
      * instead.
      */
-    //	@Deprecated
-    //	public static GoogleAccountCredential usingOAuth2(Context context, String scope,
-    //			String... extraScopes) {
-    //		StringBuilder scopeBuilder = new StringBuilder("oauth2:").append(scope);
-    //		for (String extraScope : extraScopes) {
-    //			scopeBuilder.append(' ').append(extraScope);
-    //		}
-    //		return new GoogleAccountCredential(context, scopeBuilder.toString());
-    //	}
+    //  @Deprecated
+    //  public static GoogleAccountCredential usingOAuth2(Context context, String scope,
+    //                  String... extraScopes) {
+    //          StringBuilder scopeBuilder = new StringBuilder("oauth2:").append(scope);
+    //          for (String extraScope : extraScopes) {
+    //                  scopeBuilder.append(' ').append(extraScope);
+    //          }
+    //          return new GoogleAccountCredential(context, scopeBuilder.toString());
+    //  }
 
     /**
      * Constructs a new instance using OAuth 2.0 scopes.
@@ -153,8 +153,8 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
      *
      * @since 1.15
      */
-    public static BackgroundGoogleAccountCredential usingOAuth2(Context context,
-            Collection<String> scopes, Bundle extras, String authority, Bundle syncBundle) {
+    public static BackgroundGoogleAccountCredential usingOAuth2(final Context context,
+            final Collection<String> scopes, final Bundle extras, final String authority, final Bundle syncBundle) {
         Preconditions.checkArgument(scopes != null && scopes.iterator().hasNext());
         String scopesStr = "oauth2: " + Joiner.on(' ').join(scopes);
 
@@ -171,8 +171,8 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
      * audience
      * @return new instance
      */
-    public static BackgroundGoogleAccountCredential usingAudience(Context context, String audience,
-            Bundle extras, String authority, Bundle syncBundle) {
+    public static BackgroundGoogleAccountCredential usingAudience(final Context context, final String audience,
+            final Bundle extras, final String authority, final Bundle syncBundle) {
         Preconditions.checkArgument(audience.length() != 0);
 
         return new BackgroundGoogleAccountCredential(context, "audience:" + audience, extras,
@@ -183,14 +183,14 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
      * Sets the selected Google account name (e-mail address) -- for example
      * {@code "johndoe@gmail.com"} -- or {@code null} for none.
      */
-    public final BackgroundGoogleAccountCredential setSelectedAccountName(String accountName) {
+    public final BackgroundGoogleAccountCredential setSelectedAccountName(final String accountName) {
         selectedAccount = accountManager.getAccountByName(accountName);
         // check if account has been deleted
         this.accountName = selectedAccount == null ? null : accountName;
         return this;
     }
 
-    public void initialize(HttpRequest request) {
+    public void initialize(final HttpRequest request) {
         RequestHandler handler = new RequestHandler();
         request.setInterceptor(handler);
         request.setUnsuccessfulResponseHandler(handler);
@@ -237,7 +237,7 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
      *
      * @since 1.15
      */
-    public BackgroundGoogleAccountCredential setBackOff(BackOff backOff) {
+    public BackgroundGoogleAccountCredential setBackOff(final BackOff backOff) {
         this.backOff = backOff;
         return this;
     }
@@ -256,7 +256,7 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
      *
      * @since 1.15
      */
-    public final BackgroundGoogleAccountCredential setSleeper(Sleeper sleeper) {
+    public final BackgroundGoogleAccountCredential setSleeper(final Sleeper sleeper) {
         this.sleeper = Preconditions.checkNotNull(sleeper);
         return this;
     }
@@ -280,7 +280,7 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
      */
     public final Intent newChooseAccountIntent() {
         return AccountPicker.newChooseAccountIntent(selectedAccount, null,
-                new String[] { GoogleAccountManager.ACCOUNT_TYPE }, true, null, null, null, null);
+                new String[] {GoogleAccountManager.ACCOUNT_TYPE }, true, null, null, null, null);
     }
 
     /**
@@ -297,7 +297,7 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
 
         while (true) {
             try {
-                //				return GoogleAuthUtil.getToken(context, accountName, scope);
+                //                              return GoogleAuthUtil.getToken(context, accountName, scope);
                 return GoogleAuthUtil.getTokenWithNotification(context, accountName, scope, extras,
                         authority, syncBundle);
             } catch (IOException e) {
@@ -320,7 +320,7 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
         boolean received401;
         String token;
 
-        public void intercept(HttpRequest request) throws IOException {
+        public void intercept(final HttpRequest request) throws IOException {
             try {
                 token = getToken();
                 request.getHeaders().setAuthorization("Bearer " + token);
@@ -336,8 +336,8 @@ public class BackgroundGoogleAccountCredential implements HttpRequestInitializer
             }
         }
 
-        public boolean handleResponse(HttpRequest request, HttpResponse response,
-                                      boolean supportsRetry) {
+        public boolean handleResponse(final HttpRequest request, final HttpResponse response,
+                                      final boolean supportsRetry) {
             if (response.getStatusCode() == 401 && !received401) {
                 received401 = true;
                 GoogleAuthUtil.invalidateToken(context, token);

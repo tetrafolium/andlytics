@@ -26,7 +26,7 @@ public class ViewSwitcher3D {
 
     private ViewSwitcherListener listener;
 
-    public ViewSwitcher3D(ViewGroup container) {
+    public ViewSwitcher3D(final ViewGroup container) {
 
         mContainer = container;
         mFrondside = container.getChildAt(0);
@@ -38,7 +38,7 @@ public class ViewSwitcher3D {
 
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(final long duration) {
         mDuration = duration;
     }
 
@@ -80,14 +80,14 @@ public class ViewSwitcher3D {
      */
     private final class TurnAroundListener implements Animation.AnimationListener {
 
-        public void onAnimationStart(Animation animation) {
+        public void onAnimationStart(final Animation animation) {
         }
 
-        public void onAnimationEnd(Animation animation) {
+        public void onAnimationEnd(final Animation animation) {
             mContainer.post(new SwapViews());
         }
 
-        public void onAnimationRepeat(Animation animation) {
+        public void onAnimationRepeat(final Animation animation) {
         }
     }
 
@@ -125,15 +125,15 @@ public class ViewSwitcher3D {
             rotation.setAnimationListener(new AnimationListener() {
 
                 @Override
-                public void onAnimationStart(Animation animation) {
+                public void onAnimationStart(final Animation animation) {
                 }
 
                 @Override
-                public void onAnimationRepeat(Animation animation) {
+                public void onAnimationRepeat(final Animation animation) {
                 }
 
                 @Override
-                public void onAnimationEnd(Animation animation) {
+                public void onAnimationEnd(final Animation animation) {
                     if (listener != null) {
                         listener.onViewChanged(isFrontsideVisible());
                     }
@@ -153,7 +153,7 @@ public class ViewSwitcher3D {
         mBackside.startAnimation(rotation);
     }
 
-    public void setListener(ViewSwitcherListener listener) {
+    public void setListener(final ViewSwitcherListener listener) {
         this.listener = listener;
     }
 

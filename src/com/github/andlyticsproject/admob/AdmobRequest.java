@@ -82,7 +82,7 @@ public class AdmobRequest {
     }
 
     //user login
-    public static String login(String email, String password) throws NetworkException,
+    public static String login(final String email, final String password) throws NetworkException,
                AdmobInvalidTokenException, AdmobGenericException, AdmobInvalidRequestException,
         AdmobRateLimitExceededException {
 
@@ -108,7 +108,7 @@ public class AdmobRequest {
         return token;
     }
 
-    private static void handleNonJsonException(Exception e, String sb) throws NetworkException,
+    private static void handleNonJsonException(final Exception e, final String sb) throws NetworkException,
         AdmobGenericException, AdmobInvalidTokenException {
 
         if (e instanceof SocketException || e instanceof UnknownHostException
@@ -122,8 +122,8 @@ public class AdmobRequest {
         }
     }
 
-    public static JSONArray getData(Context context, String account, String token, String object,
-                                    String method, String[] requestData) throws AdmobAccountRemovedException,
+    public static JSONArray getData(final Context context, final String account, final String token, final String object,
+                                    final String method, final String[] requestData) throws AdmobAccountRemovedException,
         NetworkException, AdmobRateLimitExceededException, AdmobInvalidTokenException,
         AdmobGenericException, AdmobAskForPasswordException, AdmobInvalidRequestException {
 
@@ -147,7 +147,7 @@ public class AdmobRequest {
 
     }
 
-    private static String createRequestParams(String token, String[] requestData) {
+    private static String createRequestParams(final String token, final String[] requestData) {
         //init params
         String params = "client_key=" + clientKey;
         params += "&token=" + token;
@@ -160,8 +160,8 @@ public class AdmobRequest {
     }
 
     //private method to handle data requests
-    private static JSONArray getResponse(String object, String method, String urlParameters,
-                                         boolean sendPost, boolean retry) throws NetworkException,
+    private static JSONArray getResponse(final String object, final String method, final String urlParameters,
+                                         final boolean sendPost, final boolean retry) throws NetworkException,
         AdmobRateLimitExceededException, AdmobInvalidTokenException, AdmobGenericException,
         AdmobInvalidRequestException {
 
@@ -181,7 +181,7 @@ public class AdmobRequest {
                 con = (HttpsURLConnection) new URL(subUrl).openConnection();
                 con.setHostnameVerifier(new BrowserCompatHostnameVerifier());
                 // create a connection
-                con.setDoOutput(true);// allow for posting data to the connection
+                con.setDoOutput(true); // allow for posting data to the connection
 
                 // pass data to the connection (POST)
                 OutputStream post = con.getOutputStream();
@@ -258,7 +258,7 @@ public class AdmobRequest {
 
     }
 
-    private static void checkJsonErrors(JSONObject result) throws AdmobInvalidTokenException,
+    private static void checkJsonErrors(final JSONObject result) throws AdmobInvalidTokenException,
         AdmobRateLimitExceededException, AdmobGenericException, AdmobInvalidRequestException {
 
         Map<String, String> errorMap = new HashMap<String, String>();
@@ -306,7 +306,7 @@ public class AdmobRequest {
 
     }
 
-    private static JSONArray toJsonArray(JSONObject result, String elementName) {
+    private static JSONArray toJsonArray(final JSONObject result, final String elementName) {
         JSONArray dataObject = (result).optJSONArray(elementName);
 
         if (dataObject == null) {
@@ -316,8 +316,8 @@ public class AdmobRequest {
         return dataObject;
     }
 
-    public static void syncSiteStats(String account, Context context, List<String> siteList,
-                                     SyncCallback callback) throws AdmobRateLimitExceededException,
+    public static void syncSiteStats(final String account, final Context context, final List<String> siteList,
+                                     final SyncCallback callback) throws AdmobRateLimitExceededException,
         AdmobAccountRemovedException, NetworkException, AdmobInvalidTokenException,
         AdmobGenericException, AdmobAskForPasswordException, AdmobInvalidRequestException {
 
@@ -442,7 +442,7 @@ public class AdmobRequest {
 
     }
 
-    private static String authenticateAdmobAccount(String currentAdmobAccount, Context context)
+    private static String authenticateAdmobAccount(final String currentAdmobAccount, final Context context)
     throws AdmobRateLimitExceededException, AdmobInvalidTokenException,
         AdmobAccountRemovedException, AdmobAskForPasswordException,
         AdmobInvalidRequestException {
@@ -463,7 +463,7 @@ public class AdmobRequest {
         return admobToken;
     }
 
-    private static void invalidateAdmobToken(String accountName, String token, Context context) {
+    private static void invalidateAdmobToken(final String accountName, final String token, final Context context) {
         if (DEBUG)
             Log.d(TAG, "invalidate admob token for " + accountName);
         AdmobAuthenticationUtilities.invalidateToken(token, context);
@@ -475,7 +475,7 @@ public class AdmobRequest {
 
     }
 
-    public static Map<String, String> getSiteList(String account, Context context)
+    public static Map<String, String> getSiteList(final String account, final Context context)
     throws AdmobRateLimitExceededException, AdmobInvalidTokenException,
         AdmobAccountRemovedException, NetworkException, AdmobGenericException,
         AdmobAskForPasswordException, AdmobInvalidRequestException {

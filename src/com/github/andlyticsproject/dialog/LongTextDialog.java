@@ -17,8 +17,8 @@ public class LongTextDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         Bundle arguments = getArguments();
 
         View view = inflater.inflate(R.layout.longtext_dialog, container);
@@ -38,7 +38,7 @@ public class LongTextDialog extends DialogFragment {
 
         view.findViewById(R.id.longtext_dialog_dismiss).setOnClickListener(
         new OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 dismiss();
             }
         });

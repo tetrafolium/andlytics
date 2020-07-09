@@ -43,7 +43,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
 
     private boolean canReplyToComments;
 
-    public CommentsListAdapter(Activity activity) {
+    public CommentsListAdapter(final Activity activity) {
         // XXX no pretty, is there a better way?
         if (!(activity instanceof CommentReplier)) {
             throw new ClassCastException("Activity must implement CommentReplier.");
@@ -54,8 +54,8 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
-                             View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, final boolean isLastChild,
+                             final View convertView, final ViewGroup parent) {
 
         final Comment comment = getChild(groupPosition, childPosition);
         ViewHolderChild holder;
@@ -89,7 +89,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
             holder.language.setOnClickListener(new OnClickListener() {
 
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     boolean showTranslations = Preferences.isShowCommentAutoTranslations(context);
                     if (!showTranslations || !comment.isTranslated()) {
                         return;
@@ -115,7 +115,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
             holder.replyIcon.setOnClickListener(new OnClickListener() {
 
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     CommentReplier replier = (CommentReplier) context;
                     replier.showReplyDialog(comment);
                 }
@@ -189,7 +189,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
         convertView.setOnLongClickListener(new OnLongClickListener() {
 
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(final View v) {
                 String text = comment.getText();
                 String displayLanguage = Locale.getDefault().getLanguage();
 
@@ -222,7 +222,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
         return Utils.isPackageInstalled(context, "com.google.android.apps.translate");
     }
 
-    private String formatLanguageString(String language) {
+    private String formatLanguageString(final String language) {
         if (language == null || language.indexOf("_") == -1) {
             return language;
         }
@@ -238,7 +238,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
 
     }
 
-    private void sendToGoogleTranslate(String text, String displayLanguage) {
+    private void sendToGoogleTranslate(final String text, final String displayLanguage) {
         Intent i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
         i.putExtra("key_text_input", text);
@@ -253,7 +253,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getChildType(int groupPosition, int childPosition) {
+    public int getChildType(final int groupPosition, final int childPosition) {
         return getChild(groupPosition, childPosition).isReply() ? TYPE_REPLY : TYPE_COMMENT;
     }
 
@@ -263,8 +263,8 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
-                             ViewGroup parent) {
+    public View getGroupView(final int groupPosition, final boolean isExpanded, final View convertView,
+                             final ViewGroup parent) {
 
         ViewHolderGroup holder;
 
@@ -283,7 +283,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    private boolean isNotEmptyOrNull(String str) {
+    private boolean isNotEmptyOrNull(final String str) {
         return str != null && str.length() > 0;
     }
 
@@ -310,27 +310,27 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getChildrenCount(int groupPosition) {
+    public int getChildrenCount(final int groupPosition) {
         return getCommentGroups().get(groupPosition).getComments().size();
     }
 
     @Override
-    public CommentGroup getGroup(int groupPosition) {
+    public CommentGroup getGroup(final int groupPosition) {
         return getCommentGroups().get(groupPosition);
     }
 
     @Override
-    public Comment getChild(int groupPosition, int childPosition) {
+    public Comment getChild(final int groupPosition, final int childPosition) {
         return getCommentGroups().get(groupPosition).getComments().get(childPosition);
     }
 
     @Override
-    public long getGroupId(int groupPosition) {
+    public long getGroupId(final int groupPosition) {
         return groupPosition;
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
+    public long getChildId(final int groupPosition, final int childPosition) {
         return childPosition;
     }
 
@@ -340,11 +340,11 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
+    public boolean isChildSelectable(final int groupPosition, final int childPosition) {
         return false;
     }
 
-    public void setCommentGroups(List<CommentGroup> commentGroups) {
+    public void setCommentGroups(final List<CommentGroup> commentGroups) {
         this.commentGroups = commentGroups;
     }
 
@@ -352,7 +352,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
         return commentGroups;
     }
 
-    private String formatCommentDate(Date date) {
+    private String formatCommentDate(final Date date) {
         return commentDateFormat.format(date);
     }
 
@@ -360,7 +360,7 @@ public class CommentsListAdapter extends BaseExpandableListAdapter {
         return canReplyToComments;
     }
 
-    public void setCanReplyToComments(boolean canReplyToComments) {
+    public void setCanReplyToComments(final boolean canReplyToComments) {
         this.canReplyToComments = canReplyToComments;
     }
 

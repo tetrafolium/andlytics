@@ -23,8 +23,8 @@ public class SessionCredentials {
 
     private String preferredCurrency;
 
-    public SessionCredentials(String accountName, String xsrfToken,
-                              DeveloperConsoleAccount[] consoleAccounts) {
+    public SessionCredentials(final String accountName, final String xsrfToken,
+                              final DeveloperConsoleAccount[] consoleAccounts) {
         this.accountName = accountName;
         this.xsrfToken = xsrfToken;
         this.consoleAccounts = consoleAccounts.clone();
@@ -42,11 +42,11 @@ public class SessionCredentials {
         return consoleAccounts.clone();
     }
 
-    public void addCookie(Cookie c) {
+    public void addCookie(final Cookie c) {
         cookies.add(c);
     }
 
-    public void addCookies(List<Cookie> c) {
+    public void addCookies(final List<Cookie> c) {
         cookies.addAll(c);
     }
 
@@ -58,11 +58,11 @@ public class SessionCredentials {
         return Collections.unmodifiableList(whitelistedFeatures);
     }
 
-    public void addWhitelistedFeatures(List<String> features) {
+    public void addWhitelistedFeatures(final List<String> features) {
         whitelistedFeatures.addAll(features);
     }
 
-    public boolean hasFeature(String feature) {
+    public boolean hasFeature(final String feature) {
         return whitelistedFeatures.contains(feature);
     }
 
@@ -70,7 +70,7 @@ public class SessionCredentials {
         return preferredCurrency;
     }
 
-    public void setPreferredCurrency(String preferredCurrency) {
+    public void setPreferredCurrency(final String preferredCurrency) {
         this.preferredCurrency = preferredCurrency;
     }
 

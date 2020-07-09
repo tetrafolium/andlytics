@@ -18,7 +18,7 @@ public class ChartTextSwitcher extends ViewSwitcher {
      *
      * @param context the application's environment
      */
-    public ChartTextSwitcher(Context context) {
+    public ChartTextSwitcher(final Context context) {
         super(context);
     }
 
@@ -29,7 +29,7 @@ public class ChartTextSwitcher extends ViewSwitcher {
      * @param context the application environment
      * @param attrs a collection of attributes
      */
-    public ChartTextSwitcher(Context context, AttributeSet attrs) {
+    public ChartTextSwitcher(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -40,7 +40,7 @@ public class ChartTextSwitcher extends ViewSwitcher {
      *         {@link android.widget.TextView}
      */
     @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+    public void addView(final View child, final int index, final ViewGroup.LayoutParams params) {
         if (!(child instanceof RelativeLayout)) {
             throw new IllegalArgumentException(
                 "ChartRatingSwitcher children must be instances of RelativeLayout");
@@ -55,7 +55,7 @@ public class ChartTextSwitcher extends ViewSwitcher {
      *
      * @param text the new text to display
      */
-    public void setText(CharSequence text, Drawable image) {
+    public void setText(final CharSequence text, final Drawable image) {
         RelativeLayout r = (RelativeLayout) getNextView();
         r = (RelativeLayout) r.getChildAt(0);
         ImageView i = (ImageView) r.getChildAt(0);
@@ -76,7 +76,7 @@ public class ChartTextSwitcher extends ViewSwitcher {
      *
      * @param text the new text to display
      */
-    public void setCurrentText(CharSequence text, Drawable image) {
+    public void setCurrentText(final CharSequence text, final Drawable image) {
         RelativeLayout r = (RelativeLayout) getCurrentView();
         r = (RelativeLayout) r.getChildAt(0);
         ImageView i = (ImageView) r.getChildAt(0);

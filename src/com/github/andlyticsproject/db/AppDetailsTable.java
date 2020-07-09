@@ -15,7 +15,7 @@ public class AppDetailsTable {
             + CHANGELOG + " text," + LAST_STORE_UPDATE + " date not null, " + APPINFO_ID
             + " integer not null, foreign key(appinfo_id) references appinfo(_id))";
 
-    public static final String[] ALL_COLUMNS = { ROWID, DESCRIPTION, CHANGELOG, LAST_STORE_UPDATE,
+    public static final String[] ALL_COLUMNS = {ROWID, DESCRIPTION, CHANGELOG, LAST_STORE_UPDATE,
                                                  APPINFO_ID
                                                };
 }

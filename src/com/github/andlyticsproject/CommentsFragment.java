@@ -78,8 +78,8 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
         protected List<Comment> comments;
         protected int maxAvailableComments = -1;
 
-        public CommentsLoader(Activity context, String accountName, String developerId,
-                              String packageName, int nextCommentIndex) {
+        public CommentsLoader(final Activity context, final String accountName, final String developerId,
+                              final String packageName, final int nextCommentIndex) {
             super(context);
             this.activity = context;
             db = ContentAdapter.getInstance(AndlyticsApp.getInstance());
@@ -98,7 +98,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
             return loadFromCache();
         }
 
-        protected void updateCommentsCacheIfNecessary(List<Comment> newComments) {
+        protected void updateCommentsCacheIfNecessary(final List<Comment> newComments) {
             if (newComments == null || newComments.isEmpty()) {
                 return;
             }
@@ -109,7 +109,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
             }
         }
 
-        protected void updateCommentsCache(List<Comment> commentsToCache) {
+        protected void updateCommentsCache(final List<Comment> commentsToCache) {
             db.updateCommentsCache(commentsToCache, packageName);
             comments = new ArrayList<Comment>();
         }
@@ -131,20 +131,20 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
         }
 
         @Override
-        protected void releaseResult(LoaderResult<Comments> result) {
+        protected void releaseResult(final LoaderResult<Comments> result) {
             // just a string, nothing to do
         }
 
         @Override
-        protected boolean isActive(LoaderResult<Comments> result) {
+        protected boolean isActive(final LoaderResult<Comments> result) {
             return false;
         }
     }
 
     static class RemoteCommentsLoader extends CommentsLoader {
 
-        public RemoteCommentsLoader(Activity context, String accountName, String developerId,
-                                    String packageName, int nextCommentIndex) {
+        public RemoteCommentsLoader(final Activity context, final String accountName, final String developerId,
+                                    final String packageName, final int nextCommentIndex) {
             super(context, accountName, developerId, packageName, nextCommentIndex);
         }
 
@@ -196,7 +196,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         // calling initLoader() here results in onLoadFinished() being
@@ -204,7 +204,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.comments_fragment, container, false);
 
         list = (ExpandableListView) view.findViewById(R.id.comments_list);
@@ -235,7 +235,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
         footer.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 fetchNextComments();
             }
         });
@@ -284,7 +284,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
 
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.comments_menu, menu);
 
@@ -295,7 +295,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         Context ctx = getActivity();
         if (ctx == null) {
             return false;
@@ -322,7 +322,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
         fetchNextComments();
     }
 
-    private void incrementNextCommentIndex(int increment) {
+    private void incrementNextCommentIndex(final int increment) {
         nextCommentIndex += increment;
         if (nextCommentIndex >= maxAvailableComments) {
             hasMoreComments = false;
@@ -387,7 +387,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
         }
     }
 
-    private static List<CommentGroup> toList(LinkedHashMap<String, CommentGroup> groups) {
+    private static List<CommentGroup> toList(final LinkedHashMap<String, CommentGroup> groups) {
         List<CommentGroup> result = new ArrayList<CommentGroup>();
         for (LinkedHashMap.Entry<String, CommentGroup> e : groups.entrySet()) {
             result.add(e.getValue());
@@ -417,7 +417,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(final Activity activity) {
         super.onAttach(activity);
         try {
             statsActivity = (DetailedStatsActivity) activity;
@@ -435,7 +435,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
 
 
     @Override
-    public void updateView(StatsSummary<Comment> statsSummary) {
+    public void updateView(final StatsSummary<Comment> statsSummary) {
         // XXX do nothing, revise interface!
     }
 
@@ -448,7 +448,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
 
 
     @Override
-    public Loader<LoaderResult<Comments>> onCreateLoader(int id, Bundle args) {
+    public Loader<LoaderResult<Comments>> onCreateLoader(final int id, final Bundle args) {
         String accountName = null;
         String developerId = null;
         String packageName = null;
@@ -472,7 +472,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
 
 
     @Override
-    public void onLoadFinished(Loader<LoaderResult<Comments>> loader, LoaderResult<Comments> result) {
+    public void onLoadFinished(final Loader<LoaderResult<Comments>> loader, final LoaderResult<Comments> result) {
         if (getActivity() == null) {
             return;
         }
@@ -503,7 +503,7 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
                 comments = newComments.loaded;
                 refreshed = true;
             } else {
-                // 	otherwise add to adapter and display
+                //      otherwise add to adapter and display
                 comments.addAll(newComments.loaded);
             }
         }
@@ -528,11 +528,11 @@ public class CommentsFragment extends Fragment implements StatsView<Comment>,
 
 
     @Override
-    public void onLoaderReset(Loader<LoaderResult<Comments>> loader) {
+    public void onLoaderReset(final Loader<LoaderResult<Comments>> loader) {
     }
 
     @Override
-    public void setCurrentChart(int page, int column) {
+    public void setCurrentChart(final int page, final int column) {
         // NOOP, we don't have charts
     }
 

@@ -26,7 +26,7 @@ public class LRUBitmapCache {
      * @param cacheSize
      *            the maximum number of entries that will be kept in this cache.
      */
-    public LRUBitmapCache(int cacheSize) {
+    public LRUBitmapCache(final int cacheSize) {
         this.cacheSize = cacheSize;
         int hashTableCapacity = (int) FloatMath.ceil(cacheSize / hashTableLoadFactor) + 1;
         map = new LinkedHashMap<String, Bitmap>(hashTableCapacity, hashTableLoadFactor, true) {
@@ -34,7 +34,7 @@ public class LRUBitmapCache {
             private static final long serialVersionUID = 1;
 
             @Override
-            protected boolean removeEldestEntry(Map.Entry<String, Bitmap> eldest) {
+            protected boolean removeEldestEntry(final Map.Entry<String, Bitmap> eldest) {
                 boolean result = size() > LRUBitmapCache.this.cacheSize;
                 if (result) {
                     if (eldest.getValue() != null) {
@@ -56,7 +56,7 @@ public class LRUBitmapCache {
      * @return the value associated to this key, or null if no value with this
      *         key exists in the cache.
      */
-    public synchronized Bitmap get(String key) {
+    public synchronized Bitmap get(final String key) {
         return map.get(key);
     }
 
@@ -71,7 +71,7 @@ public class LRUBitmapCache {
      * @param value
      *            a value to be associated with the specified key.
      */
-    public synchronized void put(String key, Bitmap value) {
+    public synchronized void put(final String key, final Bitmap value) {
         map.put(key, value);
     }
 
@@ -91,7 +91,7 @@ public class LRUBitmapCache {
         return map.size();
     }
 
-    public synchronized boolean contains(String item) {
+    public synchronized boolean contains(final String item) {
         return map.containsKey(item);
     }
 

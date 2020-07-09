@@ -16,7 +16,7 @@ public class UiUtils {
     private UiUtils() {
     }
 
-    public static boolean isChecked(Preference pref) {
+    public static boolean isChecked(final Preference pref) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             return ((TwoStatePreference) pref).isChecked();
         }
@@ -24,7 +24,7 @@ public class UiUtils {
         return ((CheckBoxPreference) pref).isChecked();
     }
 
-    public static void setChecked(Preference pref, boolean checked) {
+    public static void setChecked(final Preference pref, final boolean checked) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             ((TwoStatePreference) pref).setChecked(checked);
         } else {
@@ -32,7 +32,7 @@ public class UiUtils {
         }
     }
 
-    public static Preference createTwoStatePreference(Context ctx) {
+    public static Preference createTwoStatePreference(final Context ctx) {
         return IS_ICS ? new SwitchPreference(ctx) : new CheckBoxPreference(ctx);
     }
 }

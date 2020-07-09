@@ -20,14 +20,14 @@ public class AppStatsSummary extends StatsSummary<AppStats> {
     }
 
     @Override
-    public void addStat(AppStats stat) {
+    public void addStat(final AppStats stat) {
         stat.init();
         stats.add(stat);
     }
 
     @SuppressLint("SimpleDateFormat")
     @Override
-    public void calculateOverallStats(int limit, boolean smoothEnabled) {
+    public void calculateOverallStats(final int limit, final boolean smoothEnabled) {
         Collections.reverse(stats);
 
         List<AppStats> missingAppStats = new ArrayList<AppStats>();
@@ -260,7 +260,7 @@ public class AppStatsSummary extends StatsSummary<AppStats> {
         return false;
     }
 
-    public void setLowestRatingChange(Integer lowestRatingChange) {
+    public void setLowestRatingChange(final Integer lowestRatingChange) {
         this.lowestRatingChange = lowestRatingChange;
     }
 
@@ -268,7 +268,7 @@ public class AppStatsSummary extends StatsSummary<AppStats> {
         return lowestRatingChange;
     }
 
-    public void setHighestRatingChange(Integer highestRatingChange) {
+    public void setHighestRatingChange(final Integer highestRatingChange) {
         this.highestRatingChange = highestRatingChange;
     }
 

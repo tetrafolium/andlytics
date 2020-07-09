@@ -54,7 +54,7 @@ public class JsonParser {
      * @param stats
      * @throws JSONException
      */
-    static void parseRatings(String json, AppStats stats) throws JSONException {
+    static void parseRatings(final String json, final AppStats stats) throws JSONException {
         JSONObject data = new JSONObject(json).getJSONObject("result").getJSONArray("1")
         .getJSONObject(0);
 
@@ -79,7 +79,7 @@ public class JsonParser {
      * @param statsType
      * @throws JSONException
      */
-    static void parseStatistics(String json, AppStats stats, int statsType) throws JSONException {
+    static void parseStatistics(final String json, final AppStats stats, final int statsType) throws JSONException {
         // Extract the top level values array
         JSONObject values = new JSONObject(json).getJSONObject("result").getJSONObject("1");
         /*
@@ -127,7 +127,7 @@ public class JsonParser {
      * @return List of apps
      * @throws JSONException
      */
-    static List<AppInfo> parseAppInfos(String json, String accountName, boolean skipIncomplete)
+    static List<AppInfo> parseAppInfos(final String json, final String accountName, final boolean skipIncomplete)
     throws JSONException {
 
         Date now = new Date();
@@ -301,7 +301,7 @@ public class JsonParser {
         return apps;
     }
 
-    private static void pp(String name, JSONArray jsonArr) {
+    private static void pp(final String name, final JSONArray jsonArr) {
         try {
             String pp = jsonArr == null ? "null" : jsonArr.toString(2);
             Log.d(TAG, String.format("%s: %s", name, pp));
@@ -311,7 +311,7 @@ public class JsonParser {
         }
     }
 
-    private static void pp(String name, JSONObject jsonObj) {
+    private static void pp(final String name, final JSONObject jsonObj) {
         try {
             String pp = jsonObj == null ? "null" : jsonObj.toString(2);
             Log.d(TAG, String.format("%s: %s", name, pp));
@@ -328,7 +328,7 @@ public class JsonParser {
      * @return
      * @throws JSONException
      */
-    static List<Comment> parseComments(String json) throws JSONException {
+    static List<Comment> parseComments(final String json) throws JSONException {
         List<Comment> comments = new ArrayList<Comment>();
         /*
          * null
@@ -469,7 +469,7 @@ public class JsonParser {
         return comments;
     }
 
-    static Comment parseCommentReplyResponse(String json) throws JSONException {
+    static Comment parseCommentReplyResponse(final String json) throws JSONException {
         // {"result":{"1":{"1":"REPLY","3":"TIME_STAMP"},"2":true},"xsrf":"XSRF_TOKEN"}
         // or
         // {"error":{"data":{"1":ERROR_CODE},"code":ERROR_CODE}}
@@ -486,7 +486,7 @@ public class JsonParser {
         return result;
     }
 
-    private static DevConsoleException parseError(JSONObject jsonObj, String message)
+    private static DevConsoleException parseError(final JSONObject jsonObj, final String message)
     throws JSONException {
         JSONObject errorObj = jsonObj.getJSONObject("error");
         String data = errorObj.getJSONObject("data").optString("1");
@@ -496,7 +496,7 @@ public class JsonParser {
                                        errorCode));
     }
 
-    static RevenueSummary parseRevenueResponse(String json, String currency) throws JSONException {
+    static RevenueSummary parseRevenueResponse(final String json, final String currency) throws JSONException {
         JSONObject jsonObj = new JSONObject(json);
         if (jsonObj.has("error")) {
             throw parseError(jsonObj, "fetch revenue summary");
@@ -546,10 +546,10 @@ public class JsonParser {
         long timeInMillis = summaryObj.getLong("2");
         Calendar cal = Calendar.getInstance();
         /*
-        		// TODO Work out timezone
-        		String tzStr = summaryObj.optString("3");
-        		TimeZone tz = TimeZone.getTimeZone(tzStr);
-        		cal = Calendar.getInstance(tz);
+                        // TODO Work out timezone
+                        String tzStr = summaryObj.optString("3");
+                        TimeZone tz = TimeZone.getTimeZone(tzStr);
+                        cal = Calendar.getInstance(tz);
         */
         cal.setTimeInMillis(timeInMillis);
 
@@ -563,7 +563,7 @@ public class JsonParser {
      * @param unixDateCode
      * @return
      */
-    private static Date parseDate(long unixDateCode) {
+    private static Date parseDate(final long unixDateCode) {
         return new Date(unixDateCode);
     }
 

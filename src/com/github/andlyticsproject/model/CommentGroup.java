@@ -20,11 +20,11 @@ public class CommentGroup {
 
     private List<Comment> comments = new ArrayList<Comment>();
 
-    public CommentGroup(Date date) {
+    public CommentGroup(final Date date) {
         setDate(date);
     }
 
-    public CommentGroup(Comment comment) {
+    public CommentGroup(final Comment comment) {
         Date date = comment.isReply() ? comment.getOriginalCommentDate() : comment.getDate();
         setDate(date);
         comments.add(comment);
@@ -34,7 +34,7 @@ public class CommentGroup {
         return date = (Date) date.clone();
     }
 
-    public void setDate(Date date) {
+    public void setDate(final Date date) {
         this.date = (Date) date.clone();
         this.yyyymmddDate = DATE_FMT.format(date);
     }
@@ -47,7 +47,7 @@ public class CommentGroup {
         return comments;
     }
 
-    public void addComment(Comment comment) {
+    public void addComment(final Comment comment) {
         comments.add(comment);
     }
 
@@ -61,7 +61,7 @@ public class CommentGroup {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (!(obj instanceof CommentGroup)) {
             return false;
         }

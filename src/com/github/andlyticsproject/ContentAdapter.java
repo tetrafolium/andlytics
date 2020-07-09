@@ -41,12 +41,12 @@ public class ContentAdapter {
 
     private BackupManager backupManager;
 
-    private ContentAdapter(Context ctx) {
+    private ContentAdapter(final Context ctx) {
         this.context = ctx;
         this.backupManager = new BackupManager(ctx);
     }
 
-    public static synchronized ContentAdapter getInstance(Application appCtx) {
+    public static synchronized ContentAdapter getInstance(final Application appCtx) {
         if (instance == null) {
             instance = new ContentAdapter(appCtx);
         }
@@ -54,12 +54,12 @@ public class ContentAdapter {
         return instance;
     }
 
-    public AdmobStatsSummary getAdmobStats(String siteId, Timeframe currentTimeFrame) {
+    public AdmobStatsSummary getAdmobStats(final String siteId, final Timeframe currentTimeFrame) {
         return getAdmobStats(siteId, null, currentTimeFrame);
     }
 
-    public AdmobStatsSummary getAdmobStats(String siteId, String adUnitId,
-                                           Timeframe currentTimeFrame) {
+    public AdmobStatsSummary getAdmobStats(final String siteId, final String adUnitId,
+                                           final Timeframe currentTimeFrame) {
         AdmobStatsSummary statsSummary = new AdmobStatsSummary();
 
         int limit = Integer.MAX_VALUE;
@@ -121,7 +121,7 @@ public class ContentAdapter {
                                  AdmobTable.KEY_CPC_REVENUE, AdmobTable.KEY_CPM_REVENUE,
                                  AdmobTable.KEY_EXCHANGE_DOWNLOADS, AdmobTable.KEY_DATE,
                                  AdmobTable.KEY_CURRENCY
-                             }, AdmobTable.KEY_SITE_ID + "=?", new String[] { adUnitId },
+                             }, AdmobTable.KEY_SITE_ID + "=?", new String[] {adUnitId },
                              AdmobTable.KEY_DATE + " desc LIMIT " + limit + ""); // sort
                 // order ->
                 // new to
@@ -144,7 +144,7 @@ public class ContentAdapter {
         }
     }
 
-    private AdmobStats readAdmobStats(Cursor cursor) {
+    private AdmobStats readAdmobStats(final Cursor cursor) {
         AdmobStats admob = new AdmobStats();
 
         admob.setSiteId(cursor.getString(cursor.getColumnIndex(AdmobTable.KEY_ROWID)));
@@ -178,7 +178,7 @@ public class ContentAdapter {
         return admob;
     }
 
-    public void insertOrUpdateAdmobStats(AdmobStats admob) {
+    public void insertOrUpdateAdmobStats(final AdmobStats admob) {
         ContentValues value = createAdmobContentValues(admob);
 
         long existingId = getAdmobStatsIdForDate(admob.getDate(), admob.getSiteId());
@@ -195,7 +195,7 @@ public class ContentAdapter {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private long getAdmobStatsIdForDate(Date date, String siteId) {
+    private long getAdmobStatsIdForDate(final Date date, final String siteId) {
 
         long result = -1;
 
@@ -205,7 +205,7 @@ public class ContentAdapter {
 
         Cursor mCursor = context.getContentResolver().query(
                              AdmobTable.CONTENT_URI,
-                             new String[] { AdmobTable.KEY_ROWID, AdmobTable.KEY_DATE },
+                             new String[] {AdmobTable.KEY_ROWID, AdmobTable.KEY_DATE },
                              AdmobTable.KEY_SITE_ID + "='" + siteId + "' and " + AdmobTable.KEY_DATE
                              + " BETWEEN '" + dateFormatStart.format(date) + "' and '"
                              + dateFormatEnd.format(date) + "'", null, null);
@@ -219,7 +219,7 @@ public class ContentAdapter {
         return result;
     }
 
-    public void bulkInsertAdmobStats(List<AdmobStats> stats) {
+    public void bulkInsertAdmobStats(final List<AdmobStats> stats) {
         List<ContentValues> values = new ArrayList<ContentValues>();
         for (AdmobStats admob : stats) {
             ContentValues value = createAdmobContentValues(admob);
@@ -231,7 +231,7 @@ public class ContentAdapter {
         backupManager.dataChanged();
     }
 
-    private ContentValues createAdmobContentValues(AdmobStats admob) {
+    private ContentValues createAdmobContentValues(final AdmobStats admob) {
         ContentValues values = new ContentValues();
 
         values.put(AdmobTable.KEY_CLICKS, admob.getClicks());
@@ -257,7 +257,7 @@ public class ContentAdapter {
     }
 
     // ---insert a title into the database---
-    public AppStatsDiff insertOrUpdateStats(AppInfo appInfo) {
+    public AppStatsDiff insertOrUpdateStats(final AppInfo appInfo) {
         // do not insert draft apps
         if (appInfo == null || appInfo.isDraftOnly()) {
             return null;
@@ -278,7 +278,7 @@ public class ContentAdapter {
         return downloadInfo.createDiff(previousStats, appInfo);
     }
 
-    public void insertOrUpdateAppStats(AppStats appStats, String packageName) {
+    public void insertOrUpdateAppStats(final AppStats appStats, final String packageName) {
         ContentValues values = new ContentValues();
 
         values.put(AppStatsTable.KEY_STATS_REQUESTDATE, Utils.formatDbDate(appStats.getDate()));
@@ -322,7 +322,7 @@ public class ContentAdapter {
         backupManager.dataChanged();
     }
 
-    private void insertOrUpdateApp(AppInfo appInfo) {
+    private void insertOrUpdateApp(final AppInfo appInfo) {
         // do not insert draft apps
         if (appInfo == null || appInfo.isDraftOnly()) {
             return;
@@ -365,7 +365,7 @@ public class ContentAdapter {
                         RevenueSummaryTable.ALL_COLUMNS,
                         RevenueSummaryTable.APPINFO_ID + " =?  and " + RevenueSummaryTable.DATE
                         + " = ?",
-                        new String[] { Long.toString(appInfo.getId()),
+                        new String[] {Long.toString(appInfo.getId()),
                                        Long.toString(revenue.getDate().getTime())
                                      },
                         RevenueSummaryTable.DATE + " desc");
@@ -378,7 +378,7 @@ public class ContentAdapter {
                     long revenueId = c.getLong(c.getColumnIndex(RevenueSummaryTable.ROWID));
                     context.getContentResolver().update(RevenueSummaryTable.CONTENT_URI, values,
                                                         RevenueSummaryTable.ROWID + " = ?",
-                                                        new String[] { Long.toString(revenueId) });
+                                                        new String[] {Long.toString(revenueId) });
                 }
             } finally {
                 if (c != null) {
@@ -390,7 +390,7 @@ public class ContentAdapter {
         backupManager.dataChanged();
     }
 
-    public String getAppName(String packageName) {
+    public String getAppName(final String packageName) {
         if (packageName == null) {
             return null;
         }
@@ -398,7 +398,7 @@ public class ContentAdapter {
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(AppInfoTable.CONTENT_URI,
-                     new String[] { AppInfoTable.KEY_APP_NAME },
+                     new String[] {AppInfoTable.KEY_APP_NAME },
                      AppInfoTable.KEY_APP_PACKAGENAME + "='" + packageName + "'", null, null);
 
             if (cursor.moveToFirst()) {
@@ -414,13 +414,13 @@ public class ContentAdapter {
     }
 
     // XXX add dev ID filter
-    public List<String> getPackagesForAccount(String account) {
+    public List<String> getPackagesForAccount(final String account) {
         List<String> result = new ArrayList<String>();
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(AppInfoTable.UNIQUE_PACAKGES_CONTENT_URI,
-                     new String[] { AppInfoTable.KEY_APP_PACKAGENAME },
-                     AppInfoTable.KEY_APP_ACCOUNT + "=?", new String[] { account },
+                     new String[] {AppInfoTable.KEY_APP_PACKAGENAME },
+                     AppInfoTable.KEY_APP_ACCOUNT + "=?", new String[] {account },
                      AppInfoTable.KEY_APP_PACKAGENAME);
             while (cursor.moveToNext()) {
                 result.add(cursor.getString(0));
@@ -435,7 +435,7 @@ public class ContentAdapter {
     }
 
     // XXX filter by dev ID
-    public List<AppInfo> getAllAppsLatestStats(String account) {
+    public List<AppInfo> getAllAppsLatestStats(final String account) {
 
         List<AppInfo> appInfos = new ArrayList<AppInfo>();
 
@@ -443,7 +443,7 @@ public class ContentAdapter {
         try {
             cursor = context.getContentResolver()
                      .query(AppInfoTable.CONTENT_URI,
-                            new String[] { AppInfoTable.KEY_ROWID,
+                            new String[] {AppInfoTable.KEY_ROWID,
                                            AppInfoTable.KEY_APP_VERSION_NAME,
                                            AppInfoTable.KEY_APP_PACKAGENAME,
                                            AppInfoTable.KEY_APP_LASTUPDATE, AppInfoTable.KEY_APP_NAME,
@@ -543,7 +543,7 @@ public class ContentAdapter {
         return appInfos;
     }
 
-    public long setGhost(String account, String packageName, boolean value) {
+    public long setGhost(final String account, final String packageName, final boolean value) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(AppInfoTable.KEY_APP_GHOST, value == true ? 1 : 0);
 
@@ -561,7 +561,7 @@ public class ContentAdapter {
         return result;
     }
 
-    public long setRatingExpanded(String account, String packageName, boolean value) {
+    public long setRatingExpanded(final String account, final String packageName, final boolean value) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(AppInfoTable.KEY_APP_RATINGS_EXPANDED, value == true ? 1 : 0);
 
@@ -579,14 +579,14 @@ public class ContentAdapter {
         return result;
     }
 
-    private long getAppInfoByPackageName(String packageName) {
+    private long getAppInfoByPackageName(final String packageName) {
         long result = -1;
 
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(
                          AppInfoTable.CONTENT_URI,
-                         new String[] { AppInfoTable.KEY_ROWID, AppInfoTable.KEY_APP_ACCOUNT,
+                         new String[] {AppInfoTable.KEY_ROWID, AppInfoTable.KEY_APP_ACCOUNT,
                                         AppInfoTable.KEY_APP_PACKAGENAME
                                       },
                          AppInfoTable.KEY_APP_PACKAGENAME + "='" + packageName + "'", null, null);
@@ -602,14 +602,14 @@ public class ContentAdapter {
         }
     }
 
-    private boolean getSkipNotification(String packageName) {
+    private boolean getSkipNotification(final String packageName) {
         boolean result = false;
 
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(
                          AppInfoTable.CONTENT_URI,
-                         new String[] { AppInfoTable.KEY_APP_SKIP_NOTIFICATION,
+                         new String[] {AppInfoTable.KEY_APP_SKIP_NOTIFICATION,
                                         AppInfoTable.KEY_APP_ACCOUNT, AppInfoTable.KEY_APP_PACKAGENAME
                                       },
                          AppInfoTable.KEY_APP_PACKAGENAME + "='" + packageName + "'", null, null);
@@ -628,8 +628,8 @@ public class ContentAdapter {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public AppStatsSummary getStatsForApp(String packageName, Timeframe currentTimeFrame,
-                                          Boolean smoothEnabled) {
+    public AppStatsSummary getStatsForApp(final String packageName, final Timeframe currentTimeFrame,
+                                          final Boolean smoothEnabled) {
         AppStatsSummary result = new AppStatsSummary();
 
         int limit = Integer.MAX_VALUE;
@@ -651,7 +651,7 @@ public class ContentAdapter {
         try {
             cursor = context.getContentResolver()
                      .query(AppStatsTable.CONTENT_URI,
-                            new String[] { AppStatsTable.KEY_ROWID,
+                            new String[] {AppStatsTable.KEY_ROWID,
                                            AppStatsTable.KEY_STATS_PACKAGENAME,
                                            AppStatsTable.KEY_STATS_DOWNLOADS,
                                            AppStatsTable.KEY_STATS_INSTALLS,
@@ -729,13 +729,13 @@ public class ContentAdapter {
         }
     }
 
-    public AppStats getLatestForApp(String packageName) {
+    public AppStats getLatestForApp(final String packageName) {
         AppStats stats = null;
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver()
                      .query(AppStatsTable.CONTENT_URI,
-                            new String[] { AppStatsTable.KEY_ROWID,
+                            new String[] {AppStatsTable.KEY_ROWID,
                                            AppStatsTable.KEY_STATS_PACKAGENAME,
                                            AppStatsTable.KEY_STATS_DOWNLOADS,
                                            AppStatsTable.KEY_STATS_VERSIONCODE,
@@ -751,7 +751,7 @@ public class ContentAdapter {
                                            AppStatsTable.KEY_STATS_CURRENCY
                                          },
                             AppStatsTable.KEY_STATS_PACKAGENAME + " = ?",
-                            new String[] { packageName },
+                            new String[] {packageName },
                             AppStatsTable.KEY_STATS_REQUESTDATE + " desc limit 1");
 
             if (cursor.moveToFirst()) {
@@ -796,7 +796,7 @@ public class ContentAdapter {
         }
     }
 
-    public RevenueSummary getRevenueSummaryForApp(AppInfo app) {
+    public RevenueSummary getRevenueSummaryForApp(final AppInfo app) {
         Cursor cursor = null;
 
         try {
@@ -804,7 +804,7 @@ public class ContentAdapter {
             cursor = context.getContentResolver()
                      .query(RevenueSummaryTable.CONTENT_URI, RevenueSummaryTable.ALL_COLUMNS,
                             RevenueSummaryTable.APPINFO_ID + "=?",
-                            new String[] { Long.toString(app.getId()) },
+                            new String[] {Long.toString(app.getId()) },
                             RevenueSummaryTable.DATE + " desc");
 
             if (cursor.getCount() == 0) {
@@ -844,12 +844,12 @@ public class ContentAdapter {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public Map<Date, Map<Integer, Integer>> getDailyRatings(Date maxDate, String packagename) {
+    public Map<Date, Map<Integer, Integer>> getDailyRatings(final Date maxDate, final String packagename) {
         Map<Date, Map<Integer, Integer>> result = new TreeMap<Date, Map<Integer, Integer>>(
         new Comparator<Date>() {
             // reverse order
             @Override
-            public int compare(Date object1, Date object2) {
+            public int compare(final Date object1, final Date object2) {
                 return object2.compareTo(object1);
             }
         });
@@ -870,7 +870,7 @@ public class ContentAdapter {
         try {
             cursor = context.getContentResolver().query(
                          AppStatsTable.CONTENT_URI,
-                         new String[] { AppStatsTable.KEY_ROWID, AppStatsTable.KEY_STATS_PACKAGENAME,
+                         new String[] {AppStatsTable.KEY_ROWID, AppStatsTable.KEY_STATS_PACKAGENAME,
                                         AppStatsTable.KEY_STATS_DOWNLOADS, AppStatsTable.KEY_STATS_INSTALLS,
                                         AppStatsTable.KEY_STATS_COMMENTS,
                                         AppStatsTable.KEY_STATS_MARKETERANKING,
@@ -934,7 +934,7 @@ public class ContentAdapter {
         }
     }
 
-    private Integer getDiff(Integer prev1, int value1) {
+    private Integer getDiff(final Integer prev1, final int value1) {
         if (prev1 == null) {
             return 0;
         } else {
@@ -942,7 +942,7 @@ public class ContentAdapter {
         }
     }
 
-    public void updateCommentsCache(List<Comment> comments, String packageName) {
+    public void updateCommentsCache(final List<Comment> comments, final String packageName) {
         // TODO Do not drop the table each time
 
         // clear table
@@ -982,14 +982,14 @@ public class ContentAdapter {
         backupManager.dataChanged();
     }
 
-    public List<Comment> getCommentsFromCache(String packageName) {
+    public List<Comment> getCommentsFromCache(final String packageName) {
         List<Comment> result = new ArrayList<Comment>();
 
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(
                          CommentsTable.CONTENT_URI,
-                         new String[] { CommentsTable.KEY_COMMENT_DATE,
+                         new String[] {CommentsTable.KEY_COMMENT_DATE,
                                         CommentsTable.KEY_COMMENT_PACKAGENAME,
                                         CommentsTable.KEY_COMMENT_RATING,
                                         CommentsTable.KEY_COMMENT_TITLE,
@@ -1004,7 +1004,7 @@ public class ContentAdapter {
                                         CommentsTable.KEY_COMMENT_ORIGINAL_TEXT,
                                         CommentsTable.KEY_COMMENT_UNIQUE_ID
                                       },
-                         AppInfoTable.KEY_APP_PACKAGENAME + " = ?", new String[] { packageName },
+                         AppInfoTable.KEY_APP_PACKAGENAME + " = ?", new String[] {packageName },
                          CommentsTable.KEY_COMMENT_DATE + " desc");
             if (cursor == null) {
                 return result;
@@ -1067,7 +1067,7 @@ public class ContentAdapter {
         }
     }
 
-    public long setSkipNotification(String packageName, boolean value) {
+    public long setSkipNotification(final String packageName, final boolean value) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(AppInfoTable.KEY_APP_SKIP_NOTIFICATION, value == true ? 1 : 0);
 

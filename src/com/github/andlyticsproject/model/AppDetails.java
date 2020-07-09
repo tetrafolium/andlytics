@@ -15,19 +15,19 @@ public class AppDetails {
 
     private List<Link> links = new ArrayList<Link>();
 
-    public AppDetails(String description, String changelog, Date lastStoreUpdate) {
+    public AppDetails(final String description, final String changelog, final Date lastStoreUpdate) {
         this.description = description;
         this.changelog = changelog;
         this.lastStoreUpdate = lastStoreUpdate == null ? null : (Date) lastStoreUpdate.clone();
     }
 
-    public AppDetails(String description, String changelog, Long lastStoreUpdate) {
+    public AppDetails(final String description, final String changelog, final Long lastStoreUpdate) {
         this.description = description;
         this.changelog = changelog;
         this.lastStoreUpdate = lastStoreUpdate == null ? null : new Date(lastStoreUpdate);
     }
 
-    public AppDetails(String description) {
+    public AppDetails(final String description) {
         this(description, null, (Date) null);
     }
 
@@ -35,7 +35,7 @@ public class AppDetails {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -43,7 +43,7 @@ public class AppDetails {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -51,7 +51,7 @@ public class AppDetails {
         return changelog;
     }
 
-    public void setChangelog(String changelog) {
+    public void setChangelog(final String changelog) {
         this.changelog = changelog;
     }
 
@@ -59,7 +59,7 @@ public class AppDetails {
         return lastStoreUpdate == null ? null : (Date) lastStoreUpdate.clone();
     }
 
-    public void setLastStoreUpdate(Date lastStoreUpdate) {
+    public void setLastStoreUpdate(final Date lastStoreUpdate) {
         this.lastStoreUpdate = lastStoreUpdate == null ? null : (Date) lastStoreUpdate.clone();
     }
 
@@ -67,11 +67,11 @@ public class AppDetails {
         return Collections.unmodifiableList(links);
     }
 
-    public void setLinks(List<Link> links) {
+    public void setLinks(final List<Link> links) {
         this.links = links;
     }
 
-    public void addLink(Link link) {
+    public void addLink(final Link link) {
         links.add(link);
     }
 

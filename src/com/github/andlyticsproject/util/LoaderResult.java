@@ -6,16 +6,16 @@ public class LoaderResult<T> {
     private T data;
     private Exception error;
 
-    private LoaderResult(T data, Exception error) {
+    private LoaderResult(final T data, final Exception error) {
         this.data = data;
         this.error = error;
     }
 
-    public static <T> LoaderResult<T> create(T data) {
+    public static <T> LoaderResult<T> create(final T data) {
         return new LoaderResult<T>(data, null);
     }
 
-    public static <T> LoaderResult<T> createFailed(Exception error) {
+    public static <T> LoaderResult<T> createFailed(final Exception error) {
         return new LoaderResult<T>(null, error);
     }
 

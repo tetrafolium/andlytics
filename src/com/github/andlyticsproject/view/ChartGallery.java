@@ -21,26 +21,26 @@ public class ChartGallery extends Gallery {
 
     private boolean allowChangePageSliding = true;
 
-    public ChartGallery(Context context, AttributeSet attrs, int defStyle) {
+    public ChartGallery(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public ChartGallery(Context context, AttributeSet attrs) {
+    public ChartGallery(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ChartGallery(Context context) {
+    public ChartGallery(final Context context) {
         super(context);
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    protected void onLayout(final boolean changed, final int l, final int t, final int r, final int b) {
         if (!isIgnoreLayoutCalls())
             super.onLayout(changed, l, t, r, b);
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    public boolean onInterceptTouchEvent(final MotionEvent ev) {
 
         if (interceptTouchEvents) {
             return true;
@@ -48,7 +48,7 @@ public class ChartGallery extends Gallery {
         return false;
     }
 
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+    public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX, final float velocityY) {
 
         if (useMultiImageFling) {
             return super.onFling(e1, e2, velocityX, velocityY);
@@ -91,9 +91,9 @@ public class ChartGallery extends Gallery {
     }
 
     @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+    public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX, final float distanceY) {
         if (!allowChangePageSliding) {
-            if(getSelectedView() != null && getSelectedView().getTag() != null) {
+            if (getSelectedView() != null && getSelectedView().getTag() != null) {
                 int[] tag = (int[]) getSelectedView().getTag();
                 if (distanceX < 0 && tag[1] <= 1)
                     return true;
@@ -104,7 +104,7 @@ public class ChartGallery extends Gallery {
         return super.onScroll(e1, e2, distanceX, distanceY);
     }
 
-    public void setInterceptTouchEvents(boolean interceptTouchEvents) {
+    public void setInterceptTouchEvents(final boolean interceptTouchEvents) {
         this.interceptTouchEvents = interceptTouchEvents;
     }
 
@@ -112,7 +112,7 @@ public class ChartGallery extends Gallery {
         return interceptTouchEvents;
     }
 
-    public void setUseMultiImageFling(boolean useMultiImageFling) {
+    public void setUseMultiImageFling(final boolean useMultiImageFling) {
         this.useMultiImageFling = useMultiImageFling;
     }
 
@@ -120,7 +120,7 @@ public class ChartGallery extends Gallery {
         return useMultiImageFling;
     }
 
-    public void setIgnoreLayoutCalls(boolean ignoreLayoutCalls) {
+    public void setIgnoreLayoutCalls(final boolean ignoreLayoutCalls) {
         this.ignoreLayoutCalls = ignoreLayoutCalls;
     }
 
@@ -128,7 +128,7 @@ public class ChartGallery extends Gallery {
         return ignoreLayoutCalls;
     }
 
-    public void setAllowChangePageSliding(boolean allowChangePageSliding) {
+    public void setAllowChangePageSliding(final boolean allowChangePageSliding) {
         this.allowChangePageSliding = allowChangePageSliding;
     }
 

@@ -49,7 +49,7 @@ public class AdmobAuthenticatorActivity extends AccountAuthenticatorActivity {
     private View mOkButton;
 
     @Override
-    public void onCreate(Bundle neato) {
+    public void onCreate(final Bundle neato) {
 
         super.onCreate(neato);
         mAccountManager = AccountManager.get(this);
@@ -85,7 +85,7 @@ public class AdmobAuthenticatorActivity extends AccountAuthenticatorActivity {
         mOkButton.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 handleLogin(v);
             }
         });
@@ -103,7 +103,7 @@ public class AdmobAuthenticatorActivity extends AccountAuthenticatorActivity {
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
+    protected Dialog onCreateDialog(final int id) {
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage(getString(R.string.admob_authenticating));
         dialog.setIndeterminate(true);
@@ -111,7 +111,7 @@ public class AdmobAuthenticatorActivity extends AccountAuthenticatorActivity {
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 
             @Override
-            public void onCancel(DialogInterface dialog) {
+            public void onCancel(final DialogInterface dialog) {
                 if (mAuthThread != null) {
                     mAuthThread.interrupt();
                     finish();
@@ -123,7 +123,7 @@ public class AdmobAuthenticatorActivity extends AccountAuthenticatorActivity {
         return dialog;
     }
 
-    public void handleLogin(View v) {
+    public void handleLogin(final View v) {
         if (mRequestNewAccount) {
             mUsername = mUsernameEdit.getText().toString();
         }
@@ -138,7 +138,7 @@ public class AdmobAuthenticatorActivity extends AccountAuthenticatorActivity {
         }
     }
 
-    private void finishConfirmCredentials(boolean result) {
+    private void finishConfirmCredentials(final boolean result) {
         Account account = new Account(mUsername, AdmobAccountAuthenticator.ACCOUNT_TYPE_ADMOB);
         mAccountManager.setPassword(account, mPassword);
         Intent intent = new Intent();
@@ -182,7 +182,7 @@ public class AdmobAuthenticatorActivity extends AccountAuthenticatorActivity {
         }
     }
 
-    public void onAuthenticationResult(String result) {
+    public void onAuthenticationResult(final String result) {
         hideProgress();
         if ("true".equalsIgnoreCase(result)) {
             if (!mConfirmCredentials) {

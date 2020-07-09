@@ -11,15 +11,15 @@ public class DevConsoleException extends RuntimeException {
         super();
     }
 
-    public DevConsoleException(String message) {
+    public DevConsoleException(final String message) {
         super(message);
     }
 
-    public DevConsoleException(Throwable cause) {
+    public DevConsoleException(final Throwable cause) {
         super(cause);
     }
 
-    public DevConsoleException(String message, Throwable cause) {
+    public DevConsoleException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

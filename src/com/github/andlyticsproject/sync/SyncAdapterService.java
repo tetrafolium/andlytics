@@ -46,14 +46,14 @@ public class SyncAdapterService extends Service {
     private static class SyncAdapterImpl extends AbstractThreadedSyncAdapter {
         private Context mContext;
 
-        public SyncAdapterImpl(Context context) {
+        public SyncAdapterImpl(final Context context) {
             super(context, true);
             mContext = context;
         }
 
         @Override
-        public void onPerformSync(Account account, Bundle extras, String authority,
-                                  ContentProviderClient provider, SyncResult syncResult) {
+        public void onPerformSync(final Account account, final Bundle extras, final String authority,
+                                  final ContentProviderClient provider, final SyncResult syncResult) {
             // If the account is hidden and the user enables syncing for it via system
             // then this could get called. Check account state and only sync
             // if not hidden.
@@ -71,7 +71,7 @@ public class SyncAdapterService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         IBinder ret = null;
         ret = getSyncAdapter().getSyncAdapterBinder();
         return ret;
@@ -83,8 +83,8 @@ public class SyncAdapterService extends Service {
         return sSyncAdapter;
     }
 
-    private static void performSync(Context context, Account account, Bundle extras,
-                                    String authority, ContentProviderClient provider, SyncResult syncResult)
+    private static void performSync(final Context context, final Account account, final Bundle extras,
+                                    final String authority, final ContentProviderClient provider, final SyncResult syncResult)
     throws OperationCanceledException {
         try {
             DevConsoleV2 console = DevConsoleRegistry.getInstance().get(account.name);

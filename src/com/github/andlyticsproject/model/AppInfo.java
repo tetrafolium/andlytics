@@ -54,7 +54,7 @@ public class AppInfo {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -62,7 +62,7 @@ public class AppInfo {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(final String account) {
         this.account = account;
     }
 
@@ -70,7 +70,7 @@ public class AppInfo {
         return packageName;
     }
 
-    public void setPackageName(String packageName) {
+    public void setPackageName(final String packageName) {
         this.packageName = packageName;
     }
 
@@ -78,7 +78,7 @@ public class AppInfo {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(final Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
@@ -86,11 +86,11 @@ public class AppInfo {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setIconUrl(String iconUrl) {
+    public void setIconUrl(final String iconUrl) {
         this.iconUrl = iconUrl;
     }
 
@@ -110,7 +110,7 @@ public class AppInfo {
         return iconName;
     }
 
-    public void setHistory(List<AppStats> history) {
+    public void setHistory(final List<AppStats> history) {
         this.history = history;
     }
 
@@ -118,11 +118,11 @@ public class AppInfo {
         return history;
     }
 
-    public void addToHistory(AppStats stats) {
+    public void addToHistory(final AppStats stats) {
         history.add(stats);
     }
 
-    public void setLatestStats(AppStats latestStats) {
+    public void setLatestStats(final AppStats latestStats) {
         this.latestStats = latestStats;
     }
 
@@ -130,7 +130,7 @@ public class AppInfo {
         return latestStats;
     }
 
-    public void setDraftOnly(boolean isDraftOnly) {
+    public void setDraftOnly(final boolean isDraftOnly) {
         this.isDraftOnly = isDraftOnly;
     }
 
@@ -142,11 +142,11 @@ public class AppInfo {
         return publishState;
     }
 
-    public void setPublishState(int publishState) {
+    public void setPublishState(final int publishState) {
         this.publishState = publishState;
     }
 
-    public void setGhost(boolean ghost) {
+    public void setGhost(final boolean ghost) {
         this.ghost = ghost;
     }
 
@@ -154,7 +154,7 @@ public class AppInfo {
         return ghost;
     }
 
-    public void setRatingDetailsExpanded(boolean ratingDetailsExpanded) {
+    public void setRatingDetailsExpanded(final boolean ratingDetailsExpanded) {
         this.ratingDetailsExpanded = ratingDetailsExpanded;
     }
 
@@ -162,7 +162,7 @@ public class AppInfo {
         return ratingDetailsExpanded;
     }
 
-    public void setSkipNotification(boolean skipNotification) {
+    public void setSkipNotification(final boolean skipNotification) {
         this.skipNotification = skipNotification;
     }
 
@@ -170,7 +170,7 @@ public class AppInfo {
         return skipNotification;
     }
 
-    public void setVersionName(String versionName) {
+    public void setVersionName(final String versionName) {
         this.versionName = versionName;
     }
 
@@ -178,7 +178,7 @@ public class AppInfo {
         return versionName;
     }
 
-    public void setAdmobStats(AdmobStats admobStats) {
+    public void setAdmobStats(final AdmobStats admobStats) {
         this.admobStats = admobStats;
     }
 
@@ -190,7 +190,7 @@ public class AppInfo {
         return admobAccount;
     }
 
-    public void setAdmobAccount(String admobAccount) {
+    public void setAdmobAccount(final String admobAccount) {
         this.admobAccount = admobAccount;
     }
 
@@ -198,7 +198,7 @@ public class AppInfo {
         return admobSiteId;
     }
 
-    public void setAdmobSiteId(String admobSiteId) {
+    public void setAdmobSiteId(final String admobSiteId) {
         this.admobSiteId = admobSiteId;
     }
 
@@ -206,7 +206,7 @@ public class AppInfo {
         return admobAdUnitId;
     }
 
-    public void setAdmobAdUnitId(String admobAdUnitId) {
+    public void setAdmobAdUnitId(final String admobAdUnitId) {
         this.admobAdUnitId = admobAdUnitId;
     }
 
@@ -214,7 +214,7 @@ public class AppInfo {
         return lastCommentsUpdate == null ? null : (Date) lastCommentsUpdate.clone();
     }
 
-    public void setLastCommentsUpdate(Date lastCommentsUpdate) {
+    public void setLastCommentsUpdate(final Date lastCommentsUpdate) {
         this.lastCommentsUpdate = lastCommentsUpdate == null ? null : (Date) lastCommentsUpdate
                                   .clone();
     }
@@ -223,7 +223,7 @@ public class AppInfo {
         return details;
     }
 
-    public void setDetails(AppDetails details) {
+    public void setDetails(final AppDetails details) {
         this.details = details;
     }
 
@@ -231,7 +231,7 @@ public class AppInfo {
         return developerId;
     }
 
-    public void setDeveloperId(String developerId) {
+    public void setDeveloperId(final String developerId) {
         this.developerId = developerId;
     }
 
@@ -239,7 +239,7 @@ public class AppInfo {
         return developerName;
     }
 
-    public void setDeveloperName(String developerName) {
+    public void setDeveloperName(final String developerName) {
         this.developerName = developerName;
     }
 
@@ -247,7 +247,7 @@ public class AppInfo {
         return totalRevenueSummary;
     }
 
-    public void setTotalRevenueSummary(RevenueSummary totalRevenueSummary) {
+    public void setTotalRevenueSummary(final RevenueSummary totalRevenueSummary) {
         this.totalRevenueSummary = totalRevenueSummary;
     }
 
@@ -277,7 +277,7 @@ public class AppInfo {
     // an app should be uniquely identified by the package name alone
     // (this is enforced by the Play Store)
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

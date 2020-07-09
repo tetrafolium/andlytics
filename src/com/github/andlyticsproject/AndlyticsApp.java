@@ -65,11 +65,11 @@ public class AndlyticsApp extends Application {
         return isAppVisible;
     }
 
-    public void setIsAppVisible(boolean isVisible) {
+    public void setIsAppVisible(final boolean isVisible) {
         isAppVisible = isVisible;
     }
 
-    public void setDbAdapter(ContentAdapter db) {
+    public void setDbAdapter(final ContentAdapter db) {
         this.db = db;
     }
 

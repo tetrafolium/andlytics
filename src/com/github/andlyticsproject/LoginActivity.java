@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // TODO Clean this code and res/layout/login.xml up e.g. using a ListView
     // instead of a LinearLayout
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         accountManager = AccountManager.get(this);
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         okButton.setClickable(true);
         okButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 new AsyncTask<Void, Void, Void>() {
 
                     @Override
@@ -104,14 +104,14 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    protected Void doInBackground(Void... args) {
+                    protected Void doInBackground(final Void... args) {
                         saveDeveloperAccounts();
 
                         return null;
                     }
 
                     @Override
-                    protected void onPostExecute(Void arg) {
+                    protected void onPostExecute(final Void arg) {
                         setProgressBarIndeterminateVisibility(false);
                         okButton.setEnabled(true);
 
@@ -147,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.login_menu, menu);
         return true;
@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
      * @return boolean true/false
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case R.id.itemLoginmenuAdd:
             addNewGoogleAccount();
@@ -220,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
             enabled.setChecked(!developerAccount.isHidden());
             enabled.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
                     DeveloperAccount account = (DeveloperAccount) ((View) buttonView.getParent())
                                                .getTag();
                     if (isChecked) {
@@ -273,7 +273,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void addNewGoogleAccount() {
         AccountManagerCallback<Bundle> callback = new AccountManagerCallback<Bundle>() {
-            public void run(AccountManagerFuture<Bundle> future) {
+            public void run(final AccountManagerFuture<Bundle> future) {
                 try {
                     Bundle bundle = future.getResult();
                     bundle.keySet();
@@ -298,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
                                   LoginActivity.this, callback, null /* handler */);
     }
 
-    private void redirectToMain(String selectedAccount, String developerId) {
+    private void redirectToMain(final String selectedAccount, final String developerId) {
         Preferences.saveSkipAutoLogin(this, false);
         Intent intent = new Intent(LoginActivity.this, Main.class);
         intent.putExtra(BaseActivity.EXTRA_AUTH_ACCOUNT_NAME, selectedAccount);

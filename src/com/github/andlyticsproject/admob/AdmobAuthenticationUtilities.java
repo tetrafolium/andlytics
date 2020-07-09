@@ -78,7 +78,7 @@ public class AdmobAuthenticationUtilities {
      * @return boolean The boolean result indicating whether the user was
      *         successfully authenticated.
      */
-    public static String authenticate(String username, String password, Handler handler,
+    public static String authenticate(final String username, final String password, final Handler handler,
                                       final Context context) {
 
         try {
@@ -152,7 +152,7 @@ public class AdmobAuthenticationUtilities {
         return AdmobAuthenticationUtilities.performOnBackgroundThread(runnable);
     }
 
-    public static String authenticateAccount(String accountName, Context context) {
+    public static String authenticateAccount(final String accountName, final Context context) {
 
         Account account = null;
 
@@ -182,7 +182,7 @@ public class AdmobAuthenticationUtilities {
 
     @SuppressWarnings("deprecation")
     protected static String authenticateAccount(final AccountManager manager,
-            final Account account, Context context) {
+            final Account account, final Context context) {
 
         String token = null;
 
@@ -228,7 +228,7 @@ public class AdmobAuthenticationUtilities {
 
     }
 
-    public static void invalidateToken(final String token, Context context) {
+    public static void invalidateToken(final String token, final Context context) {
 
         Log.d(TAG, "invalidate admob token");
 

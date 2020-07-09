@@ -45,7 +45,7 @@ public class AppStatsDiff {
         return commentsChange;
     }
 
-    public void setCommentsChange(int commentsChange) {
+    public void setCommentsChange(final int commentsChange) {
         this.commentsChange = commentsChange;
     }
 
@@ -53,7 +53,7 @@ public class AppStatsDiff {
         return downloadsChange;
     }
 
-    public void setDownloadsChange(int downloadsChange) {
+    public void setDownloadsChange(final int downloadsChange) {
         this.downloadsChange = downloadsChange;
     }
 
@@ -61,7 +61,7 @@ public class AppStatsDiff {
         return activeInstallsChange;
     }
 
-    public void setActiveInstallsChange(int activeInstallsChange) {
+    public void setActiveInstallsChange(final int activeInstallsChange) {
         this.activeInstallsChange = activeInstallsChange;
     }
 
@@ -69,7 +69,7 @@ public class AppStatsDiff {
         return avgRatingChange;
     }
 
-    public void setAvgRatingChange(float avgRatingChange) {
+    public void setAvgRatingChange(final float avgRatingChange) {
         this.avgRatingChange = avgRatingChange;
     }
 
@@ -77,7 +77,7 @@ public class AppStatsDiff {
         return rating1Change;
     }
 
-    public void setRating1Change(int rating1Change) {
+    public void setRating1Change(final int rating1Change) {
         this.rating1Change = rating1Change;
     }
 
@@ -85,7 +85,7 @@ public class AppStatsDiff {
         return rating2Change;
     }
 
-    public void setRating2Change(int rating2Change) {
+    public void setRating2Change(final int rating2Change) {
         this.rating2Change = rating2Change;
     }
 
@@ -93,7 +93,7 @@ public class AppStatsDiff {
         return rating3Change;
     }
 
-    public void setRating3Change(int rating3Change) {
+    public void setRating3Change(final int rating3Change) {
         this.rating3Change = rating3Change;
     }
 
@@ -101,7 +101,7 @@ public class AppStatsDiff {
         return rating4Change;
     }
 
-    public void setRating4Change(int rating4Change) {
+    public void setRating4Change(final int rating4Change) {
         this.rating4Change = rating4Change;
     }
 
@@ -109,11 +109,11 @@ public class AppStatsDiff {
         return rating5Change;
     }
 
-    public void setRating5Change(int rating5Change) {
+    public void setRating5Change(final int rating5Change) {
         this.rating5Change = rating5Change;
     }
 
-    public void setPackageName(String packageName) {
+    public void setPackageName(final String packageName) {
         this.packageName = packageName;
     }
 
@@ -121,7 +121,7 @@ public class AppStatsDiff {
         return packageName;
     }
 
-    public void setAppName(String appName) {
+    public void setAppName(final String appName) {
         this.appName = appName;
     }
 
@@ -129,7 +129,7 @@ public class AppStatsDiff {
         return appName;
     }
 
-    public void setIconName(String iconName) {
+    public void setIconName(final String iconName) {
         this.iconName = iconName;
     }
 
@@ -137,7 +137,7 @@ public class AppStatsDiff {
         return iconName;
     }
 
-    public void setSkipNotification(boolean skipNotification) {
+    public void setSkipNotification(final boolean skipNotification) {
         this.skipNotification = skipNotification;
     }
 
@@ -145,7 +145,7 @@ public class AppStatsDiff {
         return skipNotification;
     }
 
-    public void setVersionName(String versionName) {
+    public void setVersionName(final String versionName) {
         this.versionName = versionName;
     }
 

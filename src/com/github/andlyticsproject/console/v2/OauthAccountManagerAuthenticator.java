@@ -59,25 +59,25 @@ public class OauthAccountManagerAuthenticator extends BaseAuthenticator {
 
     private DefaultHttpClient httpClient;
 
-    public OauthAccountManagerAuthenticator(String accountName, DefaultHttpClient httpClient) {
+    public OauthAccountManagerAuthenticator(final String accountName, final DefaultHttpClient httpClient) {
         super(accountName);
         this.accountManager = AccountManager.get(AndlyticsApp.getInstance());
         this.httpClient = httpClient;
     }
 
     @Override
-    public SessionCredentials authenticate(Activity activity, boolean invalidate)
+    public SessionCredentials authenticate(final Activity activity, final boolean invalidate)
     throws AuthenticationException {
         return authenticateInternal(activity, invalidate);
     }
 
     @Override
-    public SessionCredentials authenticateSilently(boolean invalidate)
+    public SessionCredentials authenticateSilently(final boolean invalidate)
     throws AuthenticationException {
         return authenticateInternal(null, invalidate);
     }
 
-    private SessionCredentials authenticateInternal(Activity activity, boolean invalidate)
+    private SessionCredentials authenticateInternal(final Activity activity, final boolean invalidate)
     throws AuthenticationException {
         try {
             Account[] accounts = accountManager.getAccountsByType("com.google");
@@ -224,7 +224,7 @@ public class OauthAccountManagerAuthenticator extends BaseAuthenticator {
         }
     }
 
-    private static String getCurrentUrl(HttpContext context) {
+    private static String getCurrentUrl(final HttpContext context) {
         HttpUriRequest currentReq = (HttpUriRequest) context
                                     .getAttribute(ExecutionContext.HTTP_REQUEST);
         HttpHost currentHost = (HttpHost) context

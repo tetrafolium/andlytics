@@ -51,7 +51,7 @@ public class ExportService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleIntent(final Intent intent) {
         Log.d(TAG, "export service onStartCommand");
 
         this.packageNames = intent.getStringArrayExtra(EXTRA_PACKAGE_NAMES);
@@ -101,7 +101,7 @@ public class ExportService extends IntentService {
         return !errors;
     }
 
-    private void notifyExportFinished(boolean success) {
+    private void notifyExportFinished(final boolean success) {
         // clear progress notification
         notificationManager.cancel(NOTIFICATION_ID_PROGRESS);
 
@@ -146,7 +146,7 @@ public class ExportService extends IntentService {
     /**
      * Send a notification to the progress bar.
      */
-    protected void sendNotification(String message) {
+    protected void sendNotification(final String message) {
         Intent startActivityIntent = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
                                       startActivityIntent, 0);

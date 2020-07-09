@@ -36,11 +36,11 @@ public final class Utils {
     private Utils() {
     }
 
-    public static String stackTraceToString(Throwable e) {
+    public static String stackTraceToString(final Throwable e) {
         return stackTraceToString(e, 0);
     }
 
-    public static String stackTraceToString(Throwable e, int depth) {
+    public static String stackTraceToString(final Throwable e, final int depth) {
         StringBuilder sb = new StringBuilder();
         for (StackTraceElement element : e.getStackTrace()) {
             sb.append(element.toString());
@@ -92,12 +92,12 @@ public final class Utils {
         }
     }
 
-    public static <P, T extends AsyncTask<P, ?, ?>> void execute(T task) {
+    public static <P, T extends AsyncTask<P, ?, ?>> void execute(final T task) {
         execute(task, (P[]) null);
     }
 
     @SuppressLint("NewApi")
-    public static <P, T extends AsyncTask<P, ?, ?>> void execute(T task, P... params) {
+    public static <P, T extends AsyncTask<P, ?, ?>> void execute(final T task, final P... params) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
         } else {
@@ -109,7 +109,7 @@ public final class Utils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
     }
 
-    public static void getAndSaveToFile(URL url, File file) throws IOException {
+    public static void getAndSaveToFile(final URL url, final File file) throws IOException {
         InputStream is = null;
         FileOutputStream fos = null;
 
@@ -136,7 +136,7 @@ public final class Utils {
         }
     }
 
-    public static int getAppVersionCode(Context context) {
+    public static int getAppVersionCode(final Context context) {
         try {
             PackageInfo pinfo = context.getPackageManager().getPackageInfo(
                                     context.getPackageName(), 0);
@@ -147,7 +147,7 @@ public final class Utils {
         return 0;
     }
 
-    public static long timestampWithoutMillis(Date date) {
+    public static long timestampWithoutMillis(final Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.MILLISECOND, 0);
@@ -156,7 +156,7 @@ public final class Utils {
     }
 
     @SuppressLint("InlinedApi")
-    public static boolean isPackageInstalled(Context ctx, String packageName) {
+    public static boolean isPackageInstalled(final Context ctx, final String packageName) {
         try {
             ApplicationInfo info = ctx.getPackageManager().getApplicationInfo(packageName, 0);
 
@@ -182,7 +182,7 @@ public final class Utils {
     private static final SimpleDateFormat DB_DATE_FORMAT = new SimpleDateFormat(
         "yyyy-MM-dd HH:mm:ss");
 
-    public static synchronized Date parseDbDate(String string) {
+    public static synchronized Date parseDbDate(final String string) {
         try {
             return DB_DATE_FORMAT.parse(string);
         } catch (ParseException e) {
@@ -190,18 +190,18 @@ public final class Utils {
         }
     }
 
-    public static synchronized String formatDbDate(Date date) {
+    public static synchronized String formatDbDate(final Date date) {
         return DB_DATE_FORMAT.format(date);
     }
 
-    public static void ensureMainThread(Context ctx) {
+    public static void ensureMainThread(final Context ctx) {
         Looper looper = Looper.myLooper();
         if (looper != null && looper != ctx.getMainLooper()) {
             throw new IllegalStateException("Only call this from your main thread.");
         }
     }
 
-    public static String safeToString(Object val) {
+    public static String safeToString(final Object val) {
         if (val == null) {
             return "";
         }
@@ -209,7 +209,7 @@ public final class Utils {
         return val.toString();
     }
 
-    public static Integer tryParseInt(String str) {
+    public static Integer tryParseInt(final String str) {
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
@@ -217,7 +217,7 @@ public final class Utils {
         }
     }
 
-    public static Float tryParseFloat(String str) {
+    public static Float tryParseFloat(final String str) {
         try {
             return Float.parseFloat(str);
         } catch (NumberFormatException e) {

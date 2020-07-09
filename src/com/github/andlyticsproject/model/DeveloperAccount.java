@@ -15,15 +15,15 @@ public class DeveloperAccount {
     // XXX revise this! Link to DeveloperConsoleAccount?
     private String developerId;
 
-    public static DeveloperAccount createActive(String name) {
+    public static DeveloperAccount createActive(final String name) {
         return new DeveloperAccount(name, State.ACTIVE);
     }
 
-    public static DeveloperAccount createHidden(String name) {
+    public static DeveloperAccount createHidden(final String name) {
         return new DeveloperAccount(name, State.HIDDEN);
     }
 
-    public DeveloperAccount(String name, State state) {
+    public DeveloperAccount(final String name, final State state) {
         if (name == null || "".equals(name)) {
             throw new IllegalArgumentException("Name must not be empty or null");
         }
@@ -35,7 +35,7 @@ public class DeveloperAccount {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class DeveloperAccount {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(final State state) {
         this.state = state;
     }
 
@@ -55,7 +55,7 @@ public class DeveloperAccount {
         return lastStatsUpdate == null ? null : (Date) lastStatsUpdate.clone();
     }
 
-    public void setLastStatsUpdate(Date lastStatsUpdate) {
+    public void setLastStatsUpdate(final Date lastStatsUpdate) {
         this.lastStatsUpdate = lastStatsUpdate == null ? null : (Date) lastStatsUpdate.clone();
     }
 
@@ -63,12 +63,12 @@ public class DeveloperAccount {
         return developerId;
     }
 
-    public void setDeveloperId(String developerId) {
+    public void setDeveloperId(final String developerId) {
         this.developerId = developerId;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (!(o instanceof DeveloperAccount)) {
             return false;
         }

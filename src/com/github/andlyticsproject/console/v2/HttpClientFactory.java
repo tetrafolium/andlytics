@@ -47,10 +47,10 @@ public class HttpClientFactory {
     private HttpClientFactory() {
     }
 
-    public static DefaultHttpClient createDevConsoleHttpClient(int timeoutMillis) {
+    public static DefaultHttpClient createDevConsoleHttpClient(final int timeoutMillis) {
         DefaultHttpClient result = createDefaultClient(timeoutMillis);
         result.addRequestInterceptor(new HttpRequestInterceptor() {
-            public void process(HttpRequest request, HttpContext context) {
+            public void process(final HttpRequest request, final HttpContext context) {
                 addCommonHeaders(request);
             }
         });
@@ -59,7 +59,7 @@ public class HttpClientFactory {
         return result;
     }
 
-    private static DefaultHttpClient createDefaultClient(int timeoutMillis) {
+    private static DefaultHttpClient createDefaultClient(final int timeoutMillis) {
         HttpParams params = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(params, timeoutMillis);
         HttpConnectionParams.setSoTimeout(params, timeoutMillis);
@@ -81,9 +81,9 @@ public class HttpClientFactory {
         return new DefaultHttpClient(new ThreadSafeClientConnManager(params, registry), params);
     }
 
-    private static void addGzipInterceptor(DefaultHttpClient result) {
+    private static void addGzipInterceptor(final DefaultHttpClient result) {
         result.addResponseInterceptor(new HttpResponseInterceptor() {
-            public void process(HttpResponse response, HttpContext context) {
+            public void process(final HttpResponse response, final HttpContext context) {
                 // Inflate any responses compressed with gzip
                 final HttpEntity entity = response.getEntity();
                 final Header encoding = entity.getContentEncoding();
@@ -103,7 +103,7 @@ public class HttpClientFactory {
         return new BasicResponseHandler();
     }
 
-    private static void addCommonHeaders(HttpRequest request) {
+    private static void addCommonHeaders(final HttpRequest request) {
         if (!request.containsHeader(HEADER_ACCEPT_ENCODING)) {
             request.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
         }
@@ -122,7 +122,7 @@ public class HttpClientFactory {
     }
 
     static class InflatingEntity extends HttpEntityWrapper {
-        public InflatingEntity(HttpEntity wrapped) {
+        public InflatingEntity(final HttpEntity wrapped) {
             super(wrapped);
         }
 

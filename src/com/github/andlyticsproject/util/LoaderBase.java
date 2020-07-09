@@ -10,12 +10,12 @@ public abstract class LoaderBase<T> extends AsyncTaskLoader<LoaderResult<T>> {
 
     protected LoaderResult<T> lastResult;
 
-    protected LoaderBase(Context context) {
+    protected LoaderBase(final Context context) {
         super(context);
     }
 
     @Override
-    public void deliverResult(LoaderResult<T> result) {
+    public void deliverResult(final LoaderResult<T> result) {
         if (isReset()) {
             if (result != null) {
                 releaseResult(result);
@@ -52,7 +52,7 @@ public abstract class LoaderBase<T> extends AsyncTaskLoader<LoaderResult<T>> {
     }
 
     @Override
-    public void onCanceled(LoaderResult<T> result) {
+    public void onCanceled(final LoaderResult<T> result) {
         super.onCanceled(result);
 
         if (result != null && isActive(result)) {

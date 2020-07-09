@@ -22,7 +22,7 @@ public class FileUtils {
     private FileUtils() {
     }
 
-    public static void writeToFile(File file, String str) {
+    public static void writeToFile(final File file, final String str) {
         try {
             FileOutputStream out = new FileOutputStream(file);
             out.write(str.getBytes("UTF-8"));
@@ -33,11 +33,11 @@ public class FileUtils {
         }
     }
 
-    public static void writeToExternalStorage(String filename, String str) {
+    public static void writeToExternalStorage(final String filename, final String str) {
         writeToFile(new File(Environment.getExternalStorageDirectory(), filename), str);
     }
 
-    public static void writeToAndlyticsDir(String filename, String str) {
+    public static void writeToAndlyticsDir(final String filename, final String str) {
         File andlyticsDir = getAndlyticsDir();
 
         writeToFile(new File(andlyticsDir, filename), str);
@@ -53,7 +53,7 @@ public class FileUtils {
         return andlyticsDir;
     }
 
-    public static void writeToDebugDir(String filename, String str) {
+    public static void writeToDebugDir(final String filename, final String str) {
         File andlyticsDir = getAndlyticsDir();
         File debugDir = new File(andlyticsDir, "debug");
         if (!debugDir.exists()) {
@@ -65,7 +65,7 @@ public class FileUtils {
         writeToFile(new File(debugDir, filename), str);
     }
 
-    public static void tryWriteToDebugDir(String filename, String str) {
+    public static void tryWriteToDebugDir(final String filename, final String str) {
         try {
             writeToDebugDir(filename, str);
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class FileUtils {
         }
     }
 
-    public static String readFileAsString(String filename) {
+    public static String readFileAsString(final String filename) {
         FileInputStream in = null;
         try {
             in = new FileInputStream(filename);
@@ -90,7 +90,7 @@ public class FileUtils {
         }
     }
 
-    public static byte[] readFromUri(Context ctx, Uri uri) {
+    public static byte[] readFromUri(final Context ctx, final Uri uri) {
         InputStream in = null;
         try {
             in = ctx.getContentResolver().openInputStream(uri);
@@ -111,7 +111,7 @@ public class FileUtils {
         }
     }
 
-    public static void closeSilently(Closeable c) {
+    public static void closeSilently(final Closeable c) {
         if (c != null) {
             try {
                 c.close();
@@ -120,7 +120,7 @@ public class FileUtils {
         }
     }
 
-    public static void scanFile(Context ctx, String filename) {
+    public static void scanFile(final Context ctx, final String filename) {
         if (Utils.isFroyo()) {
             MediaScannerWrapper.scanFile(ctx, filename);
         }

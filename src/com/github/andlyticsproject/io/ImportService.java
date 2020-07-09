@@ -58,7 +58,7 @@ public class ImportService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleIntent(final Intent intent) {
         Log.d(TAG, "import service onStartCommand");
 
         this.zipFileUri = intent.getData();
@@ -117,7 +117,7 @@ public class ImportService extends IntentService {
         return !errors;
     }
 
-    private void notifyImportFinished(boolean success) {
+    private void notifyImportFinished(final boolean success) {
         notificationManager.cancel(NOTIFICATION_ID_PROGRESS);
 
         Intent startActivityIntent = new Intent(this, LoginActivity.class);
@@ -163,7 +163,7 @@ public class ImportService extends IntentService {
     /**
      * Send a notification to the progress bar.
      */
-    protected void sendNotification(String message) {
+    protected void sendNotification(final String message) {
         Intent startActivityIntent = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
                                       startActivityIntent, 0);

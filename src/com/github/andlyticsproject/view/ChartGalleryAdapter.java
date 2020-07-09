@@ -11,11 +11,11 @@ public class ChartGalleryAdapter extends BaseAdapter {
 
     private List<View> views;
 
-    public ChartGalleryAdapter(List<View> views) {
+    public ChartGalleryAdapter(final List<View> views) {
         this.setViews(views);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
         return getItem(position);
     }
 
@@ -25,16 +25,16 @@ public class ChartGalleryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getItem(int position) {
+    public View getItem(final int position) {
         return getViews().get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(final int position) {
         return position;
     }
 
-    public void setViews(List<View> views) {
+    public void setViews(final List<View> views) {
         this.views = views;
     }
 

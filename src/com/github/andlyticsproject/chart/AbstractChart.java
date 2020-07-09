@@ -47,8 +47,8 @@ public abstract class AbstractChart {
      * @param yValues the values for the Y axis
      * @return the XY multiple dataset
      */
-    protected XYMultipleSeriesDataset buildDataset(String[] titles, List<double[]> xValues,
-            List<double[]> yValues) {
+    protected XYMultipleSeriesDataset buildDataset(final String[] titles, final List<double[]> xValues,
+            final List<double[]> yValues) {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         int length = titles.length;
         for (int i = 0; i < length; i++) {
@@ -71,7 +71,7 @@ public abstract class AbstractChart {
      * @param styles the series point styles
      * @return the XY multiple series renderers
      */
-    protected XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
+    protected XYMultipleSeriesRenderer buildRenderer(final int[] colors, final PointStyle[] styles) {
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
         int length = colors.length;
         for (int i = 0; i < length; i++) {
@@ -98,9 +98,9 @@ public abstract class AbstractChart {
      * @param axesColor the axes color
      * @param labelsColor the labels color
      */
-    protected void setChartSettings(Resources res, XYMultipleSeriesRenderer renderer, String title,
-                                    String xTitle, String yTitle, double xMin, double xMax, double yMin, double yMax,
-                                    int axesColor, int labelsColor) {
+    protected void setChartSettings(final Resources res, final XYMultipleSeriesRenderer renderer, final String title,
+                                    final String xTitle, final String yTitle, final double xMin, final double xMax, final double yMin, final double yMax,
+                                    final int axesColor, final int labelsColor) {
         renderer.setChartTitle(title);
         renderer.setXTitle(xTitle);
         renderer.setYTitle(yTitle);
@@ -116,7 +116,7 @@ public abstract class AbstractChart {
 
 
         renderer.setApplyBackgroundColor(true);
-        renderer.setBackgroundColor( Color.parseColor("#F7FBF5"));
+        renderer.setBackgroundColor(Color.parseColor("#F7FBF5"));
         renderer.setMarginsColor(Color.parseColor("#F7FBF5"));
         renderer.setPanEnabled(false, false);
         renderer.setZoomEnabled(false, false);
@@ -130,8 +130,8 @@ public abstract class AbstractChart {
      * @param yValues the values for the Y axis
      * @return the XY multiple time dataset
      */
-    protected XYMultipleSeriesDataset buildDateDataset(String[] titles, List<Date[]> xValues,
-            List<double[]> yValues) {
+    protected XYMultipleSeriesDataset buildDateDataset(final String[] titles, final List<Date[]> xValues,
+            final List<double[]> yValues) {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         int length = titles.length;
         for (int i = 0; i < length; i++) {
@@ -154,7 +154,7 @@ public abstract class AbstractChart {
      * @param values the values
      * @return the category series
      */
-    protected CategorySeries buildCategoryDataset(String title, double[] values) {
+    protected CategorySeries buildCategoryDataset(final String title, final double[] values) {
         CategorySeries series = new CategorySeries(title);
         int k = 0;
         for (double value : values) {
@@ -171,8 +171,8 @@ public abstract class AbstractChart {
      * @param values the values
      * @return the category series
      */
-    protected MultipleCategorySeries buildMultipleCategoryDataset(String title,
-            List<String[]> titles, List<double[]> values) {
+    protected MultipleCategorySeries buildMultipleCategoryDataset(final String title,
+            final List<String[]> titles, final List<double[]> values) {
         MultipleCategorySeries series = new MultipleCategorySeries(title);
         int k = 0;
         for (double[] value : values) {
@@ -188,7 +188,7 @@ public abstract class AbstractChart {
      * @param colors the colors
      * @return the category renderer
      */
-    protected DefaultRenderer buildCategoryRenderer(int[] colors) {
+    protected DefaultRenderer buildCategoryRenderer(final int[] colors) {
         DefaultRenderer renderer = new DefaultRenderer();
         for (int color : colors) {
             SimpleSeriesRenderer r = new SimpleSeriesRenderer();
@@ -205,7 +205,7 @@ public abstract class AbstractChart {
      * @param values the values
      * @return the XY multiple bar dataset
      */
-    protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
+    protected XYMultipleSeriesDataset buildBarDataset(final String[] titles, final List<double[]> values) {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         int length = titles.length;
         for (int i = 0; i < length; i++) {
@@ -226,7 +226,7 @@ public abstract class AbstractChart {
      * @param colors the series renderers colors
      * @return the bar multiple series renderer
      */
-    protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
+    protected XYMultipleSeriesRenderer buildBarRenderer(final int[] colors) {
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
         int length = colors.length;
         for (int i = 0; i < length; i++) {

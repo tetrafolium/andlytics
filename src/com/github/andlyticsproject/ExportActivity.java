@@ -64,7 +64,7 @@ public class ExportActivity extends AppCompatActivity {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onCreate(Bundle state) {
+    public void onCreate(final Bundle state) {
         super.onCreate(state);
 
         setContentView(R.layout.export_stats);
@@ -105,7 +105,7 @@ public class ExportActivity extends AppCompatActivity {
         closeButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 finish();
             }
         });
@@ -115,7 +115,7 @@ public class ExportActivity extends AppCompatActivity {
         exportButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (!android.os.Environment.getExternalStorageState().equals(
                             android.os.Environment.MEDIA_MOUNTED)) {
                     Toast.makeText(context, context.getString(R.string.export_no_sdcard),
@@ -149,7 +149,7 @@ public class ExportActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle state) {
+    protected void onSaveInstanceState(final Bundle state) {
         super.onSaveInstanceState(state);
         state.putSerializable(EXTRA_EXPORT_PACKAGE_NAMES, exportPackageNames);
     }
@@ -168,7 +168,7 @@ public class ExportActivity extends AppCompatActivity {
 
         public static final String ARG_FILENAME = "filename";
 
-        public static ConfirmExportDialogFragment newInstance(String filename) {
+        public static ConfirmExportDialogFragment newInstance(final String filename) {
             ConfirmExportDialogFragment frag = new ConfirmExportDialogFragment();
             Bundle args = new Bundle();
             args.putString(ARG_FILENAME, filename);
@@ -177,7 +177,7 @@ public class ExportActivity extends AppCompatActivity {
         }
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public Dialog onCreateDialog(final Bundle savedInstanceState) {
             final String filename = getArguments().getString(ARG_FILENAME);
 
             return new AlertDialog.Builder(getActivity())
@@ -187,12 +187,12 @@ public class ExportActivity extends AppCompatActivity {
                        getResources().getString(R.string.export_confirm_dialog_message,
                                                 filename))
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+                public void onClick(final DialogInterface dialog, final int whichButton) {
                     ((ExportActivity) getActivity()).startExport();
                 }
             })
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+                public void onClick(final DialogInterface dialog, final int whichButton) {
                     dismiss();
                 }
             }).create();
@@ -206,7 +206,7 @@ public class ExportActivity extends AppCompatActivity {
         ContentAdapter db;
         List<AppInfo> appInfos = new ArrayList<AppInfo>();
 
-        LoadExportTask(ExportActivity parent) {
+        LoadExportTask(final ExportActivity parent) {
             super(parent);
             db = ContentAdapter.getInstance(parent.getApplication());
         }
@@ -217,7 +217,7 @@ public class ExportActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<AppInfo> doInBackground(Void... params) {
+        protected List<AppInfo> doInBackground(final Void... params) {
             if (activity == null) {
                 return null;
             }
@@ -234,7 +234,7 @@ public class ExportActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<AppInfo> result) {
+        protected void onPostExecute(final List<AppInfo> result) {
             if (activity == null) {
                 return;
             }
@@ -266,17 +266,17 @@ public class ExportActivity extends AppCompatActivity {
         }
 
         @Override
-        public AppInfo getItem(int position) {
+        public AppInfo getItem(final int position) {
             return getAppInfos().get(position);
         }
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(final int position) {
             return position;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
 
             ViewHolder holder;
 
@@ -316,13 +316,13 @@ public class ExportActivity extends AppCompatActivity {
                 holder.icon.setImageDrawable(null);
                 holder.icon.clearAnimation();
                 new GetCachedImageTask(holder.icon, appDownloadInfo.getPackageName())
-                .execute(new File[] { iconFile });
+                .execute(new File[] {iconFile });
             }
 
             holder.row.setOnClickListener(new View.OnClickListener() {
 
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
 
                     CheckBox checkbox = ((CheckBox) (((ViewGroup) v)
                                                      .findViewById(R.id.ghost_checkbox)));
@@ -341,7 +341,7 @@ public class ExportActivity extends AppCompatActivity {
             holder.checkbox.setOnClickListener(new CheckBox.OnClickListener() {
 
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     boolean checked = ((CheckBox) v).isChecked();
                     if (checked) {
                         exportPackageNames.add(appDownloadInfo.getPackageName());
@@ -369,12 +369,12 @@ public class ExportActivity extends AppCompatActivity {
         private ImageView imageView;
         private String reference;
 
-        public GetCachedImageTask(ImageView imageView, String reference) {
+        public GetCachedImageTask(final ImageView imageView, final String reference) {
             this.imageView = imageView;
             this.reference = reference;
         }
 
-        protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(final Bitmap result) {
 
             // only update the image if tag==reference
             // (view may have been reused as convertView)
@@ -390,7 +390,7 @@ public class ExportActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Bitmap doInBackground(File... params) {
+        protected Bitmap doInBackground(final File... params) {
 
             File iconFile = params[0];
 
@@ -402,7 +402,7 @@ public class ExportActivity extends AppCompatActivity {
         }
     }
 
-    public void updateMainImage(ImageView imageView, int animationId, Bitmap result) {
+    public void updateMainImage(final ImageView imageView, final int animationId, final Bitmap result) {
         imageView.setImageBitmap(result);
         imageView.clearAnimation();
         Animation fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -410,7 +410,7 @@ public class ExportActivity extends AppCompatActivity {
         imageView.startAnimation(fadeInAnimation);
     }
 
-    public void setAppInfos(List<AppInfo> appInfos) {
+    public void setAppInfos(final List<AppInfo> appInfos) {
         this.appInfos = appInfos;
         if (adapter != null) {
             this.adapter.notifyDataSetChanged();

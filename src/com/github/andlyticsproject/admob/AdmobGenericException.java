@@ -5,15 +5,15 @@ public class AdmobGenericException extends AdmobException {
 
     private static final long serialVersionUID = 1L;
 
-    public AdmobGenericException(String string) {
+    public AdmobGenericException(final String string) {
         super(string);
     }
 
-    public AdmobGenericException(Exception e) {
+    public AdmobGenericException(final Exception e) {
         super(e);
     }
 
-    public AdmobGenericException(Exception e, String sb) {
+    public AdmobGenericException(final Exception e, final String sb) {
         super(sb, e);
     }
 

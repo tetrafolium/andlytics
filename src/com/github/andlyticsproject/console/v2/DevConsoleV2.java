@@ -61,23 +61,23 @@ public class DevConsoleV2 implements DevConsole {
 
     private ResponseHandler<String> responseHandler = HttpClientFactory.createResponseHandler();
 
-    public static DevConsoleV2 createForAccount(String accountName, DefaultHttpClient httpClient) {
+    public static DevConsoleV2 createForAccount(final String accountName, final DefaultHttpClient httpClient) {
         DevConsoleAuthenticator authenticator = new OauthAccountManagerAuthenticator(accountName,
                 httpClient);
 
         return new DevConsoleV2(httpClient, authenticator, new DevConsoleV2Protocol());
     }
 
-    public static DevConsoleV2 createForAccountAndPassword(String accountName, String password,
-            DefaultHttpClient httpClient) {
+    public static DevConsoleV2 createForAccountAndPassword(final String accountName, final String password,
+            final DefaultHttpClient httpClient) {
         DevConsoleAuthenticator authenticator = new PasswordAuthenticator(accountName, password,
                 httpClient);
 
         return new DevConsoleV2(httpClient, authenticator, new DevConsoleV2Protocol());
     }
 
-    private DevConsoleV2(DefaultHttpClient httpClient, DevConsoleAuthenticator authenticator,
-                         DevConsoleV2Protocol protocol) {
+    private DevConsoleV2(final DefaultHttpClient httpClient, final DevConsoleAuthenticator authenticator,
+                         final DevConsoleV2Protocol protocol) {
         this.httpClient = httpClient;
         this.authenticator = authenticator;
         this.accountName = authenticator.getAccountName();
@@ -91,7 +91,7 @@ public class DevConsoleV2 implements DevConsole {
      * @return
      * @throws DevConsoleException
      */
-    public synchronized List<AppInfo> getAppInfo(Activity activity) throws DevConsoleException {
+    public synchronized List<AppInfo> getAppInfo(final Activity activity) throws DevConsoleException {
         try {
             // the authenticator launched a sub-activity, bail out for now
             if (!authenticateWithCachedCredentialas(activity)) {
@@ -143,8 +143,8 @@ public class DevConsoleV2 implements DevConsole {
      * @return
      * @throws DevConsoleException
      */
-    public synchronized List<Comment> getComments(Activity activity, String packageName,
-            String developerId, int startIndex, int count, String displayLocale)
+    public synchronized List<Comment> getComments(final Activity activity, final String packageName,
+            final String developerId, final int startIndex, final int count, final String displayLocale)
     throws DevConsoleException {
         try {
             if (!authenticateWithCachedCredentialas(activity)) {
@@ -161,8 +161,8 @@ public class DevConsoleV2 implements DevConsole {
         }
     }
 
-    public synchronized Comment replyToComment(Activity activity, String packageName,
-            String developerId, String commentUniqueId, String reply) {
+    public synchronized Comment replyToComment(final Activity activity, final String packageName,
+            final String developerId, final String commentUniqueId, final String reply) {
         try {
             if (!authenticateWithCachedCredentialas(activity)) {
                 return null;
@@ -178,8 +178,8 @@ public class DevConsoleV2 implements DevConsole {
         }
     }
 
-    private Comment replyToComment(String packageName, String developerId, String commentUiqueId,
-                                   String reply) {
+    private Comment replyToComment(final String packageName, final String developerId, final String commentUiqueId,
+                                   final String reply) {
         String response = post(protocol.createCommentsUrl(developerId),
                                protocol.createReplyToCommentRequest(packageName, commentUiqueId, reply),
                                developerId);
@@ -262,7 +262,7 @@ public class DevConsoleV2 implements DevConsole {
      * @throws DevConsoleException
      */
     @SuppressWarnings("unused")
-    private void fetchStatistics(AppInfo appInfo, AppStats stats, int statsType)
+    private void fetchStatistics(final AppInfo appInfo, final AppStats stats, final int statsType)
     throws DevConsoleException {
         String developerId = appInfo.getDeveloperId();
         String response = post(protocol.createFetchStatisticsUrl(developerId),
@@ -280,15 +280,15 @@ public class DevConsoleV2 implements DevConsole {
      * The AppStats object to add them to
      * @throws DevConsoleException
      */
-    private void fetchRatings(AppInfo appInfo, AppStats stats) throws DevConsoleException {
+    private void fetchRatings(final AppInfo appInfo, final AppStats stats) throws DevConsoleException {
         String developerId = appInfo.getDeveloperId();
         String response = post(protocol.createCommentsUrl(developerId),
                                protocol.createFetchRatingsRequest(appInfo.getPackageName()), developerId);
         protocol.parseRatingsResponse(response, stats);
     }
 
-    private List<Comment> fetchComments(String packageName, String developerId, int startIndex,
-                                        int count, String displayLocale) throws DevConsoleException {
+    private List<Comment> fetchComments(final String packageName, final String developerId, final int startIndex,
+                                        final int count, final String displayLocale) throws DevConsoleException {
         List<Comment> comments = new ArrayList<Comment>();
         String response = post(protocol.createCommentsUrl(developerId),
                                protocol.createFetchCommentsRequest(packageName, startIndex, count, displayLocale),
@@ -298,7 +298,7 @@ public class DevConsoleV2 implements DevConsole {
         return comments;
     }
 
-    private RevenueSummary fetchRevenueSummary(AppInfo appInfo) throws DevConsoleException {
+    private RevenueSummary fetchRevenueSummary(final AppInfo appInfo) throws DevConsoleException {
         try {
             String developerId = appInfo.getDeveloperId();
             String response = post(protocol.createRevenueUrl(developerId),
@@ -320,11 +320,11 @@ public class DevConsoleV2 implements DevConsole {
         }
     }
 
-    private boolean authenticateWithCachedCredentialas(Activity activity) {
+    private boolean authenticateWithCachedCredentialas(final Activity activity) {
         return authenticate(activity, false);
     }
 
-    private boolean authenticateFromScratch(Activity activity) {
+    private boolean authenticateFromScratch(final Activity activity) {
         return authenticate(activity, true);
     }
 
@@ -334,7 +334,7 @@ public class DevConsoleV2 implements DevConsole {
      * @param reuseAuthentication
      * @throws DevConsoleException
      */
-    private boolean authenticate(Activity activity, boolean invalidateCredentials)
+    private boolean authenticate(final Activity activity, final boolean invalidateCredentials)
     throws DevConsoleException {
         if (invalidateCredentials) {
             protocol.invalidateSessionCredentials();
@@ -353,7 +353,7 @@ public class DevConsoleV2 implements DevConsole {
         return protocol.hasSessionCredentials();
     }
 
-    private String post(String url, String postData, String developerId) {
+    private String post(final String url, final String postData, final String developerId) {
         try {
             HttpPost post = new HttpPost(url);
             protocol.addHeaders(post, developerId);

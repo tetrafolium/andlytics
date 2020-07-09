@@ -15,26 +15,26 @@ public class RevenueSummary {
     private Revenue last30Days;
     private Revenue overall;
 
-    public static RevenueSummary createTotal(String currency, Date date, double lastDay,
-            double last7Days, double last30Days, double overall) {
+    public static RevenueSummary createTotal(final String currency, final Date date, final double lastDay,
+            final double last7Days, final double last30Days, final double overall) {
         return new RevenueSummary(Revenue.Type.TOTAL, currency, date, lastDay, last7Days,
                                   last30Days, overall);
     }
 
-    public static RevenueSummary createSales(String currency, Date date, double lastDay,
-            double last7Days, double last30Days, double overall) {
+    public static RevenueSummary createSales(final String currency, final Date date, final double lastDay,
+            final double last7Days, final double last30Days, final double overall) {
         return new RevenueSummary(Revenue.Type.APP_SALES, currency, date, lastDay, last7Days,
                                   last30Days, overall);
     }
 
-    public static RevenueSummary createInApp(String currency, Date date, double lastDay,
-            double last7Days, double last30Days, double overall) {
+    public static RevenueSummary createInApp(final String currency, final Date date, final double lastDay,
+            final double last7Days, final double last30Days, final double overall) {
         return new RevenueSummary(Revenue.Type.IN_APP, currency, date, lastDay, last7Days,
                                   last30Days, overall);
     }
 
-    public RevenueSummary(Revenue.Type type, String currency, Date date, double lastDay,
-                          double last7Days, double last30Days, double overall) {
+    public RevenueSummary(final Revenue.Type type, final String currency, final Date date, final double lastDay,
+                          final double last7Days, final double last30Days, final double overall) {
         this.type = type;
         this.date = (Date) date.clone();
         this.currency = currency;
@@ -48,7 +48,7 @@ public class RevenueSummary {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

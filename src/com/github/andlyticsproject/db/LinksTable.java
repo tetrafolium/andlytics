@@ -15,6 +15,6 @@ public class LinksTable {
             + LINK_URL + " text, " + APP_DETAILS_ID
             + " integer not null, foreign key(app_details_id) references app_details(_id))";
 
-    public static final String[] ALL_COLUMNS = { ROWID, LINK_NAME, LINK_URL, APP_DETAILS_ID, };
+    public static final String[] ALL_COLUMNS = {ROWID, LINK_NAME, LINK_URL, APP_DETAILS_ID, };
 
 }

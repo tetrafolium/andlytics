@@ -6,15 +6,15 @@ public class AdmobException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public AdmobException(String string) {
+    public AdmobException(final String string) {
         super(string);
     }
 
-    public AdmobException(Exception e) {
+    public AdmobException(final Exception e) {
         super(e);
     }
 
-    public AdmobException(String string, Exception e) {
+    public AdmobException(final String string, final Exception e) {
         super(string, e);
     }
 

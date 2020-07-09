@@ -27,8 +27,8 @@ import java.util.List;
 /**
  *  Reference AppCompatPreferenceActivity here:
  *  https://chromium.googlesource.com/android_tools/+/7200281446186c7192cb02f54dc2b38e02d705e5/
- *  	sdk/extras/android/support/samples/Support7Demos/src/com/example/android/supportv7/app/
- *  	AppCompatPreferenceActivity.java
+ *      sdk/extras/android/support/samples/Support7Demos/src/com/example/android/supportv7/app/
+ *      AppCompatPreferenceActivity.java
  */
 
 // Suppressing warnings as there is no SherlockPreferenceFragment
@@ -44,7 +44,7 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
     private AutosyncHandler autosyncHandler = new AutosyncHandler();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
@@ -95,7 +95,7 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
 
     OnPreferenceClickListener accountPrefrenceClickedListener = new OnPreferenceClickListener() {
         @Override
-        public boolean onPreferenceClick(Preference preference) {
+        public boolean onPreferenceClick(final Preference preference) {
             String accountName = (String) preference.getTitle();
             Intent i = new Intent(AndlyticsPreferenceActivity.this, AccountSpecificPreferenceActivity.class);
             i.putExtra(BaseActivity.EXTRA_AUTH_ACCOUNT_NAME, accountName);
@@ -105,7 +105,7 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
     };
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
+    public boolean onPreferenceChange(final Preference preference, final Object newValue) {
         String key = preference.getKey();
         if (key.equals(Preferences.AUTOSYNC_PERIOD)) {
             Integer newPeriod = Integer.parseInt((String) newValue);
@@ -155,7 +155,7 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
@@ -168,7 +168,7 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
     // Generic code to provide summaries for preferences based on their values
     // Overkill at the moment, but may be useful in the future as we add more options
 
-    private void initSummary(Preference p) {
+    private void initSummary(final Preference p) {
         if (p instanceof PreferenceCategory) {
             PreferenceCategory pCat = (PreferenceCategory) p;
             for (int i = 0; i < pCat.getPreferenceCount(); i++) {
@@ -180,7 +180,7 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
 
     }
 
-    private void updatePrefSummary(Preference p) {
+    private void updatePrefSummary(final Preference p) {
         if (p instanceof ListPreference) {
             ListPreference listPref = (ListPreference) p;
             p.setSummary(listPref.getEntry());
@@ -191,7 +191,7 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         updatePrefSummary(findPreference(key));
 
     }
@@ -205,13 +205,13 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         getDelegate().onPostCreate(savedInstanceState);
     }
 
     @Override
-    public void setContentView(@LayoutRes int layoutResID) {
+    public void setContentView(final @LayoutRes int layoutResID) {
         getDelegate().setContentView(layoutResID);
     }
 
@@ -233,7 +233,7 @@ public class AndlyticsPreferenceActivity extends PreferenceActivity implements
         getDelegate().onDestroy();
     }
 
-    private void setSupportActionBar(@Nullable Toolbar toolbar) {
+    private void setSupportActionBar(final @Nullable Toolbar toolbar) {
         getDelegate().setSupportActionBar(toolbar);
     }
 

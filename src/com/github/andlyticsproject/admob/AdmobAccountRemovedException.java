@@ -7,12 +7,12 @@ public class AdmobAccountRemovedException extends AdmobException {
 
     private String accountName;
 
-    public AdmobAccountRemovedException(String string, String accountName) {
+    public AdmobAccountRemovedException(final String string, final String accountName) {
         super(string);
         this.setAccountName(accountName);
     }
 
-    public void setAccountName(String accountName) {
+    public void setAccountName(final String accountName) {
         this.accountName = accountName;
     }
 

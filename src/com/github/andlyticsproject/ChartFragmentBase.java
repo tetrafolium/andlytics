@@ -54,12 +54,12 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chart_fragment, container, false);
 
         List<View> extras = getExtraFullViews(view);
@@ -81,7 +81,7 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
         chartGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
 
                 chartGallery.setIgnoreLayoutCalls(true);
 
@@ -99,7 +99,7 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected(final AdapterView<?> parent) {
             }
         });
 
@@ -113,7 +113,7 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
 
 
     @Override
-    public void onSaveInstanceState(Bundle state) {
+    public void onSaveInstanceState(final Bundle state) {
         super.onSaveInstanceState(state);
         if (chartGallery != null && myAdapter != null) {
             state.putInt(SELECTED_CHART_PAGE, myAdapter.getCurrentPage());
@@ -122,7 +122,7 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
     }
 
     @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
+    public void onViewStateRestored(final Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
             currentChartPage = savedInstanceState.getInt(SELECTED_CHART_PAGE, -1);
@@ -135,7 +135,7 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
     /**
      * Toggles visibility of chart/data UI parts.
      */
-    protected void toggleChartData(MenuItem item) {
+    protected void toggleChartData(final MenuItem item) {
         if (View.VISIBLE == chartframe.getVisibility()) {
             chartframe.setVisibility(View.GONE);
             dataframe.setVisibility(View.VISIBLE);
@@ -153,12 +153,12 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
      * @param page
      * @param column
      */
-    protected void onChartSelected(int page, int column) {
+    protected void onChartSelected(final int page, final int column) {
         currentChartPage = page;
         currentChartColumn = column;
     }
 
-    public void setCurrentChart(int page, int column) {
+    public void setCurrentChart(final int page, final int column) {
         if (chartGalleryAdapter.getViews().isEmpty()) {
             // chart not initialized yet
             return;
@@ -184,18 +184,18 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
 
     protected abstract void notifyChangedDataformat();
 
-    protected List<View> getExtraFullViews(View root) {
+    protected List<View> getExtraFullViews(final View root) {
         return new ArrayList<View>();
     }
 
     protected abstract void executeLoadData(Timeframe currentTimeFrame);
 
-    protected final void setAdapter(BaseChartListAdapter<?> adapter) {
+    protected final void setAdapter(final BaseChartListAdapter<?> adapter) {
         myAdapter = adapter;
         dataList.setAdapter(adapter);
     }
 
-    protected final void updateTitleTextSwitcher(String string) {
+    protected final void updateTitleTextSwitcher(final String string) {
         statsActivity.setActionBarTitle(string);
     }
 
@@ -206,7 +206,7 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
     }
 
     @Override
-    public void onViewChanged(boolean frontsideVisible) {
+    public void onViewChanged(final boolean frontsideVisible) {
         chartGallery.setIgnoreLayoutCalls(true);
 
     }
@@ -246,11 +246,11 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
 
     protected abstract String getChartHint();
 
-    public void setAllowChangePageSliding(boolean allowChangePageSliding) {
+    public void setAllowChangePageSliding(final boolean allowChangePageSliding) {
         chartGallery.setAllowChangePageSliding(allowChangePageSliding);
     }
 
-    public void updateCharts(List<?> statsForApp) {
+    public void updateCharts(final List<?> statsForApp) {
         Chart chart = new Chart();
         int page = myAdapter.getCurrentPage();
         int column = myAdapter.getCurrentColumn();
@@ -288,7 +288,7 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
         chartGallery.invalidate();
     }
 
-    protected final void setChartIgnoreCallLayouts(boolean ignoreLayoutCalls) {
+    protected final void setChartIgnoreCallLayouts(final boolean ignoreLayoutCalls) {
         chartGallery.setIgnoreLayoutCalls(ignoreLayoutCalls);
     }
 
@@ -299,7 +299,7 @@ public abstract class ChartFragmentBase extends Fragment implements ViewSwitcher
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(final Activity activity) {
         super.onAttach(activity);
         try {
             statsActivity = (DetailedStatsActivity) activity;

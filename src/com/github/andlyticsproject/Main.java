@@ -114,7 +114,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
             }
         }
 
-        void attachAll(Main activity) {
+        void attachAll(final Main activity) {
             if (loadDbEntries != null) {
                 loadDbEntries.attach(activity);
             }
@@ -128,21 +128,21 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
             }
         }
 
-        void setLoadDbEntries(LoadDbEntries task) {
+        void setLoadDbEntries(final LoadDbEntries task) {
             if (loadDbEntries != null) {
                 loadDbEntries.detach();
             }
             loadDbEntries = task;
         }
 
-        void setLoadRemoteEntries(LoadRemoteEntries task) {
+        void setLoadRemoteEntries(final LoadRemoteEntries task) {
             if (loadRemoteEntries != null) {
                 loadRemoteEntries.detach();
             }
             loadRemoteEntries = task;
         }
 
-        void setLoadIconInCache(LoadIconInCache task) {
+        void setLoadIconInCache(final LoadIconInCache task) {
             if (loadIconInCache != null) {
                 loadIconInCache.detach();
             }
@@ -154,7 +154,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
 
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -236,7 +236,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
         switch (parent.getId()) {
         case R.id.account_selector:
             if (!developerAccounts.get(position).getName().equals(accountName)) {
@@ -253,12 +253,12 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(final AdapterView<?> parent) {
         // Do Nothing
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()) {
         case R.id.manage_accounts:
             Intent accountsIntent = new Intent(this, LoginActivity.class);
@@ -284,13 +284,13 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(final MenuItem menuItem) {
         switch (menuItem.getItemId()) {
         case R.id.itemMainmenuImport:
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 Intent openIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 openIntent.setType("*/*");
-                openIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[] { "application/zip" });
+                openIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[] {"application/zip" });
                 //hidden
                 openIntent.putExtra("android.content.extra.SHOW_ADVANCED", true);
                 startActivityForResult(openIntent, REQUEST_OPEN_DOCUMENT);
@@ -332,7 +332,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         menu.clear();
         getMenuInflater().inflate(R.menu.main_menu, menu);
         statsModeMenuItem = menu.findItem(R.id.itemMainmenuStatsMode);
@@ -352,7 +352,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
      */
     @TargetApi(19)
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             mainDrawer.openDrawer(GravityCompat.START);
@@ -388,7 +388,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         // NOTE startActivityForResult does not work when singleTask is set in
         // the manifiest
         // Therefore, FLAG_ACTIVITY_CLEAR_TOP is used on any intents instead.
@@ -490,7 +490,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         navigationView.findViewById(R.id.manage_accounts).setOnClickListener(this);
     }
 
-    private void updateMainList(List<AppInfo> apps) {
+    private void updateMainList(final List<AppInfo> apps) {
         if (apps != null) {
             if (apps.size() > 0) {
                 footer.setVisibility(View.VISIBLE);
@@ -527,7 +527,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
 
         private ContentAdapter db;
 
-        public LoadRemoteEntries(Main activity) {
+        public LoadRemoteEntries(final Main activity) {
             super(activity);
             db = ContentAdapter.getInstance(activity.getApplication());
         }
@@ -544,7 +544,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         @SuppressLint("NewApi")
         @SuppressWarnings("unchecked")
         @Override
-        protected Exception doInBackground(String... params) {
+        protected Exception doInBackground(final String... params) {
             if (activity == null) {
                 return null;
             }
@@ -625,7 +625,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         }
 
         @Override
-        protected void onPostExecute(Exception exception) {
+        protected void onPostExecute(final Exception exception) {
             if (activity == null) {
                 return;
             }
@@ -653,7 +653,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         loadDbEntries(true);
     }
 
-    private void loadDbEntries(boolean triggerRemoteCall) {
+    private void loadDbEntries(final boolean triggerRemoteCall) {
         state.setLoadDbEntries(new LoadDbEntries(this));
         Utils.execute(state.loadDbEntries, triggerRemoteCall);
     }
@@ -662,7 +662,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
 
         private ContentAdapter db;
 
-        LoadDbEntries(Main activity) {
+        LoadDbEntries(final Main activity) {
             super(activity);
             db = ContentAdapter.getInstance(activity.getApplication());
         }
@@ -673,7 +673,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         private Boolean triggerRemoteCall;
 
         @Override
-        protected Boolean doInBackground(Boolean... params) {
+        protected Boolean doInBackground(final Boolean... params) {
             if (activity == null) {
                 return null;
             }
@@ -701,7 +701,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(final Boolean result) {
             if (activity == null) {
                 return;
             }
@@ -722,12 +722,12 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
     private static class LoadIconInCache extends
         DetachableAsyncTask<List<AppInfo>, Void, Boolean, Main> {
 
-        LoadIconInCache(Main activity) {
+        LoadIconInCache(final Main activity) {
             super(activity);
         }
 
         @Override
-        protected Boolean doInBackground(List<AppInfo>... params) {
+        protected Boolean doInBackground(final List<AppInfo>... params) {
             if (activity == null) {
                 return null;
             }
@@ -763,7 +763,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         }
 
         @Override
-        protected void onPostExecute(Boolean success) {
+        protected void onPostExecute(final Boolean success) {
             if (activity == null) {
                 return;
             }
@@ -838,7 +838,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         ChangelogBuilder.create(this, new Dialog.OnClickListener() {
 
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(final DialogInterface dialogInterface, final int i) {
                 // Mark this version as read
                 sp.edit().putLong(LAST_VERSION_CODE_KEY, versionCode).commit();
 
@@ -852,8 +852,8 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         private List<DeveloperAccount> accounts;
         private int textViewResourceId;
 
-        public AccountSelectorAdaper(Context context, int textViewResourceId,
-                                     List<DeveloperAccount> objects) {
+        public AccountSelectorAdaper(final Context context, final int textViewResourceId,
+                                     final List<DeveloperAccount> objects) {
             super(context, textViewResourceId, objects);
             this.context = context;
             this.accounts = objects;
@@ -861,7 +861,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
             View rowView = convertView;
             if (rowView == null) {
                 LayoutInflater inflater = (LayoutInflater) context
@@ -898,7 +898,7 @@ public class Main extends BaseActivity implements AdapterView.OnItemSelectedList
         }
 
         @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        public View getDropDownView(final int position, final View convertView, final ViewGroup parent) {
             View result = super.getDropDownView(position, convertView, parent);
             ((TextView) result).setText(accounts.get(position).getName());
 

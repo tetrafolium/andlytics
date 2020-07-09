@@ -17,13 +17,13 @@ public class LinksListAdapter extends BaseAdapter {
 
     private List<Link> links;
 
-    public LinksListAdapter(AppInfoActivity activity) {
+    public LinksListAdapter(final AppInfoActivity activity) {
         this.layoutInflater = activity.getLayoutInflater();
         this.links = new ArrayList<Link>();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
 
         final Link link = getItem(position);
         ViewHolderChild holder;
@@ -54,7 +54,7 @@ public class LinksListAdapter extends BaseAdapter {
         TextView url;
     }
 
-    public void setLinks(List<Link> links) {
+    public void setLinks(final List<Link> links) {
         this.links = links;
     }
 
@@ -64,12 +64,12 @@ public class LinksListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Link getItem(int position) {
+    public Link getItem(final int position) {
         return links.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(final int position) {
         return links.get(position).getId().longValue();
     }
 }

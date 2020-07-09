@@ -84,96 +84,96 @@ public class Preferences {
 
     private static String cachedDateFormatLong;
 
-    public static void disableCrashReports(Context context) {
+    public static void disableCrashReports(final Context context) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.remove(CRASH_REPORT_DISABLE);
         editor.commit();
     }
 
     @Deprecated
-    public static void saveAccountName(Context activity, String accountName) {
+    public static void saveAccountName(final Context activity, final String accountName) {
         SharedPreferences.Editor editor = getSettings(activity).edit();
         editor.putString(ACCOUNT_NAME, accountName);
         editor.commit();
     }
 
     @Deprecated
-    public static void removeAccountName(Context activity) {
+    public static void removeAccountName(final Context activity) {
         SharedPreferences.Editor editor = getSettings(activity).edit();
         editor.remove(ACCOUNT_NAME);
         editor.commit();
     }
 
     @Deprecated
-    public static String getAccountName(Context activity) {
+    public static String getAccountName(final Context activity) {
         return getSettings(activity).getString(ACCOUNT_NAME, null);
     }
 
-    private static SharedPreferences getSettings(Context activity) {
+    private static SharedPreferences getSettings(final Context activity) {
         return activity.getSharedPreferences(PREF, 0);
     }
 
-    public static String getGwtPermutation(Context activity) {
+    public static String getGwtPermutation(final Context activity) {
         return getVersionDependingProperty(GWTPERMUTATION, activity);
     }
 
-    public static void saveGwtPermutation(Context activity, String gwtPermutation) {
+    public static void saveGwtPermutation(final Context activity, final String gwtPermutation) {
         saveVersionDependingProperty(GWTPERMUTATION, gwtPermutation, activity);
     }
 
-    public static int getLastNonZeroAutosyncPeriod(Context activity) {
+    public static int getLastNonZeroAutosyncPeriod(final Context activity) {
         return getSettings(activity).getInt(AUTOSYNC_PERIOD_LAST_NON_ZERO,
                                             AutosyncHandler.DEFAULT_PERIOD);
     }
 
-    public static void saveLastNonZeroAutosyncPeriod(Context activity, int syncPeriod) {
+    public static void saveLastNonZeroAutosyncPeriod(final Context activity, final int syncPeriod) {
         SharedPreferences.Editor editor = getSettings(activity).edit();
         editor.putInt(AUTOSYNC_PERIOD_LAST_NON_ZERO, syncPeriod);
         editor.commit();
     }
 
-    public static int getAutosyncPeriod(Context activity) {
+    public static int getAutosyncPeriod(final Context activity) {
         // We use a ListPreference which only supports saving as strings, so
         // need to convert it when reading
         return Integer.parseInt(getSettings(activity).getString(AUTOSYNC_PERIOD,
                                 Integer.toString(AutosyncHandler.DEFAULT_PERIOD)));
     }
 
-    public static String getRequestFullAssetInfo(Context activity) {
+    public static String getRequestFullAssetInfo(final Context activity) {
         return getVersionDependingProperty(POST_REQUEST_GET_FULL_ASSET_INFOS, activity);
     }
 
-    public static void saveRequestFullAssetInfo(Context activity, String postdata) {
+    public static void saveRequestFullAssetInfo(final Context activity, final String postdata) {
         saveVersionDependingProperty(POST_REQUEST_GET_FULL_ASSET_INFOS, postdata, activity);
     }
 
-    public static String getRequestGetAssetForUserCount(Context context) {
+    public static String getRequestGetAssetForUserCount(final Context context) {
         return getVersionDependingProperty(POST_REQUEST_GET_USER_INFO_SIZE, context);
     }
 
-    public static void saveRequestGetAssetForUserCount(Context context, String string) {
+    public static void saveRequestGetAssetForUserCount(final Context context, final String string) {
         saveVersionDependingProperty(POST_REQUEST_GET_USER_INFO_SIZE, string, context);
     }
 
-    public static String getRequestUserComments(Context context) {
+    public static String getRequestUserComments(final Context context) {
         return getVersionDependingProperty(POST_REQUEST_USER_COMMENTS, context);
     }
 
-    public static void saveRequestUserComments(Context context, String string) {
+    public static void saveRequestUserComments(final Context context, final String string) {
         saveVersionDependingProperty(POST_REQUEST_USER_COMMENTS, string, context);
     }
 
-    private static String getVersionDependingProperty(String name, Context context) {
+    private static String getVersionDependingProperty(final String name, final Context context) {
         return getSettings(context).getString(name + getAppVersionCode(context), null);
     }
 
-    private static void saveVersionDependingProperty(String name, String value, Context context) {
+    private static void saveVersionDependingProperty(final String name, final String value, final Context context) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putString(name + getAppVersionCode(context), value);
         editor.commit();
     }
 
-    public static int getAppVersionCode(Context context) {
+    public static int getAppVersionCode(final Context context) {
         try {
             PackageInfo pinfo = context.getPackageManager().getPackageInfo(
                                     context.getPackageName(), 0);
@@ -184,61 +184,61 @@ public class Preferences {
         return 0;
     }
 
-    public static void saveChartTimeframe(Timeframe value, Context context) {
+    public static void saveChartTimeframe(final Timeframe value, final Context context) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putString(CHART_TIMEFRAME, value.name());
         editor.commit();
     }
 
-    public static Timeframe getChartTimeframe(Context activity) {
+    public static Timeframe getChartTimeframe(final Context activity) {
         return Timeframe.valueOf(getSettings(activity).getString(CHART_TIMEFRAME,
                                  Timeframe.LAST_THIRTY_DAYS.name()));
     }
 
-    public static Boolean getChartSmooth(Context context) {
+    public static Boolean getChartSmooth(final Context context) {
         return getSettings(context).getBoolean(CHART_SMOOTH, true);
     }
 
-    public static boolean getSkipAutologin(Context context) {
+    public static boolean getSkipAutologin(final Context context) {
         return getSettings(context).getBoolean(SKIP_AUTO_LOGIN, false);
     }
 
-    public static void saveSkipAutoLogin(Context context, Boolean value) {
+    public static void saveSkipAutoLogin(final Context context, final Boolean value) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putBoolean(SKIP_AUTO_LOGIN, value);
         editor.commit();
     }
 
-    public static void saveStatsMode(StatsMode value, Context context) {
+    public static void saveStatsMode(final StatsMode value, final Context context) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putString(STATS_MODE, value.name());
         editor.commit();
     }
 
-    public static StatsMode getStatsMode(Context activity) {
+    public static StatsMode getStatsMode(final Context activity) {
         return StatsMode.valueOf(getSettings(activity).getString(STATS_MODE,
                                  StatsMode.PERCENT.name()));
     }
 
-    public static boolean getNotificationPerf(Context context, String prefName) {
+    public static boolean getNotificationPerf(final Context context, final String prefName) {
         return getSettings(context).getBoolean(prefName, true);
     }
 
-    public static String getNotificationRingtone(Context context) {
+    public static String getNotificationRingtone(final Context context) {
         return getSettings(context).getString(NOTIFICATION_RINGTONE, null);
     }
 
-    public static Boolean getShowChartHint(Context context) {
+    public static Boolean getShowChartHint(final Context context) {
         return getSettings(context).getBoolean(SHOW_CHART_HINT, true);
     }
 
-    public static void saveShowChartHint(Context context, Boolean value) {
+    public static void saveShowChartHint(final Context context, final Boolean value) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putBoolean(SHOW_CHART_HINT, value);
         editor.commit();
     }
 
-    public static String getDateFormatStringShort(Context context) {
+    public static String getDateFormatStringShort(final Context context) {
         if (cachedDateFormatShort != null) {
             return cachedDateFormatShort;
         }
@@ -278,7 +278,7 @@ public class Preferences {
         cachedDateFormatLong = null;
     }
 
-    private static String getDateFormatStringLong(Context context) {
+    private static String getDateFormatStringLong(final Context context) {
         if (cachedDateFormatLong != null) {
             return cachedDateFormatLong;
         }
@@ -294,88 +294,88 @@ public class Preferences {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public static DateFormat getDateFormatLong(Context context) {
+    public static DateFormat getDateFormatLong(final Context context) {
         return new SimpleDateFormat(getDateFormatStringLong(context));
     }
 
     @Deprecated
-    public static void saveAdmobSiteId(Context context, String packageName, String value) {
+    public static void saveAdmobSiteId(final Context context, final String packageName, final String value) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putString(ADMOB_SITE_ID + packageName, value);
         editor.commit();
     }
 
     @Deprecated
-    public static String getAdmobSiteId(Context context, String packageName) {
+    public static String getAdmobSiteId(final Context context, final String packageName) {
         return getSettings(context).getString(ADMOB_SITE_ID + packageName, null);
     }
 
     @Deprecated
-    public static void saveAdmobAccount(Context context, String siteId, String accountName) {
+    public static void saveAdmobAccount(final Context context, final String siteId, final String accountName) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putString(ADMOB_ACCOUNT + siteId, accountName);
         editor.commit();
     }
 
     @Deprecated
-    public static String getAdmobAccount(Context context, String siteId) {
+    public static String getAdmobAccount(final Context context, final String siteId) {
         return getSettings(context).getString(ADMOB_ACCOUNT + siteId, null);
     }
 
-    public static int getLatestVersionCode(Context context) {
+    public static int getLatestVersionCode(final Context context) {
         return getSettings(context).getInt(LATEST_VERSION_CODE, 0);
     }
 
-    public static void saveLatestVersionCode(Context context, int latest) {
+    public static void saveLatestVersionCode(final Context context, final int latest) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putInt(LATEST_VERSION_CODE, latest);
         editor.commit();
     }
 
-    public static String getRequestFeedback(Context activity) {
+    public static String getRequestFeedback(final Context activity) {
         return getVersionDependingProperty(POST_REQUEST_FEEDBACK, activity);
     }
 
-    public static void saveRequestFeedback(Context activity, String postdata) {
+    public static void saveRequestFeedback(final Context activity, final String postdata) {
         saveVersionDependingProperty(POST_REQUEST_FEEDBACK, postdata, activity);
     }
 
-    public static Timeframe getAdmobTimeframe(Context context) {
+    public static Timeframe getAdmobTimeframe(final Context context) {
         return Timeframe.valueOf(getSettings(context).getString(ADMOB_TIMEFRAME,
                                  Timeframe.LAST_THIRTY_DAYS.name()));
     }
 
-    public static void saveAdmobTimeframe(Timeframe value, Context context) {
+    public static void saveAdmobTimeframe(final Timeframe value, final Context context) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putString(ADMOB_TIMEFRAME, value.name());
         editor.commit();
     }
 
     @Deprecated
-    public static void saveIsHiddenAccount(Context context, String accountName, Boolean hidden) {
+    public static void saveIsHiddenAccount(final Context context, final String accountName, final Boolean hidden) {
         SharedPreferences.Editor editor = getSettings(context).edit();
         editor.putBoolean(HIDDEN_ACCOUNT + accountName, hidden);
         editor.commit();
     }
 
     @Deprecated
-    public static boolean getIsHiddenAccount(Context context, String accountName) {
+    public static boolean getIsHiddenAccount(final Context context, final String accountName) {
         return getSettings(context).getBoolean(HIDDEN_ACCOUNT + accountName, false);
     }
 
-    public static boolean getHideAdmobForUnconfiguredApps(Context context) {
+    public static boolean getHideAdmobForUnconfiguredApps(final Context context) {
         return getSettings(context).getBoolean(ADMOB_HIDE_FOR_UNCONFIGURED_APPS, false);
     }
 
     @Deprecated
-    public static synchronized long getLastStatsRemoteUpdateTime(Context activity,
-            String accountName) {
+    public static synchronized long getLastStatsRemoteUpdateTime(final Context activity,
+            final String accountName) {
         return getSettings(activity).getLong(LAST_STATS_REMOTE_UPDATE + "." + accountName, 0);
     }
 
     @Deprecated
-    public static synchronized void saveLastStatsRemoteUpdateTime(Context activity,
-            String accountName, long timestamp) {
+    public static synchronized void saveLastStatsRemoteUpdateTime(final Context activity,
+            final String accountName, final long timestamp) {
         getSettings(activity).edit()
         .putLong(LAST_STATS_REMOTE_UPDATE + "." + accountName, timestamp).commit();
     }
@@ -388,8 +388,8 @@ public class Preferences {
      * @return
      */
     @Deprecated
-    public static synchronized long getLastCommentsRemoteUpdateTime(Context activity,
-            String packageName) {
+    public static synchronized long getLastCommentsRemoteUpdateTime(final Context activity,
+            final String packageName) {
         return getSettings(activity).getLong(LAST_COMMENTS_REMOTE_UPDATE + "." + packageName, 0);
     }
 
@@ -401,33 +401,33 @@ public class Preferences {
      * @param timestamp
      */
     @Deprecated
-    public static synchronized void saveLastCommentsRemoteUpdateTime(Context activity,
-            String packageName, long timestamp) {
+    public static synchronized void saveLastCommentsRemoteUpdateTime(final Context activity,
+            final String packageName, final long timestamp) {
         getSettings(activity).edit()
         .putLong(LAST_COMMENTS_REMOTE_UPDATE + "." + packageName, timestamp).commit();
     }
 
-    public static synchronized boolean isUseGoogleTranslateApp(Context context) {
+    public static synchronized boolean isUseGoogleTranslateApp(final Context context) {
         return getSettings(context).getBoolean(USE_GOOGLE_TRANSLATE_APP, true);
     }
 
-    public static synchronized void saveUseGoogleTranslateApp(Context context, boolean value) {
+    public static synchronized void saveUseGoogleTranslateApp(final Context context, final boolean value) {
         getSettings(context).edit().putBoolean(USE_GOOGLE_TRANSLATE_APP, value).commit();
     }
 
-    public static synchronized boolean isShowCommentAutoTranslations(Context context) {
+    public static synchronized boolean isShowCommentAutoTranslations(final Context context) {
         return getSettings(context).getBoolean(SHOW_COMMENT_AUTO_TRANSLATIONS, true);
     }
 
-    public static synchronized void saveShowCommentAutoTranslations(Context context, boolean value) {
+    public static synchronized void saveShowCommentAutoTranslations(final Context context, final boolean value) {
         getSettings(context).edit().putBoolean(SHOW_COMMENT_AUTO_TRANSLATIONS, value).commit();
     }
 
-    public static synchronized boolean isShowDeveloperCutRevenue(Context context) {
+    public static synchronized boolean isShowDeveloperCutRevenue(final Context context) {
         return getSettings(context).getBoolean(SHOW_DEVELOPER_CUT_REVENUE, true);
     }
 
-    public static synchronized void saveShowDeveloperCutRevenue(Context context, boolean value) {
+    public static synchronized void saveShowDeveloperCutRevenue(final Context context, final boolean value) {
         getSettings(context).edit().putBoolean(SHOW_DEVELOPER_CUT_REVENUE, value).commit();
     }
 }

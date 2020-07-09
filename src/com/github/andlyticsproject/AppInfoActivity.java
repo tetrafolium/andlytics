@@ -57,7 +57,7 @@ public class AppInfoActivity extends AppCompatActivity implements
     private ActionMode currentActionMode;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.appinfo);
 
@@ -96,7 +96,7 @@ public class AppInfoActivity extends AppCompatActivity implements
 
         playStoreButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="
                                          + packageName));
@@ -113,7 +113,7 @@ public class AppInfoActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onItemLongClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         if (currentActionMode != null) {
             return false;
         }
@@ -134,21 +134,21 @@ public class AppInfoActivity extends AppCompatActivity implements
 
         private int position;
 
-        ContextCallback(int position) {
+        ContextCallback(final int position) {
             this.position = position;
         }
 
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        public boolean onCreateActionMode(final ActionMode actionMode, final Menu menu) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.links_context_menu, menu);
             return true;
         }
 
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        public boolean onPrepareActionMode(final ActionMode actionMode, final Menu menu) {
             return false;
         }
 
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
 
             if (menuItem.getItemId() == R.id.itemLinksmenuEdit) {
                 int pos = position - 1; // Subtract one for the header
@@ -172,14 +172,14 @@ public class AppInfoActivity extends AppCompatActivity implements
             return false;
         }
 
-        public void onDestroyActionMode(ActionMode actionMode) {
+        public void onDestroyActionMode(final ActionMode actionMode) {
             list.setItemChecked(position, false);
             currentActionMode = null;
         }
     };
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         menu.clear();
         getMenuInflater().inflate(R.menu.links_menu, menu);
 
@@ -194,7 +194,7 @@ public class AppInfoActivity extends AppCompatActivity implements
      * @return boolean true/false
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
@@ -224,12 +224,12 @@ public class AppInfoActivity extends AppCompatActivity implements
 
     private static class LoadLinksDb extends DetachableAsyncTask<Void, Void, Void, AppInfoActivity> {
 
-        LoadLinksDb(AppInfoActivity activity) {
+        LoadLinksDb(final AppInfoActivity activity) {
             super(activity);
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(final Void... params) {
             if (activity == null) {
                 return null;
             }
@@ -240,7 +240,7 @@ public class AppInfoActivity extends AppCompatActivity implements
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(final Void result) {
             if (activity == null) {
                 return;
             }
@@ -270,7 +270,7 @@ public class AppInfoActivity extends AppCompatActivity implements
         ImageView iconView = (ImageView) findViewById(R.id.appinfo_app_icon);
         String packageName = appInfo.getPackageName();
         // XXX hack? should be cached on main screen, so don't bother trying to load
-        //		if (inMemoryCache.contains(packageName)) {
+        //              if (inMemoryCache.contains(packageName)) {
         iconView.setImageBitmap(AppIconInMemoryCache.getInstance().get(packageName));
         iconView.clearAnimation();
 
@@ -296,7 +296,7 @@ public class AppInfoActivity extends AppCompatActivity implements
         descriptionView.setText(Html.fromHtml(description));
         descriptionView.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 showLongTextDialog(R.string.appinfo_description_label, description);
             }
         });
@@ -306,14 +306,14 @@ public class AppInfoActivity extends AppCompatActivity implements
         changelogView.setText(Html.fromHtml(changelog));
         changelogView.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 showLongTextDialog(R.string.appinfo_changelog_label, changelog);
             }
         });
     }
 
     @Override
-    public void onFinishAddEditLink(String url, String name, Long id) {
+    public void onFinishAddEditLink(final String url, final String name, final Long id) {
         if (id == null) {
             db.addLink(appInfo.getDetails(), url, name);
         } else {
@@ -324,7 +324,7 @@ public class AppInfoActivity extends AppCompatActivity implements
         Utils.execute(loadLinksDb);
     }
 
-    private void showAddEditLinkDialog(Link link) {
+    private void showAddEditLinkDialog(final Link link) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("fragment_addedit_link");
         if (prev != null) {
@@ -348,7 +348,7 @@ public class AppInfoActivity extends AppCompatActivity implements
         addEditLinkDialog.show(ft, "fragment_addedit_link");
     }
 
-    private void showLongTextDialog(int title, String longText) {
+    private void showLongTextDialog(final int title, final String longText) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("fragment_longtext");
         if (prev != null) {

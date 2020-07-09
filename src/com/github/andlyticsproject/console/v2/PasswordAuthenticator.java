@@ -35,7 +35,7 @@ public class PasswordAuthenticator extends BaseAuthenticator {
     private DefaultHttpClient httpClient;
     private String password;
 
-    public PasswordAuthenticator(String accountName, String password, DefaultHttpClient httpClient) {
+    public PasswordAuthenticator(final String accountName, final String password, final DefaultHttpClient httpClient) {
         super(accountName);
         this.httpClient = httpClient;
         this.password = password;
@@ -48,13 +48,13 @@ public class PasswordAuthenticator extends BaseAuthenticator {
     // (all needed cookies are in HttpClient's cookie jar at this point)
 
     @Override
-    public SessionCredentials authenticate(Activity activity, boolean invalidate)
+    public SessionCredentials authenticate(final Activity activity, final boolean invalidate)
     throws AuthenticationException {
         return authenticate();
     }
 
     @Override
-    public SessionCredentials authenticateSilently(boolean invalidate)
+    public SessionCredentials authenticateSilently(final boolean invalidate)
     throws AuthenticationException {
         return authenticate();
     }
@@ -103,7 +103,7 @@ public class PasswordAuthenticator extends BaseAuthenticator {
         }
     }
 
-    private List<NameValuePair> createAuthParameters(String galxValue) {
+    private List<NameValuePair> createAuthParameters(final String galxValue) {
         List<NameValuePair> result = new ArrayList<NameValuePair>();
         NameValuePair email = new BasicNameValuePair("Email", accountName);
         result.add(email);

@@ -27,7 +27,7 @@ public abstract class ChartListAdapter<T> extends BaseChartListAdapter<T> {
     protected T overallStats;
 
     @SuppressLint("SimpleDateFormat")
-    public ChartListAdapter(Activity activity) {
+    public ChartListAdapter(final Activity activity) {
         super(activity);
         BLACK_TEXT = activity.getResources().getColor(R.color.blackText);
         this.stats = new ArrayList<T>();
@@ -41,11 +41,11 @@ public abstract class ChartListAdapter<T> extends BaseChartListAdapter<T> {
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(final int position) {
         return position;
     }
 
-    public void setStats(List<T> stats) {
+    public void setStats(final List<T> stats) {
         this.stats = stats;
     }
 
@@ -53,7 +53,7 @@ public abstract class ChartListAdapter<T> extends BaseChartListAdapter<T> {
         return stats;
     }
 
-    public void setOverallStats(T overallStats) {
+    public void setOverallStats(final T overallStats) {
         this.overallStats = overallStats;
     }
 
@@ -69,7 +69,7 @@ public abstract class ChartListAdapter<T> extends BaseChartListAdapter<T> {
     }
 
     @Override
-    public int getNumCharts(int page) throws IndexOutOfBoundsException {
+    public int getNumCharts(final int page) throws IndexOutOfBoundsException {
         switch (ChartSet.values()[page]) {
         case DOWNLOADS:
             return 5;
@@ -82,18 +82,18 @@ public abstract class ChartListAdapter<T> extends BaseChartListAdapter<T> {
     }
 
     @Override
-    protected boolean useSmothColumn(int page) {
+    protected boolean useSmothColumn(final int page) {
         return page == 0;
     }
 
     public static abstract class DevConValueCallbackHander implements ValueCallbackHander {
         @Override
-        public Date getDate(Object appInfo) {
+        public Date getDate(final Object appInfo) {
             return ((AppStats) appInfo).getDate();
         }
 
         @Override
-        public boolean isHeilightValue(Object current, Object previouse) {
+        public boolean isHeilightValue(final Object current, final Object previouse) {
 
             if (previouse == null) {
                 return false;

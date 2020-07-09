@@ -55,10 +55,10 @@ public class Chart extends AbstractChart {
     private static final int MAX_BAR_VALUES = Integer.MAX_VALUE;
 
     @SuppressLint("SimpleDateFormat")
-    public View buildBarChart(Context context, Object[] appstats, ValueCallbackHander handler,
-                              double heighestValue, double lowestValue) {
+    public View buildBarChart(final Context context, final Object[] appstats, final ValueCallbackHander handler,
+                              final double heighestValue, final double lowestValue) {
 
-        String[] titles = new String[] { "" };
+        String[] titles = new String[] {"" };
 
         List<Object> statsForApp = Arrays.asList(appstats);
         if (statsForApp.size() > MAX_BAR_VALUES) {
@@ -67,7 +67,7 @@ public class Chart extends AbstractChart {
         }
 
         // styling
-        int[] colors = new int[] { context.getResources().getColor(R.color.lightBlue) };
+        int[] colors = new int[] {context.getResources().getColor(R.color.lightBlue) };
         XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
         renderer.setOrientation(Orientation.HORIZONTAL);
 
@@ -142,9 +142,9 @@ public class Chart extends AbstractChart {
 
     }
 
-    public View buildLineChart(Context context, Object[] stats, ValueCallbackHander handler) {
+    public View buildLineChart(final Context context, final Object[] stats, final ValueCallbackHander handler) {
 
-        String[] titles = new String[] { "" };
+        String[] titles = new String[] {"" };
 
         List<Object> statsForApp = Arrays.asList(stats);
 
@@ -174,7 +174,7 @@ public class Chart extends AbstractChart {
         // This could break something, but we don't (?) use negative
         // stats, so should be OK. Passing Double.MIN_VALUE to achartengine
         // crashes Android, so not a good idea to use it. Cf. #464
-        double highestValue = 0;//Double.MIN_VALUE;
+        double highestValue = 0; //Double.MIN_VALUE;
         double lowestValue = Double.MAX_VALUE;
 
         for (int i = 0; i < statsForApp.size(); i++) {
@@ -215,9 +215,9 @@ public class Chart extends AbstractChart {
         // values.add(activeArray);
 
         // styling
-        int[] colors = new int[] { context.getResources().getColor(R.color.lightBlue) };
+        int[] colors = new int[] {context.getResources().getColor(R.color.lightBlue) };
         PointStyle pointStye = valuesArray.length > 30 ? PointStyle.POINT : PointStyle.CIRCLE;
-        PointStyle[] styles = new PointStyle[] { pointStye };
+        PointStyle[] styles = new PointStyle[] {pointStye };
         XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
         int length = renderer.getSeriesRendererCount();
         for (int i = 0; i < length; i++) {
@@ -255,7 +255,7 @@ public class Chart extends AbstractChart {
 
     }
 
-    public String getDateString(Date date) {
+    public String getDateString(final Date date) {
         return dateFormat.format(date);
     }
 }

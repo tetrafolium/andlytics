@@ -71,7 +71,7 @@ public class DevConsoleV2Protocol {
     DevConsoleV2Protocol() {
     }
 
-    DevConsoleV2Protocol(SessionCredentials sessionCredentials) {
+    DevConsoleV2Protocol(final SessionCredentials sessionCredentials) {
         this.sessionCredentials = sessionCredentials;
     }
 
@@ -79,7 +79,7 @@ public class DevConsoleV2Protocol {
         return sessionCredentials;
     }
 
-    void setSessionCredentials(SessionCredentials sessionCredentials) {
+    void setSessionCredentials(final SessionCredentials sessionCredentials) {
         this.sessionCredentials = sessionCredentials;
     }
 
@@ -97,7 +97,7 @@ public class DevConsoleV2Protocol {
         }
     }
 
-    void addHeaders(HttpPost post, String developerId) {
+    void addHeaders(final HttpPost post, final String developerId) {
         checkState();
 
         post.addHeader("Host", "play.google.com");
@@ -111,25 +111,25 @@ public class DevConsoleV2Protocol {
         post.addHeader("Referer", "https://play.google.com/apps/publish/?dev_acc=" + developerId);
     }
 
-    String createDeveloperUrl(String baseUrl, String developerId) {
+    String createDeveloperUrl(final String baseUrl, final String developerId) {
         checkState();
 
         return String.format("%s?dev_acc=%s", baseUrl, developerId);
     }
 
-    String createFetchAppsUrl(String developerId) {
+    String createFetchAppsUrl(final String developerId) {
         return createDeveloperUrl(URL_APPS, developerId);
     }
 
-    String createFetchStatisticsUrl(String developerId) {
+    String createFetchStatisticsUrl(final String developerId) {
         return createDeveloperUrl(URL_STATISTICS, developerId);
     }
 
-    String createCommentsUrl(String developerId) {
+    String createCommentsUrl(final String developerId) {
         return createDeveloperUrl(URL_REVIEWS, developerId);
     }
 
-    String createRevenueUrl(String developerId) {
+    String createRevenueUrl(final String developerId) {
         return createDeveloperUrl(URL_STATISTICS, developerId);
     }
 
@@ -141,7 +141,7 @@ public class DevConsoleV2Protocol {
         return String.format(FETCH_APPS_TEMPLATE, sessionCredentials.getXsrfToken());
     }
 
-    String createFetchAppInfosRequest(List<String> packages) {
+    String createFetchAppInfosRequest(final List<String> packages) {
         checkState();
 
         StringBuilder buff = new StringBuilder();
@@ -158,7 +158,7 @@ public class DevConsoleV2Protocol {
                              sessionCredentials.getXsrfToken());
     }
 
-    List<AppInfo> parseAppInfosResponse(String json, String accountName, boolean skipIncomplete) {
+    List<AppInfo> parseAppInfosResponse(final String json, final String accountName, final boolean skipIncomplete) {
         try {
             return JsonParser.parseAppInfos(json, accountName, skipIncomplete);
         } catch (JSONException ex) {
@@ -167,18 +167,18 @@ public class DevConsoleV2Protocol {
         }
     }
 
-    private static void saveDebugJson(String json) {
+    private static void saveDebugJson(final String json) {
         FileUtils.tryWriteToDebugDir(
             String.format("console_reply_%d.json", System.currentTimeMillis()), json);
     }
 
-    String createFetchAppInfoRequest(String packageName) {
+    String createFetchAppInfoRequest(final String packageName) {
         checkState();
 
         return String.format(FETCH_APP_TEMPLATE, packageName, sessionCredentials.getXsrfToken());
     }
 
-    String createFetchStatisticsRequest(String packageName, int statsType) {
+    String createFetchStatisticsRequest(final String packageName, final int statsType) {
         checkState();
 
         // Don't care about the breakdown at the moment:
@@ -187,7 +187,7 @@ public class DevConsoleV2Protocol {
                              STATS_BY_ANDROID_VERSION, sessionCredentials.getXsrfToken());
     }
 
-    void parseStatisticsResponse(String json, AppStats stats, int statsType) {
+    void parseStatisticsResponse(final String json, final AppStats stats, final int statsType) {
         try {
             JsonParser.parseStatistics(json, stats, statsType);
         } catch (JSONException ex) {
@@ -196,13 +196,13 @@ public class DevConsoleV2Protocol {
         }
     }
 
-    String createFetchRatingsRequest(String packageName) {
+    String createFetchRatingsRequest(final String packageName) {
         checkState();
 
         return String.format(GET_RATINGS_TEMPLATE, packageName, sessionCredentials.getXsrfToken());
     }
 
-    void parseRatingsResponse(String json, AppStats stats) {
+    void parseRatingsResponse(final String json, final AppStats stats) {
         try {
             JsonParser.parseRatings(json, stats);
         } catch (JSONException ex) {
@@ -211,15 +211,15 @@ public class DevConsoleV2Protocol {
         }
     }
 
-    String createFetchCommentsRequest(String packageName, int start, int pageSize,
-                                      String displayLocale) {
+    String createFetchCommentsRequest(final String packageName, final int start, final int pageSize,
+                                      final String displayLocale) {
         checkState();
 
         return String.format(GET_REVIEWS_TEMPLATE, packageName, start, pageSize, displayLocale,
                              sessionCredentials.getXsrfToken());
     }
 
-    String createReplyToCommentRequest(String packageName, String commentId, String reply) {
+    String createReplyToCommentRequest(final String packageName, final String commentId, final String reply) {
         checkState();
 
         if (!canReplyToComments()) {
@@ -244,7 +244,7 @@ public class DevConsoleV2Protocol {
         return replyObj.toString();
     }
 
-    boolean hasFeature(String feature) {
+    boolean hasFeature(final String feature) {
         checkState();
 
         return sessionCredentials.hasFeature(feature);
@@ -253,11 +253,11 @@ public class DevConsoleV2Protocol {
     boolean canReplyToComments() {
         // this has apparently been removed because now everybody can
         // reply to comments
-        //		return hasFeature(REPLY_TO_COMMENTS_FEATURE);
+        //              return hasFeature(REPLY_TO_COMMENTS_FEATURE);
         return true;
     }
 
-    List<Comment> parseCommentsResponse(String json) {
+    List<Comment> parseCommentsResponse(final String json) {
         try {
             return JsonParser.parseComments(json);
         } catch (JSONException ex) {
@@ -266,7 +266,7 @@ public class DevConsoleV2Protocol {
         }
     }
 
-    Comment parseCommentReplyResponse(String json) {
+    Comment parseCommentReplyResponse(final String json) {
         try {
             return JsonParser.parseCommentReplyResponse(json);
         } catch (JSONException ex) {
@@ -275,7 +275,7 @@ public class DevConsoleV2Protocol {
         }
     }
 
-    String createFetchRevenueSummaryRequest(String packageName) {
+    String createFetchRevenueSummaryRequest(final String packageName) {
         checkState();
 
         try {
@@ -313,7 +313,7 @@ public class DevConsoleV2Protocol {
         }
     }
 
-    RevenueSummary parseRevenueResponse(String json) {
+    RevenueSummary parseRevenueResponse(final String json) {
         try {
             return JsonParser.parseRevenueResponse(json, sessionCredentials.getPreferredCurrency());
         } catch (JSONException ex) {
@@ -322,7 +322,7 @@ public class DevConsoleV2Protocol {
         }
     }
 
-    String createFetchHistoricalRevenueRequest(String packageName) {
+    String createFetchHistoricalRevenueRequest(final String packageName) {
         checkState();
 
         return String.format(REVENUE_HISTORICAL_DATA, packageName,

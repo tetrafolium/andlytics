@@ -60,7 +60,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         developerAccountManager = DeveloperAccountManager.getInstance(getApplication());
@@ -80,7 +80,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void startActivity(Class<?> clazz, boolean disableAnimation, boolean skipDataReload) {
+    public void startActivity(final Class<?> clazz, final boolean disableAnimation, final boolean skipDataReload) {
         Intent intent = new Intent(BaseActivity.this, clazz);
         intent.putExtra(BaseActivity.EXTRA_PACKAGE_NAME, packageName);
         intent.putExtra(BaseActivity.EXTRA_DEVELOPER_ID, developerId);
@@ -105,7 +105,7 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void handleUserVisibleException(Exception e) {
+    public void handleUserVisibleException(final Exception e) {
         if (e instanceof NetworkException) {
             Toast.makeText(BaseActivity.this, getString(R.string.network_error), Toast.LENGTH_LONG)
             .show();
@@ -151,7 +151,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    private void showNewVersionDialog(Exception e) {
+    private void showNewVersionDialog(final Exception e) {
         if (!isFinishing()) {
 
             CrashDialog.CrashDialogBuilder builder = new CrashDialogBuilder(this);
@@ -160,7 +160,7 @@ public class BaseActivity extends AppCompatActivity {
             builder.setPositiveButton(getString(R.string.update_button),
             new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
 
                     Intent goToMarket = null;
                     goToMarket = new Intent(Intent.ACTION_VIEW, Uri
@@ -174,7 +174,7 @@ public class BaseActivity extends AppCompatActivity {
             builder.setNegativeButton(getString(R.string.cancel),
             new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
                     dialog.dismiss();
                 }
 
@@ -195,7 +195,7 @@ public class BaseActivity extends AppCompatActivity {
             builder.setPositiveButton(getString(R.string.send_report_button),
             new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
 
                     if (!isFinishing()) {
 
@@ -217,7 +217,7 @@ public class BaseActivity extends AppCompatActivity {
             builder.setNegativeButton(getString(R.string.cancel),
             new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
                     dialog.dismiss();
                 }
 
@@ -228,7 +228,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    private void sendAracReport(Exception e, boolean userTriggered) {
+    private void sendAracReport(final Exception e, final boolean userTriggered) {
         ACRA.getErrorReporter().handleSilentException(e);
     }
 
@@ -242,7 +242,7 @@ public class BaseActivity extends AppCompatActivity {
             builder.setPositiveButton(getString(R.string.send_report_button),
             new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
 
                     Thread thread = new Thread(new Runnable() {
 
@@ -259,7 +259,7 @@ public class BaseActivity extends AppCompatActivity {
             builder.setNegativeButton(getString(R.string.cancel),
             new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
                     dialog.dismiss();
                 }
 
@@ -281,7 +281,7 @@ public class BaseActivity extends AppCompatActivity {
             builder.setPositiveButton(getString(R.string.logout),
             new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
                     dialog.dismiss();
                     developerAccountManager.unselectDeveloperAccount();
                     Preferences.saveSkipAutoLogin(BaseActivity.this, true);
@@ -296,7 +296,7 @@ public class BaseActivity extends AppCompatActivity {
             builder.setNegativeButton(getString(R.string.cancel),
             new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
                     dialog.dismiss();
                     developerAccountManager.unselectDeveloperAccount();
                     Preferences.saveSkipAutoLogin(BaseActivity.this, true);
@@ -318,14 +318,14 @@ public class BaseActivity extends AppCompatActivity {
         return getAndlyticsApplication().getDbAdapter();
     }
 
-    protected void showLoadingIndicator(ViewSwitcher switcher) {
+    protected void showLoadingIndicator(final ViewSwitcher switcher) {
         Animation loadingAnim = AnimationUtils.loadAnimation(this, R.anim.loading);
         loadingAnim.setInterpolator(new LinearInterpolator());
 
         switcher.showNext();
     }
 
-    protected void hideLoadingIndicator(ViewSwitcher switcher) {
+    protected void hideLoadingIndicator(final ViewSwitcher switcher) {
         switcher.showPrevious();
     }
 
@@ -369,7 +369,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setSkipMainReload(boolean skipMainReload) {
+    protected void setSkipMainReload(final boolean skipMainReload) {
         this.skipMainReload = skipMainReload;
     }
 

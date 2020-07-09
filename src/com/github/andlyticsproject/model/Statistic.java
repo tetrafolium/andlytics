@@ -10,7 +10,7 @@ public abstract class Statistic {
         return date == null ? null : (Date) date.clone();
     }
 
-    public void setDate(Date date) {
+    public void setDate(final Date date) {
         this.date = date == null ? null : (Date) date.clone();
     }
 }

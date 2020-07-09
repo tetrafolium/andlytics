@@ -77,7 +77,7 @@ public abstract class BaseChartListAdapter<T> extends BaseAdapter {
     public abstract void updateChartValue(int position, int page, int column, TextView tv)
     throws IndexOutOfBoundsException;
 
-    public BaseChartListAdapter(Activity activity) {
+    public BaseChartListAdapter(final Activity activity) {
         if (!(activity instanceof ChartSwitcher)) {
             throw new ClassCastException("Activity must implement ChartSwitcher.");
         }
@@ -107,7 +107,7 @@ public abstract class BaseChartListAdapter<T> extends BaseAdapter {
         columnClickListener = new OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 int column = (Integer) v.getTag();
                 Log.i(LOG_TAG, "Pressed " + column);
                 ((ChartSwitcher) BaseChartListAdapter.this.activity).setCurrentChart(currentPage,
@@ -121,13 +121,13 @@ public abstract class BaseChartListAdapter<T> extends BaseAdapter {
     static class ViewHolder {
         final TextView fields[];
 
-        public ViewHolder(int numFields) {
+        public ViewHolder(final int numFields) {
             fields = new TextView[numFields];
         }
     }
 
     @Override
-    public final View getView(int position, View convertView, ViewGroup parent) {
+    public final View getView(final int position, final View convertView, final ViewGroup parent) {
 
         int i;
         ViewHolder holder;
@@ -188,7 +188,7 @@ public abstract class BaseChartListAdapter<T> extends BaseAdapter {
     protected abstract boolean isSmothValue(int page, int position);
 
     @SuppressWarnings("deprecation")
-    private TextView createTextView(String string, boolean bold, boolean weight) {
+    private TextView createTextView(final String string, final boolean bold, final boolean weight) {
         TextView view = new TextView(activity);
         view.setText(string);
         int top = (int) (2 * scale);
@@ -222,7 +222,7 @@ public abstract class BaseChartListAdapter<T> extends BaseAdapter {
         return getSubHeadLine(currentPage, currentColumn);
     }
 
-    public void setCurrentChart(int page, int column) {
+    public void setCurrentChart(final int page, final int column) {
         // new Exception().printStackTrace();
         currentPage = page;
         currentColumn = column;

@@ -24,7 +24,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
     private Integer highestRatingChange;
     private Integer lowestRatingChange;
 
-    public RatingsChartListAdapter(Activity activity) {
+    public RatingsChartListAdapter(final Activity activity) {
         super(activity);
     }
 
@@ -34,7 +34,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public int getNumCharts(int page) throws IndexOutOfBoundsException {
+    public int getNumCharts(final int page) throws IndexOutOfBoundsException {
         switch (page) {
         case 0:
             return 7;
@@ -43,7 +43,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public String getChartTitle(int page, int column) throws IndexOutOfBoundsException {
+    public String getChartTitle(final int page, final int column) throws IndexOutOfBoundsException {
         if (column == COL_DATE) {
             return "";
         }
@@ -73,7 +73,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public void updateChartValue(int position, int page, int column, TextView tv)
+    public void updateChartValue(final int position, final int page, final int column, final TextView tv)
     throws IndexOutOfBoundsException {
         AppStats appInfo = getItem(position);
         if (column == COL_DATE) {
@@ -139,8 +139,8 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public View buildChart(Context context, Chart baseChart, List<?> statsForApp, int page,
-                           int column) throws IndexOutOfBoundsException {
+    public View buildChart(final Context context, final Chart baseChart, final List<?> statsForApp, final int page,
+                           final int column) throws IndexOutOfBoundsException {
         ValueCallbackHander handler = null;
         switch (page) {
         case 0: {
@@ -149,7 +149,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
 
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getAvgRating();
                     }
                 };
@@ -159,7 +159,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
 
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getRating1Diff();
                     }
                 };
@@ -170,7 +170,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
 
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getRating2Diff();
                     }
                 };
@@ -180,7 +180,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
 
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getRating3Diff();
                     }
                 };
@@ -190,7 +190,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
 
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getRating4Diff();
                     }
                 };
@@ -200,7 +200,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
 
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getRating5Diff();
                     }
                 };
@@ -216,7 +216,7 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public String getSubHeadLine(int page, int column) throws IndexOutOfBoundsException {
+    public String getSubHeadLine(final int page, final int column) throws IndexOutOfBoundsException {
         if (column == COL_DATE) {
             return "";
         }
@@ -244,20 +244,20 @@ public class RatingsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public AppStats getItem(int position) {
+    public AppStats getItem(final int position) {
         return getStats().get(position);
     }
 
     @Override
-    protected boolean isSmothValue(int page, int position) {
+    protected boolean isSmothValue(final int page, final int position) {
         return page == 0 ? getItem(position).isSmoothingApplied() : false;
     }
 
-    public void setHighestRatingChange(Integer highestRatingChange) {
+    public void setHighestRatingChange(final Integer highestRatingChange) {
         this.highestRatingChange = highestRatingChange;
     }
 
-    public void setLowestRatingChange(Integer lowestRatingChange) {
+    public void setLowestRatingChange(final Integer lowestRatingChange) {
         this.lowestRatingChange = lowestRatingChange;
     }
 

@@ -14,9 +14,9 @@ public class DeveloperAccountsTable {
     public static final String TABLE_CREATE_DEVELOPER_ACCOUNT = "create table "
             + DATABASE_TABLE_NAME + " (_id integer primary key autoincrement, " + NAME
             + " text unique not null, " + STATE + " integer not null," + LAST_STATS_UPDATE
-            + " date)";//, " + DEVELOPER_ID + "text)";
+            + " date)"; //, " + DEVELOPER_ID + "text)";
 
-    public static final String[] ALL_COLUMNS = { ROWID, NAME, STATE, LAST_STATS_UPDATE, };
+    public static final String[] ALL_COLUMNS = {ROWID, NAME, STATE, LAST_STATS_UPDATE, };
     //
-    //			DEVELOPER_ID };
+    //                  DEVELOPER_ID };
 }

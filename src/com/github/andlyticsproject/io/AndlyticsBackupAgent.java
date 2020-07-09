@@ -28,8 +28,8 @@ public class AndlyticsBackupAgent extends BackupAgentHelper {
     }
 
     @Override
-    public void onBackup(ParcelFileDescriptor oldState, BackupDataOutput data,
-                         ParcelFileDescriptor newState) throws IOException {
+    public void onBackup(final ParcelFileDescriptor oldState, final BackupDataOutput data,
+                         final ParcelFileDescriptor newState) throws IOException {
         Log.d(TAG, "onBackup");
 
         synchronized (fileLock) {
@@ -38,7 +38,7 @@ public class AndlyticsBackupAgent extends BackupAgentHelper {
     }
 
     @Override
-    public void onRestore(BackupDataInput data, int appVersionCode, ParcelFileDescriptor newState)
+    public void onRestore(final BackupDataInput data, final int appVersionCode, final ParcelFileDescriptor newState)
     throws IOException {
         Log.d(TAG, "onRestore appVersionCode = " + appVersionCode);
 

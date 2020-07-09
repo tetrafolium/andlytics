@@ -35,13 +35,13 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
     private static final int COL_CTR = 3;
     private static final int COL_HOUSEAD_CLICKS = 4;
 
-    public AdmobListAdapter(Activity activity) {
+    public AdmobListAdapter(final Activity activity) {
         super(activity);
         this.stats = new ArrayList<AdmobStats>();
     }
 
     @Override
-    public AdmobStats getItem(int position) {
+    public AdmobStats getItem(final int position) {
         return stats.get(position);
     }
 
@@ -57,7 +57,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
     }
 
     @Override
-    public int getNumCharts(int page) throws IndexOutOfBoundsException {
+    public int getNumCharts(final int page) throws IndexOutOfBoundsException {
         switch (page) {
         case 0:
             return 6;
@@ -69,7 +69,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
     }
 
     @Override
-    public String getChartTitle(int page, int column) throws IndexOutOfBoundsException {
+    public String getChartTitle(final int page, final int column) throws IndexOutOfBoundsException {
         if (column == COL_DATE)
             return "";
 
@@ -107,7 +107,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
     }
 
     @Override
-    public void updateChartValue(int position, int page, int column, TextView tv)
+    public void updateChartValue(final int position, final int page, final int column, final TextView tv)
     throws IndexOutOfBoundsException {
         AdmobStats admob = getItem(position);
         if (column == COL_DATE) {
@@ -122,7 +122,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
                 tv.setText(getNumberFormat(admob.getCurrencyCode()).format(admob.getRevenue()));
                 return;
             case COL_EPC:
-                //				tv.setText(admob.getEpcCents());
+                //                              tv.setText(admob.getEpcCents());
                 // tv.setText(getNumberFormat(admob.getCurrencyCode()).format(admob.getEpc()));
                 tv.setText(getNumberFormat(admob.getCurrencyCode()).format(
                                admob.getCpcRevenue()));
@@ -165,8 +165,8 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
     }
 
     @Override
-    public View buildChart(Context context, Chart baseChart, List<?> statsForApp, int page,
-                           int column) throws IndexOutOfBoundsException {
+    public View buildChart(final Context context, final Chart baseChart, final List<?> statsForApp, final int page,
+                           final int column) throws IndexOutOfBoundsException {
         ValueCallbackHander handler = null;
 
         switch (page) {
@@ -176,7 +176,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
 
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getRevenue();
                     }
                 };
@@ -185,7 +185,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
 
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getEpc();
                     }
                 };
@@ -193,7 +193,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
             case COL_REQUESTS:
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getRequests();
                     }
                 };
@@ -202,7 +202,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
 
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getClicks();
                     }
                 };
@@ -210,7 +210,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
             case COL_FILL_RATE:
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getFillRate();
                     }
                 };
@@ -223,7 +223,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
             case COL_ECPM:
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getEcpm();
                     }
                 };
@@ -232,7 +232,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
 
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getImpressions();
                     }
                 };
@@ -240,7 +240,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
             case COL_CTR:
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getCtr();
                     }
                 };
@@ -248,7 +248,7 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
             case COL_HOUSEAD_CLICKS:
                 handler = new AdmobValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AdmobStats) appInfo).getHouseAdClicks();
                     }
                 };
@@ -262,19 +262,19 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
 
     public abstract class AdmobValueCallbackHander implements ValueCallbackHander {
         @Override
-        public Date getDate(Object appInfo) {
+        public Date getDate(final Object appInfo) {
             return ((AdmobStats) appInfo).getDate();
         }
 
         @Override
-        public boolean isHeilightValue(Object current, Object previouse) {
+        public boolean isHeilightValue(final Object current, final Object previouse) {
 
             return false;
         }
     }
 
     @Override
-    public String getSubHeadLine(int page, int column) throws IndexOutOfBoundsException {
+    public String getSubHeadLine(final int page, final int column) throws IndexOutOfBoundsException {
         if (column == COL_DATE) {
             return "";
         }
@@ -326,19 +326,19 @@ public class AdmobListAdapter extends ChartListAdapter<AdmobStats> {
     }
 
     @Override
-    protected boolean isSmothValue(int page, int position) {
+    protected boolean isSmothValue(final int page, final int position) {
         return false;
     }
 
     @Override
-    protected boolean useSmothColumn(int page) {
+    protected boolean useSmothColumn(final int page) {
         return false;
     }
 
     private NumberFormat US_NUMBER_FORMAT = NumberFormat.getCurrencyInstance(Locale.US);
     private Map<String, NumberFormat> currencyFormats = new HashMap<String, NumberFormat>();
 
-    private NumberFormat getNumberFormat(String currencyCode) {
+    private NumberFormat getNumberFormat(final String currencyCode) {
         if (currencyCode == null) {
             return US_NUMBER_FORMAT;
         }

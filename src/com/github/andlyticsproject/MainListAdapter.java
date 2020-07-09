@@ -100,7 +100,7 @@ public class MainListAdapter extends BaseAdapter {
 
     private DisplayMetrics displayMetrics;
 
-    public MainListAdapter(Activity activity, String accountname, StatsMode statsMode) {
+    public MainListAdapter(final Activity activity, final String accountname, final StatsMode statsMode) {
         BLACK_TEXT = activity.getResources().getColor(R.color.blackText);
         BLUE_TEXT = activity.getResources().getColor(R.color.lightBlue);
         this.setAppInfos(new ArrayList<AppInfo>());
@@ -130,17 +130,17 @@ public class MainListAdapter extends BaseAdapter {
     }
 
     @Override
-    public AppInfo getItem(int position) {
+    public AppInfo getItem(final int position) {
         return appInfos.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(final int position) {
         return position;
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
 
         final ViewHolder holder;
 
@@ -390,13 +390,13 @@ public class MainListAdapter extends BaseAdapter {
             holder.icon.setImageDrawable(null);
             holder.icon.clearAnimation();
             new GetCachedImageTask(holder.icon, appInfo.getPackageName())
-            .execute(new File[] { iconFile });
+            .execute(new File[] {iconFile });
         }
 
         holder.icon.setTag(TAG_IMAGE_REF, packageName);
         holder.icon.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent intent = new Intent(activity, AppInfoActivity.class);
                 intent.putExtra(BaseActivity.EXTRA_PACKAGE_NAME, packageName);
                 if (iconFile.exists()) {
@@ -418,7 +418,7 @@ public class MainListAdapter extends BaseAdapter {
 
         holder.name.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent intent = new Intent(activity, AppInfoActivity.class);
                 intent.putExtra(BaseActivity.EXTRA_PACKAGE_NAME, packageName);
                 if (iconFile.exists()) {
@@ -434,7 +434,7 @@ public class MainListAdapter extends BaseAdapter {
         holder.row.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent intent = createDetailsIntent(appInfo, iconFile, ChartSet.DOWNLOADS,
                                                     DetailsActivity.TAB_IDX_COMMENTS);
                 activity.startActivity(intent);
@@ -447,7 +447,7 @@ public class MainListAdapter extends BaseAdapter {
         holder.downloadFrame.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent intent = createDetailsIntent(appInfo, iconFile, ChartSet.DOWNLOADS,
                                                     DetailsActivity.TAB_IDX_DOWNLOADS);
                 activity.startActivity(intent);
@@ -459,7 +459,7 @@ public class MainListAdapter extends BaseAdapter {
         holder.revenueFrame.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent intent = createDetailsIntent(appInfo, iconFile, ChartSet.REVENUE,
                                                     DetailsActivity.TAB_IDX_REVENUE);
                 activity.startActivity(intent);
@@ -471,7 +471,7 @@ public class MainListAdapter extends BaseAdapter {
         holder.admobFrame.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent intent = createDetailsIntent(appInfo, iconFile, ChartSet.ADMOB,
                                                     DetailsActivity.TAB_IDX_ADMOB);
                 activity.startActivity(intent);
@@ -483,7 +483,7 @@ public class MainListAdapter extends BaseAdapter {
         holder.ratingFrame.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Intent intent = createDetailsIntent(appInfo, iconFile, ChartSet.RATINGS,
                                                     DetailsActivity.TAB_IDX_RATINGS);
                 activity.startActivity(intent);
@@ -564,15 +564,15 @@ public class MainListAdapter extends BaseAdapter {
                         rotateDown.setAnimationListener(new AnimationListener() {
 
                             @Override
-                            public void onAnimationStart(Animation animation) {
+                            public void onAnimationStart(final Animation animation) {
                             }
 
                             @Override
-                            public void onAnimationRepeat(Animation animation) {
+                            public void onAnimationRepeat(final Animation animation) {
                             }
 
                             @Override
-                            public void onAnimationEnd(Animation animation) {
+                            public void onAnimationEnd(final Animation animation) {
                                 TransitionDrawable out = (TransitionDrawable)
                                                          ContextCompat.getDrawable(activity,
                                                                  R.drawable.background_border_transition_out);
@@ -596,7 +596,7 @@ public class MainListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void setupValueDiff(TextView view, Integer diff) {
+    private void setupValueDiff(final TextView view, final Integer diff) {
 
         String value = diff.toString();
 
@@ -612,7 +612,7 @@ public class MainListAdapter extends BaseAdapter {
 
     }
 
-    private void setupFloatValueDiff(TextView view, double diff, String diffvalue) {
+    private void setupFloatValueDiff(final TextView view, final double diff, final String diffvalue) {
 
         String value = diffvalue;
         if ("0.000".equals(diffvalue)) {
@@ -687,12 +687,12 @@ public class MainListAdapter extends BaseAdapter {
         private ImageView imageView;
         private String reference;
 
-        public GetCachedImageTask(ImageView imageView, String reference) {
+        public GetCachedImageTask(final ImageView imageView, final String reference) {
             this.imageView = imageView;
             this.reference = reference;
         }
 
-        protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(final Bitmap result) {
 
             // only update the image if tag==reference
             // (view may have been reused as convertView)
@@ -708,7 +708,7 @@ public class MainListAdapter extends BaseAdapter {
         }
 
         @Override
-        protected Bitmap doInBackground(File... params) {
+        protected Bitmap doInBackground(final File... params) {
 
             File iconFile = params[0];
 
@@ -720,7 +720,7 @@ public class MainListAdapter extends BaseAdapter {
         }
     }
 
-    public void setAppInfos(List<AppInfo> appInfos) {
+    public void setAppInfos(final List<AppInfo> appInfos) {
         this.appInfos = appInfos;
     }
 
@@ -728,7 +728,7 @@ public class MainListAdapter extends BaseAdapter {
         return appInfos;
     }
 
-    public void updateMainImage(ImageView imageView, int animationId, Bitmap result) {
+    public void updateMainImage(final ImageView imageView, final int animationId, final Bitmap result) {
         imageView.setImageBitmap(result);
         imageView.clearAnimation();
         Animation fadeInAnimation = AnimationUtils.loadAnimation(activity.getApplicationContext(),
@@ -737,7 +737,7 @@ public class MainListAdapter extends BaseAdapter {
     }
 
     @SuppressWarnings("deprecation")
-    private void changeBackgroundDrawable(final View v, Drawable drawable) {
+    private void changeBackgroundDrawable(final View v, final Drawable drawable) {
         LayoutParams l = v.getLayoutParams();
         int paddingBottom = v.getPaddingBottom();
         int paddingLeft = v.getPaddingLeft();
@@ -748,7 +748,7 @@ public class MainListAdapter extends BaseAdapter {
         v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
     }
 
-    public void setStatsMode(StatsMode statsMode) {
+    public void setStatsMode(final StatsMode statsMode) {
         this.statsMode = statsMode;
     }
 
@@ -756,8 +756,8 @@ public class MainListAdapter extends BaseAdapter {
         return statsMode;
     }
 
-    private Intent createDetailsIntent(AppInfo appInfo, File iconFile, ChartSet chartSet,
-                                       int selectedTab) {
+    private Intent createDetailsIntent(final AppInfo appInfo, final File iconFile, final ChartSet chartSet,
+                                       final int selectedTab) {
         Intent intent = new Intent(activity, DetailsActivity.class);
         intent.putExtra(BaseActivity.EXTRA_PACKAGE_NAME, appInfo.getPackageName());
         intent.putExtra(DetailsActivity.EXTRA_CHART_NAME, R.string.ratings);
@@ -784,7 +784,7 @@ public class MainListAdapter extends BaseAdapter {
         private int margin;
         private Integer rowId;
 
-        public ExpandAnimation(View viewToExpand, boolean up, int height, int margin, int rowid) {
+        public ExpandAnimation(final View viewToExpand, final boolean up, final int height, final int margin, final int rowid) {
             this.view = viewToExpand;
             this.up = up;
             this.height = height;
@@ -793,7 +793,7 @@ public class MainListAdapter extends BaseAdapter {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(final Void... params) {
 
             long startAnimation = System.currentTimeMillis() - 1;
             float animationtime = 1;
@@ -847,7 +847,7 @@ public class MainListAdapter extends BaseAdapter {
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(final Void result) {
 
             if ((Integer) view.getTag(TAG_ROW_ID) == rowId) {
                 if (up) {
@@ -879,7 +879,7 @@ public class MainListAdapter extends BaseAdapter {
         }
 
         @Override
-        protected void onProgressUpdate(LayoutParams... values) {
+        protected void onProgressUpdate(final LayoutParams... values) {
             view.setLayoutParams(values[0]);
         }
     }

@@ -7,15 +7,15 @@ public class MultiAccountException extends DevConsoleException {
      */
     private static final long serialVersionUID = -3841472223599618789L;
 
-    public MultiAccountException(String message) {
+    public MultiAccountException(final String message) {
         super(message);
     }
 
-    public MultiAccountException(Throwable cause) {
+    public MultiAccountException(final Throwable cause) {
         super(cause);
     }
 
-    public MultiAccountException(String message, Throwable cause) {
+    public MultiAccountException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

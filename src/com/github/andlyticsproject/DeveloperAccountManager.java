@@ -22,7 +22,7 @@ public class DeveloperAccountManager {
 
     private AndlyticsDb andlyticsDb;
 
-    public static synchronized DeveloperAccountManager getInstance(Context context) {
+    public static synchronized DeveloperAccountManager getInstance(final Context context) {
         if (instance == null) {
             instance = new DeveloperAccountManager(context);
         }
@@ -30,15 +30,15 @@ public class DeveloperAccountManager {
         return instance;
     }
 
-    private DeveloperAccountManager(Context context) {
+    private DeveloperAccountManager(final Context context) {
         andlyticsDb = AndlyticsDb.getInstance(context);
     }
 
-    public synchronized long addDeveloperAccount(DeveloperAccount account) {
+    public synchronized long addDeveloperAccount(final DeveloperAccount account) {
         return andlyticsDb.addDeveloperAccount(account);
     }
 
-    public synchronized long addOrUpdateDeveloperAccount(DeveloperAccount account) {
+    public synchronized long addOrUpdateDeveloperAccount(final DeveloperAccount account) {
         if (account.getId() != null) {
             updateDeveloperAccount(account);
             return account.getId();
@@ -79,7 +79,7 @@ public class DeveloperAccountManager {
         try {
             c = db.query(DeveloperAccountsTable.DATABASE_TABLE_NAME,
                          DeveloperAccountsTable.ALL_COLUMNS, "state = ? or state = ?",
-                         new String[] { Integer.toString(DeveloperAccount.State.ACTIVE.ordinal()),
+                         new String[] {Integer.toString(DeveloperAccount.State.ACTIVE.ordinal()),
                                         Integer.toString(DeveloperAccount.State.SELECTED.ordinal())
                                       }, null,
                          null, "_id asc", null);
@@ -113,7 +113,7 @@ public class DeveloperAccountManager {
         return accounts.get(0);
     }
 
-    public List<DeveloperAccount> getDeveloperAccountsByState(DeveloperAccount.State state) {
+    public List<DeveloperAccount> getDeveloperAccountsByState(final DeveloperAccount.State state) {
         List<DeveloperAccount> result = new ArrayList<DeveloperAccount>();
 
         SQLiteDatabase db = andlyticsDb.getReadableDatabase();
@@ -121,7 +121,7 @@ public class DeveloperAccountManager {
         try {
             c = db.query(DeveloperAccountsTable.DATABASE_TABLE_NAME,
                          DeveloperAccountsTable.ALL_COLUMNS, "state = ?",
-                         new String[] { Integer.toString(state.ordinal()) }, null, null, "_id asc", null);
+                         new String[] {Integer.toString(state.ordinal()) }, null, null, "_id asc", null);
             while (c.moveToNext()) {
                 DeveloperAccount account = createAcount(c);
                 result.add(account);
@@ -135,13 +135,13 @@ public class DeveloperAccountManager {
         }
     }
 
-    public DeveloperAccount findDeveloperAccountById(long id) {
+    public DeveloperAccount findDeveloperAccountById(final long id) {
         SQLiteDatabase db = andlyticsDb.getReadableDatabase();
         Cursor c = null;
         try {
             c = db.query(DeveloperAccountsTable.DATABASE_TABLE_NAME,
                          DeveloperAccountsTable.ALL_COLUMNS, "_id = ?",
-                         new String[] { Long.toString(id) }, null, null, "_id asc", null);
+                         new String[] {Long.toString(id) }, null, null, "_id asc", null);
             if (!c.moveToNext()) {
                 return null;
             }
@@ -154,12 +154,12 @@ public class DeveloperAccountManager {
         }
     }
 
-    public DeveloperAccount findDeveloperAccountByName(String name) {
+    public DeveloperAccount findDeveloperAccountByName(final String name) {
         SQLiteDatabase db = andlyticsDb.getReadableDatabase();
         Cursor c = null;
         try {
             c = db.query(DeveloperAccountsTable.DATABASE_TABLE_NAME,
-                         DeveloperAccountsTable.ALL_COLUMNS, "name = ?", new String[] { name }, null,
+                         DeveloperAccountsTable.ALL_COLUMNS, "name = ?", new String[] {name }, null,
                          null, "_id asc", null);
             if (!c.moveToNext()) {
                 return null;
@@ -173,23 +173,23 @@ public class DeveloperAccountManager {
         }
     }
 
-    public synchronized void updateDeveloperAccount(DeveloperAccount account) {
+    public synchronized void updateDeveloperAccount(final DeveloperAccount account) {
         SQLiteDatabase db = andlyticsDb.getWritableDatabase();
         ContentValues values = AndlyticsDb.toValues(account);
         values.put(DeveloperAccountsTable.ROWID, account.getId());
 
         db.update(DeveloperAccountsTable.DATABASE_TABLE_NAME, values, "_id = ?",
-                  new String[] { Long.toString(account.getId()) });
+                  new String[] {Long.toString(account.getId()) });
     }
 
-    public synchronized void deleteDeveloperAccount(DeveloperAccount account) {
+    public synchronized void deleteDeveloperAccount(final DeveloperAccount account) {
         SQLiteDatabase db = andlyticsDb.getWritableDatabase();
 
         db.delete(DeveloperAccountsTable.DATABASE_TABLE_NAME, "name = ?",
-                  new String[] { account.getName() });
+                  new String[] {account.getName() });
     }
 
-    public synchronized void selectDeveloperAccount(String name) {
+    public synchronized void selectDeveloperAccount(final String name) {
         SQLiteDatabase db = andlyticsDb.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -230,26 +230,26 @@ public class DeveloperAccountManager {
         values.put(DeveloperAccountsTable.STATE, DeveloperAccount.State.ACTIVE.ordinal());
         db.update(DeveloperAccountsTable.DATABASE_TABLE_NAME, values, DeveloperAccountsTable.STATE
                   + " = ?",
-                  new String[] { Integer.toString(DeveloperAccount.State.SELECTED.ordinal()) });
+                  new String[] {Integer.toString(DeveloperAccount.State.SELECTED.ordinal()) });
     }
 
-    public synchronized void activateDeveloperAccount(String accountName) {
+    public synchronized void activateDeveloperAccount(final String accountName) {
         setAccountState(accountName, DeveloperAccount.State.ACTIVE);
     }
 
-    public synchronized void hideDeveloperAccount(String accountName) {
+    public synchronized void hideDeveloperAccount(final String accountName) {
         setAccountState(accountName, DeveloperAccount.State.HIDDEN);
     }
 
-    private void setAccountState(String accountName, DeveloperAccount.State state) {
+    private void setAccountState(final String accountName, final DeveloperAccount.State state) {
         SQLiteDatabase db = andlyticsDb.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DeveloperAccountsTable.STATE, state.ordinal());
         db.update(DeveloperAccountsTable.DATABASE_TABLE_NAME, values, DeveloperAccountsTable.NAME
-                  + " = ?", new String[] { accountName });
+                  + " = ?", new String[] {accountName });
     }
 
-    private DeveloperAccount createAcount(Cursor c) {
+    private DeveloperAccount createAcount(final Cursor c) {
         long id = c.getLong(c.getColumnIndex(DeveloperAccountsTable.ROWID));
         String name = c.getString(c.getColumnIndex(DeveloperAccountsTable.NAME));
         DeveloperAccount.State currentState = DeveloperAccount.State.values()[c.getInt(c
@@ -263,7 +263,7 @@ public class DeveloperAccountManager {
         return account;
     }
 
-    public long getLastStatsRemoteUpdateTime(String accountName) {
+    public long getLastStatsRemoteUpdateTime(final String accountName) {
         DeveloperAccount account = findDeveloperAccountByName(accountName);
         if (account == null) {
             throw new IllegalStateException("Account not found: " + accountName);
@@ -272,7 +272,7 @@ public class DeveloperAccountManager {
         return account.getLastStatsUpdate().getTime();
     }
 
-    public synchronized void saveLastStatsRemoteUpdateTime(String accountName, long timestamp) {
+    public synchronized void saveLastStatsRemoteUpdateTime(final String accountName, final long timestamp) {
         DeveloperAccount account = findDeveloperAccountByName(accountName);
         if (account == null) {
             throw new IllegalStateException("Account not found: " + accountName);

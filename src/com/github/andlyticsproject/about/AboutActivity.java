@@ -18,7 +18,7 @@ public class AboutActivity extends AppCompatActivity implements
     private static final String BUNDLE_KEY_TABINDEX = "tabindex";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.about_navigation);
@@ -38,26 +38,26 @@ public class AboutActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(final Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(BUNDLE_KEY_TABINDEX, getSupportActionBar()
                                   .getSelectedTab().getPosition());
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         getSupportActionBar().setSelectedNavigationItem(
             savedInstanceState.getInt(BUNDLE_KEY_TABINDEX));
     }
 
     @Override
-    public void onTabReselected(Tab tab, FragmentTransaction transaction) {
+    public void onTabReselected(final Tab tab, final FragmentTransaction transaction) {
         Log.i("Tab Reselected", tab.getText().toString());
     }
 
     @Override
-    public void onTabSelected(Tab tab, FragmentTransaction transaction) {
+    public void onTabSelected(final Tab tab, final FragmentTransaction transaction) {
         if (0 == tab.getPosition()) {
             AboutFragment fragment = new AboutFragment();
             transaction.replace(android.R.id.content, fragment);
@@ -68,12 +68,12 @@ public class AboutActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction transaction) {
+    public void onTabUnselected(final Tab tab, final FragmentTransaction transaction) {
         Log.i("Tab Unselected", tab.getText().toString());
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
@@ -83,27 +83,27 @@ public class AboutActivity extends AppCompatActivity implements
         }
     }
 
-    public void onOpenGoogleplusClick(View view) {
+    public void onOpenGoogleplusClick(final View view) {
         openBrowser(this.getString(R.string.googleplus_url));
     }
 
-    public void onOpenGithubClick(View view) {
+    public void onOpenGithubClick(final View view) {
         openBrowser(this.getString(R.string.github_url));
     }
 
-    public void onOpenFeedbackClick(View view) {
+    public void onOpenFeedbackClick(final View view) {
         openBrowser(this.getString(R.string.github_issues_url));
     }
 
-    public void onOpenFacebookClick(View view) {
+    public void onOpenFacebookClick(final View view) {
         openBrowser(this.getString(R.string.facebook_url));
     }
 
-    public void onOpenTwitterClick(View view) {
+    public void onOpenTwitterClick(final View view) {
         openBrowser(this.getString(R.string.twitter_url));
     }
 
-    private void openBrowser(String url) {
+    private void openBrowser(final String url) {
         startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
     }
 }

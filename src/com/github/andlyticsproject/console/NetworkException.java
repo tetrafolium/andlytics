@@ -9,19 +9,19 @@ public class NetworkException extends DevConsoleException {
 
     private int statusCode;
 
-    public NetworkException(String message) {
+    public NetworkException(final String message) {
         super(message);
     }
 
-    public NetworkException(Throwable cause) {
+    public NetworkException(final Throwable cause) {
         super(cause);
     }
 
-    public NetworkException(String message, Throwable cause) {
+    public NetworkException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public NetworkException(Throwable cause, int statusCode) {
+    public NetworkException(final Throwable cause, final int statusCode) {
         super("Status-Code: " + statusCode, cause);
         this.statusCode = statusCode;
     }

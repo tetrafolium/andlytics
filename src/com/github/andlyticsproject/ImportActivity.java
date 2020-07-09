@@ -54,7 +54,7 @@ public class ImportActivity extends AppCompatActivity {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onCreate(Bundle state) {
+    public void onCreate(final Bundle state) {
         super.onCreate(state);
 
         setContentView(R.layout.import_stats);
@@ -94,7 +94,7 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle state) {
+    protected void onSaveInstanceState(final Bundle state) {
         super.onSaveInstanceState(state);
         state.putSerializable(EXTRA_IMPORT_FILENAMES, importFilenames);
     }
@@ -108,7 +108,7 @@ public class ImportActivity extends AppCompatActivity {
         View closeButton = (View) this.findViewById(R.id.import_dialog_close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 finish();
             }
         });
@@ -116,7 +116,7 @@ public class ImportActivity extends AppCompatActivity {
         View importButton = (View) this.findViewById(R.id.import_dialog_import_button);
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (importFilenames.isEmpty()) {
                     Toast.makeText(ImportActivity.this, getString(R.string.import_no_app),
                                    Toast.LENGTH_LONG).show();
@@ -134,7 +134,7 @@ public class ImportActivity extends AppCompatActivity {
         setFilenames(new ArrayList<String>());
     }
 
-    void setFilenames(List<String> filenames) {
+    void setFilenames(final List<String> filenames) {
         adapter = new ImportListAdapter(filenames);
         listView.setAdapter(adapter);
     }
@@ -165,7 +165,7 @@ public class ImportActivity extends AppCompatActivity {
 
         public static final String ARG_NUM_APPS = "numApps";
 
-        public static ConfirmImportDialogFragment newInstance(int numExistingApps) {
+        public static ConfirmImportDialogFragment newInstance(final int numExistingApps) {
             ConfirmImportDialogFragment frag = new ConfirmImportDialogFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_NUM_APPS, numExistingApps);
@@ -174,7 +174,7 @@ public class ImportActivity extends AppCompatActivity {
         }
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        public Dialog onCreateDialog(final Bundle savedInstanceState) {
             final int numExistingApps = getArguments().getInt(ARG_NUM_APPS);
 
             return new AlertDialog.Builder(getActivity())
@@ -184,12 +184,12 @@ public class ImportActivity extends AppCompatActivity {
                        getResources().getString(R.string.import_confirm_dialog_message,
                                                 numExistingApps))
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+                public void onClick(final DialogInterface dialog, final int whichButton) {
                     ((ImportActivity) getActivity()).startImport();
                 }
             })
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+                public void onClick(final DialogInterface dialog, final int whichButton) {
                     dismiss();
                 }
             }).create();
@@ -203,7 +203,7 @@ public class ImportActivity extends AppCompatActivity {
         ContentAdapter db;
         String accountName;
 
-        LoadImportDialogTask(ImportActivity parent, String accountName) {
+        LoadImportDialogTask(final ImportActivity parent, final String accountName) {
             super(parent);
             this.accountName = accountName;
             db = ContentAdapter.getInstance(parent.getApplication());
@@ -218,7 +218,7 @@ public class ImportActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(Uri... params) {
+        protected Boolean doInBackground(final Uri... params) {
             if (activity == null) {
                 return false;
             }
@@ -263,7 +263,7 @@ public class ImportActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(final Boolean result) {
             if (activity == null) {
                 return;
             }
@@ -291,7 +291,7 @@ public class ImportActivity extends AppCompatActivity {
 
         List<String> files;
 
-        ImportListAdapter(List<String> files) {
+        ImportListAdapter(final List<String> files) {
             this.files = files;
         }
 
@@ -301,17 +301,17 @@ public class ImportActivity extends AppCompatActivity {
         }
 
         @Override
-        public String getItem(int position) {
+        public String getItem(final int position) {
             return files.get(position);
         }
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(final int position) {
             return position;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
 
             ViewHolder holder;
 
@@ -337,7 +337,7 @@ public class ImportActivity extends AppCompatActivity {
             holder.row.setOnClickListener(new View.OnClickListener() {
 
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
 
                     CheckBox checkbox = ((CheckBox) (((ViewGroup) v)
                                                      .findViewById(R.id.import_file_checkbox)));
@@ -356,7 +356,7 @@ public class ImportActivity extends AppCompatActivity {
             holder.checkbox.setOnClickListener(new CheckBox.OnClickListener() {
 
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     boolean isChecked = ((CheckBox) v).isChecked();
                     if (isChecked) {
                         importFilenames.add(fileName);

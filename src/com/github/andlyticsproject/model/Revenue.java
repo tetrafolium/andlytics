@@ -21,7 +21,7 @@ public class Revenue {
     }
 
     // TODO add others
-    public static final String[] NO_DECIMAL_CURRENCIES_ARR = { "JPY" };
+    public static final String[] NO_DECIMAL_CURRENCIES_ARR = {"JPY" };
     public static final List<String> NO_DECIMAL_CURRENCIES = Arrays
             .asList(NO_DECIMAL_CURRENCIES_ARR);
 
@@ -31,7 +31,7 @@ public class Revenue {
     private double amount;
     private double developerCut;
 
-    public Revenue(Type type, double amount, String currencyCode) {
+    public Revenue(final Type type, final double amount, final String currencyCode) {
         this.type = type;
         this.amount = amount;
         // XXX make this smarter, round up,etc.

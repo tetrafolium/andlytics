@@ -19,7 +19,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
     private static final int COL_TOTAL_DOWNLAODS_BY_DAY = 3;
     private static final int COL_ACTIVE_INSTALLS_PERCENT = 4;
 
-    public DownloadsChartListAdapter(Activity activity) {
+    public DownloadsChartListAdapter(final Activity activity) {
         super(activity);
     }
 
@@ -29,7 +29,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public int getNumCharts(int page) throws IndexOutOfBoundsException {
+    public int getNumCharts(final int page) throws IndexOutOfBoundsException {
         if (page == 0) {
             return 5;
         }
@@ -37,7 +37,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public String getChartTitle(int page, int column) throws IndexOutOfBoundsException {
+    public String getChartTitle(final int page, final int column) throws IndexOutOfBoundsException {
         if (column == COL_DATE) {
             return "";
         }
@@ -65,7 +65,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public void updateChartValue(int position, int page, int column, TextView tv)
+    public void updateChartValue(final int position, final int page, final int column, final TextView tv)
     throws IndexOutOfBoundsException {
         AppStats appInfo = getItem(position);
         if (column == COL_DATE) {
@@ -102,8 +102,8 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public View buildChart(Context context, Chart baseChart, List<?> statsForApp, int page,
-                           int column) throws IndexOutOfBoundsException {
+    public View buildChart(final Context context, final Chart baseChart, final List<?> statsForApp, final int page,
+                           final int column) throws IndexOutOfBoundsException {
         ValueCallbackHander handler = null;
         switch (page) {
         case 0: {
@@ -112,7 +112,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
 
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getTotalDownloads();
                     }
                 };
@@ -122,7 +122,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
 
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getDailyDownloads();
                     }
                 };
@@ -132,7 +132,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
             case COL_ACTIVE_INSTALLS_TOTAL:
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getActiveInstalls();
                     }
                 };
@@ -141,7 +141,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
             case COL_ACTIVE_INSTALLS_PERCENT:
                 handler = new DevConValueCallbackHander() {
                     @Override
-                    public double getValue(Object appInfo) {
+                    public double getValue(final Object appInfo) {
                         return ((AppStats) appInfo).getActiveInstallsPercent();
                     }
                 };
@@ -158,7 +158,7 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public String getSubHeadLine(int page, int column) throws IndexOutOfBoundsException {
+    public String getSubHeadLine(final int page, final int column) throws IndexOutOfBoundsException {
         if (column == COL_DATE) {
             return "";
         }
@@ -186,12 +186,12 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
     }
 
     @Override
-    public AppStats getItem(int position) {
+    public AppStats getItem(final int position) {
         return getStats().get(position);
     }
 
     @Override
-    protected boolean isSmothValue(int page, int position) {
+    protected boolean isSmothValue(final int page, final int position) {
         return page == 0 ? getItem(position).isSmoothingApplied() : false;
     }
 

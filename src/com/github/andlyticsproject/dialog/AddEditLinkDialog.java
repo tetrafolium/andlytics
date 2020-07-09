@@ -34,8 +34,8 @@ public class AddEditLinkDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         Bundle arguments = getArguments();
 
         View view = inflater.inflate(R.layout.appinfo_link_addedit_dialog,
@@ -68,7 +68,7 @@ public class AddEditLinkDialog extends DialogFragment {
 
         view.findViewById(R.id.appinfo_link_addedit_dialog_positive_button)
         .setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 String urlString = urlInput.getText().toString();
                 String nameString = nameInput.getText().toString();
 
@@ -97,7 +97,7 @@ public class AddEditLinkDialog extends DialogFragment {
 
         view.findViewById(R.id.appinfo_link_addedit_dialog_negative_button)
         .setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 dismiss();
             }
         });
@@ -106,7 +106,7 @@ public class AddEditLinkDialog extends DialogFragment {
     }
 
     public void setOnFinishAddEditLinkDialogListener(
-        OnFinishAddEditLinkDialogListener listener) {
+        final OnFinishAddEditLinkDialogListener listener) {
         onFinishAddEditLinkDialogListener = listener;
     }
 }

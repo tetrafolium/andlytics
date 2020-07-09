@@ -43,8 +43,8 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
         private Timeframe timeframe;
         private boolean smoothEnabled;
 
-        public AppStatsSummaryLoader(Activity context, String packageName, Timeframe timeframe,
-                                     boolean smoothEnabled) {
+        public AppStatsSummaryLoader(final Activity context, final String packageName, final Timeframe timeframe,
+                                     final boolean smoothEnabled) {
             super(context);
             db = ContentAdapter.getInstance(AndlyticsApp.getInstance());
             this.packageName = packageName;
@@ -63,12 +63,12 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
         }
 
         @Override
-        protected void releaseResult(LoaderResult<AppStatsSummary> result) {
+        protected void releaseResult(final LoaderResult<AppStatsSummary> result) {
             // just a string, nothing to do
         }
 
         @Override
-        protected boolean isActive(LoaderResult<AppStatsSummary> result) {
+        protected boolean isActive(final LoaderResult<AppStatsSummary> result) {
             return false;
         }
     }
@@ -88,7 +88,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         statsActivity.setActionBarTitle(getTitle());
@@ -106,7 +106,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         // DON'T init loader here, data is loaded twice!
@@ -121,7 +121,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
     public abstract ChartListAdapter<T> createChartAdapter();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         oneEntryHint = (View) view.findViewById(R.id.base_chart_one_entry_hint);
@@ -149,7 +149,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
     }
 
     @Override
-    public void updateView(StatsSummary<T> statsSummary) {
+    public void updateView(final StatsSummary<T> statsSummary) {
         if (statsSummary == null) {
             return;
         }
@@ -211,7 +211,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(final Activity activity) {
         super.onAttach(activity);
         try {
             statsActivity = (DetailedStatsActivity) activity;
@@ -228,7 +228,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         menu.clear();
@@ -260,7 +260,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         Context ctx = getActivity();
 
         switch (item.getItemId()) {
@@ -312,7 +312,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
     }
 
     @Override
-    protected void executeLoadData(Timeframe currentTimeFrame) {
+    protected void executeLoadData(final Timeframe currentTimeFrame) {
         Bundle args = new Bundle();
         args.putString(AppStatsSummaryLoader.ARG_PACKAGE_NAME, statsActivity.getPackage());
         args.putBoolean(AppStatsSummaryLoader.ARG_SMOOTH_ENABLED, smoothEnabled);
@@ -334,7 +334,7 @@ public abstract class ChartFragment<T extends Statistic> extends ChartFragmentBa
         initLoader(args);
     }
 
-    public void setCurrentChartSet(ChartSet currentChartSet) {
+    public void setCurrentChartSet(final ChartSet currentChartSet) {
         this.currentChartSet = currentChartSet;
     }
 

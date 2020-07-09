@@ -25,7 +25,7 @@ public class SyncDeveloperAccountsService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleIntent(final Intent intent) {
         developerAccountManager = DeveloperAccountManager.getInstance(this);
         Account[] googleAccounts = AccountManager.get(this).getAccountsByType(
                                        AutosyncHandler.ACCOUNT_TYPE_GOOGLE);
@@ -38,7 +38,7 @@ public class SyncDeveloperAccountsService extends IntentService {
         syncData();
     }
 
-    private void removeStaleGoogleAccounts(Account[] googleAccounts) {
+    private void removeStaleGoogleAccounts(final Account[] googleAccounts) {
         int removed = 0;
         List<DeveloperAccount> developerAccounts = developerAccountManager.getAllDeveloperAccounts();
         for (DeveloperAccount account : developerAccounts) {
@@ -53,7 +53,7 @@ public class SyncDeveloperAccountsService extends IntentService {
         Log.d(TAG, String.format("Removed %d stale Google accounts.", removed));
     }
 
-    private void addNewGoogleAccounts(Account[] googleAccounts) {
+    private void addNewGoogleAccounts(final Account[] googleAccounts) {
         // add new accounts as hidden
         int added = 0;
         List<DeveloperAccount> developerAccounts = developerAccountManager.getAllDeveloperAccounts();
@@ -88,7 +88,7 @@ public class SyncDeveloperAccountsService extends IntentService {
         }
     }
 
-    private Account findMatchingAccount(DeveloperAccount account, Account[] googleAccounts) {
+    private Account findMatchingAccount(final DeveloperAccount account, final Account[] googleAccounts) {
         for (Account googleAccount : googleAccounts) {
             if (googleAccount.name.equals(account.getName())) {
                 return googleAccount;

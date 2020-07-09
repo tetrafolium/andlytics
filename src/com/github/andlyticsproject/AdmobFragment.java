@@ -81,8 +81,8 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
         private Timeframe timeframe;
         private boolean loadRemote;
 
-        public AdmobDbLoader(Context context, String packageName, Timeframe timeframe,
-                             boolean loadRemote) {
+        public AdmobDbLoader(final Context context, final String packageName, final Timeframe timeframe,
+                             final boolean loadRemote) {
             super(context);
             db = ContentAdapter.getInstance(AndlyticsApp.getInstance());
             this.packageName = packageName;
@@ -118,12 +118,12 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
         }
 
         @Override
-        protected void releaseResult(LoaderResult<AdmobStatsSummary> result) {
+        protected void releaseResult(final LoaderResult<AdmobStatsSummary> result) {
             // just a string, nothing to do
         }
 
         @Override
-        protected boolean isActive(LoaderResult<AdmobStatsSummary> result) {
+        protected boolean isActive(final LoaderResult<AdmobStatsSummary> result) {
             return false;
         }
     }
@@ -134,12 +134,12 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         // init loader
@@ -147,7 +147,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         mainViewSwitcher = new ViewSwitcher3D(
@@ -190,7 +190,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
         loadData(getCurrentTimeFrame(), true);
     }
 
-    private void loadData(Timeframe timeframe, boolean loadRemote) {
+    private void loadData(final Timeframe timeframe, final boolean loadRemote) {
         Bundle args = new Bundle();
         args.putString(ARG_PACKAGE_NAME, statsActivity.getPackage());
         args.putSerializable(ARG_TIMEFRAME, timeframe);
@@ -213,7 +213,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public void updateView(StatsSummary<AdmobStats> statsSummary) {
+    public void updateView(final StatsSummary<AdmobStats> statsSummary) {
         admobListAdapter.setOverallStats(statsSummary.getOverallStats());
 
         List<AdmobStats> admobStats = statsSummary.getStats();
@@ -231,8 +231,8 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public void setupListAdapter(ChartListAdapter<AdmobStats> listAdapter,
-                                 StatsSummary<AdmobStats> statsSummary) {
+    public void setupListAdapter(final ChartListAdapter<AdmobStats> listAdapter,
+                                 final StatsSummary<AdmobStats> statsSummary) {
         // nothing to do
     }
 
@@ -247,7 +247,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.admob_fragment_menu, menu);
         //
@@ -286,7 +286,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         Context ctx = getActivity();
         if (ctx == null) {
             return false;
@@ -347,7 +347,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    protected void executeLoadData(Timeframe currentTimeFrame) {
+    protected void executeLoadData(final Timeframe currentTimeFrame) {
         loadData(currentTimeFrame, false);
     }
 
@@ -374,7 +374,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
             inflate.setOnClickListener(new OnClickListener() {
 
                 @Override
-                public void onClick(View view) {
+                public void onClick(final View view) {
                     String currentAdmobAccount = (String) view.getTag();
                     selectedAdmobAccount = currentAdmobAccount;
                     configSwitcher.showNext();
@@ -414,7 +414,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
         return ctx.getString(R.string.admob);
     }
 
-    private void loadChartData(List<AdmobStats> statsForApp) {
+    private void loadChartData(final List<AdmobStats> statsForApp) {
         if (statsForApp != null && statsForApp.size() > 0) {
             updateCharts(statsForApp);
 
@@ -437,7 +437,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    protected List<View> getExtraFullViews(View view) {
+    protected List<View> getExtraFullViews(final View view) {
         configSwitcher = (ViewSwitcher) view.findViewById(R.id.base_chart_viewswitcher_config);
         configSwitcher.setInAnimation(AnimationUtils.loadAnimation(getActivity(),
                                       R.anim.slide_in_right));
@@ -460,7 +460,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public Loader<LoaderResult<AdmobStatsSummary>> onCreateLoader(int id, Bundle args) {
+    public Loader<LoaderResult<AdmobStatsSummary>> onCreateLoader(final int id, final Bundle args) {
         String packageName = null;
         Timeframe timeframe = null;
         boolean loadRemote = false;
@@ -474,8 +474,8 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public void onLoadFinished(Loader<LoaderResult<AdmobStatsSummary>> loader,
-                               LoaderResult<AdmobStatsSummary> result) {
+    public void onLoadFinished(final Loader<LoaderResult<AdmobStatsSummary>> loader,
+                               final LoaderResult<AdmobStatsSummary> result) {
         statsActivity.refreshFinished();
 
         if (result.isFailed()) {
@@ -492,16 +492,16 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
     }
 
     @Override
-    public void onLoaderReset(Loader<LoaderResult<AdmobStatsSummary>> arg0) {
+    public void onLoaderReset(final Loader<LoaderResult<AdmobStatsSummary>> arg0) {
     }
 
     @Override
-    public void initLoader(Bundle args) {
+    public void initLoader(final Bundle args) {
         // NOOP, to fulfill ChartFragment interface
     }
 
     @Override
-    public void restartLoader(Bundle args) {
+    public void restartLoader(final Bundle args) {
         // NOOP, to fulfill ChartFragment interface
     }
 
@@ -515,7 +515,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
         private DetailedStatsActivity statsActivity;
         private String admobAccount;
 
-        public LoadAdUnitsTask(Activity activity, AdmobFragment admobFragment, String admobAccount) {
+        public LoadAdUnitsTask(final Activity activity, final AdmobFragment admobFragment, final String admobAccount) {
             super(activity);
             this.statsActivity = (DetailedStatsActivity) activity;
             this.admobFragment = admobFragment;
@@ -532,7 +532,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
         }
 
         @Override
-        protected Exception doInBackground(Void... params) {
+        protected Exception doInBackground(final Void... params) {
             if (activity == null) {
                 return null;
             }
@@ -547,7 +547,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
         }
 
         @Override
-        protected void onPostExecute(Exception error) {
+        protected void onPostExecute(final Exception error) {
             if (activity == null) {
                 return;
             }
@@ -602,7 +602,7 @@ public class AdmobFragment extends ChartFragment<AdmobStats> implements
                     inflate.setOnClickListener(new OnClickListener() {
 
                         @Override
-                        public void onClick(View view) {
+                        public void onClick(final View view) {
                             String admobAdUnitId = (String) view.getTag();
                             AndlyticsDb.getInstance(activity).saveAdmobAdUnitId(
                                 statsActivity.getPackage(), admobAccount, admobAdUnitId);

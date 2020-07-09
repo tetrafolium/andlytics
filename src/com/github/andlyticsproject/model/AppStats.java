@@ -83,7 +83,7 @@ public class AppStats extends Statistic {
      *
      * @param appStats a <code>AppStats</code> object
      */
-    public AppStats(AppStats appStats) {
+    public AppStats(final AppStats appStats) {
         this.totalDownloads = appStats.totalDownloads;
         this.activeInstalls = appStats.activeInstalls;
         this.numberOfComments = appStats.numberOfComments;
@@ -126,7 +126,7 @@ public class AppStats extends Statistic {
         return totalDownloads;
     }
 
-    public void setTotalDownloads(int totalDownloads) {
+    public void setTotalDownloads(final int totalDownloads) {
         this.totalDownloads = totalDownloads;
     }
 
@@ -134,7 +134,7 @@ public class AppStats extends Statistic {
         return activeInstalls;
     }
 
-    public void setActiveInstalls(int activeInstalls) {
+    public void setActiveInstalls(final int activeInstalls) {
         this.activeInstalls = activeInstalls;
     }
 
@@ -142,7 +142,7 @@ public class AppStats extends Statistic {
         return numberOfComments;
     }
 
-    public void setNumberOfComments(int numberOfComments) {
+    public void setNumberOfComments(final int numberOfComments) {
         this.numberOfComments = numberOfComments;
     }
 
@@ -150,7 +150,7 @@ public class AppStats extends Statistic {
         return dailyDownloads;
     }
 
-    public void setDailyDownloads(int dailyDownloads) {
+    public void setDailyDownloads(final int dailyDownloads) {
         this.dailyDownloads = dailyDownloads;
     }
 
@@ -158,12 +158,12 @@ public class AppStats extends Statistic {
         return smoothingApplied;
     }
 
-    public void setSmoothingApplied(boolean smoothingApplied) {
+    public void setSmoothingApplied(final boolean smoothingApplied) {
         this.smoothingApplied = smoothingApplied;
     }
 
-    public void setRating(Integer rating1, Integer rating2, Integer rating3, Integer rating4,
-                          Integer rating5) {
+    public void setRating(final Integer rating1, final Integer rating2, final Integer rating3, final Integer rating4,
+                          final Integer rating5) {
         this.rating1 = rating1;
         this.rating2 = rating2;
         this.rating3 = rating3;
@@ -171,7 +171,7 @@ public class AppStats extends Statistic {
         this.rating5 = rating5;
     }
 
-    public void addRating(int i, int value) {
+    public void addRating(final int i, final int value) {
 
         switch (i) {
         case 1:
@@ -270,7 +270,7 @@ public class AppStats extends Statistic {
         return this.avgRatingString;
     }
 
-    public String getRatingPercentString(int rating) {
+    public String getRatingPercentString(final int rating) {
         return ratingPercentStringMap.get(rating);
     }
 
@@ -357,7 +357,7 @@ public class AppStats extends Statistic {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -418,7 +418,7 @@ public class AppStats extends Statistic {
         return rating1;
     }
 
-    public void setRating1(Integer rating1) {
+    public void setRating1(final Integer rating1) {
         this.rating1 = rating1;
     }
 
@@ -426,7 +426,7 @@ public class AppStats extends Statistic {
         return rating2;
     }
 
-    public void setRating2(Integer rating2) {
+    public void setRating2(final Integer rating2) {
         this.rating2 = rating2;
     }
 
@@ -434,7 +434,7 @@ public class AppStats extends Statistic {
         return rating3;
     }
 
-    public void setRating3(Integer rating3) {
+    public void setRating3(final Integer rating3) {
         this.rating3 = rating3;
     }
 
@@ -442,7 +442,7 @@ public class AppStats extends Statistic {
         return rating4;
     }
 
-    public void setRating4(Integer rating4) {
+    public void setRating4(final Integer rating4) {
         this.rating4 = rating4;
     }
 
@@ -454,7 +454,7 @@ public class AppStats extends Statistic {
         return rating1Diff;
     }
 
-    public void setRating1Diff(Integer rating1Diff) {
+    public void setRating1Diff(final Integer rating1Diff) {
         this.rating1Diff = rating1Diff;
     }
 
@@ -462,7 +462,7 @@ public class AppStats extends Statistic {
         return rating2Diff;
     }
 
-    public void setRating2Diff(Integer rating2Diff) {
+    public void setRating2Diff(final Integer rating2Diff) {
         this.rating2Diff = rating2Diff;
     }
 
@@ -470,7 +470,7 @@ public class AppStats extends Statistic {
         return rating3Diff;
     }
 
-    public void setRating3Diff(Integer rating3Diff) {
+    public void setRating3Diff(final Integer rating3Diff) {
         this.rating3Diff = rating3Diff;
     }
 
@@ -478,7 +478,7 @@ public class AppStats extends Statistic {
         return rating4Diff;
     }
 
-    public void setRating4Diff(Integer rating4Diff) {
+    public void setRating4Diff(final Integer rating4Diff) {
         this.rating4Diff = rating4Diff;
     }
 
@@ -486,15 +486,15 @@ public class AppStats extends Statistic {
         return rating5Diff;
     }
 
-    public void setRating5Diff(Integer rating5Diff) {
+    public void setRating5Diff(final Integer rating5Diff) {
         this.rating5Diff = rating5Diff;
     }
 
-    public void setRating5(Integer rating5) {
+    public void setRating5(final Integer rating5) {
         this.rating5 = rating5;
     }
 
-    public void setAvgRatingDiff(float avgRatingDiff) {
+    public void setAvgRatingDiff(final float avgRatingDiff) {
         this.avgRatingDiff = avgRatingDiff;
     }
 
@@ -502,7 +502,7 @@ public class AppStats extends Statistic {
         return avgRatingDiff;
     }
 
-    public void setRatingCountDiff(int ratingCountDiff) {
+    public void setRatingCountDiff(final int ratingCountDiff) {
         this.ratingCountDiff = ratingCountDiff;
     }
 
@@ -510,7 +510,7 @@ public class AppStats extends Statistic {
         return ratingCountDiff;
     }
 
-    public void setAvgRatingDiffString(String avgRatingDiffString) {
+    public void setAvgRatingDiffString(final String avgRatingDiffString) {
         this.avgRatingDiffString = avgRatingDiffString;
     }
 
@@ -518,7 +518,7 @@ public class AppStats extends Statistic {
         return avgRatingDiffString;
     }
 
-    public void setNumberOfCommentsDiff(int numberOfCommentsDiff) {
+    public void setNumberOfCommentsDiff(final int numberOfCommentsDiff) {
         this.numberOfCommentsDiff = numberOfCommentsDiff;
     }
 
@@ -526,7 +526,7 @@ public class AppStats extends Statistic {
         return numberOfCommentsDiff;
     }
 
-    public void setActiveInstallsDiff(int activeInstallsDiff) {
+    public void setActiveInstallsDiff(final int activeInstallsDiff) {
         this.activeInstallsDiff = activeInstallsDiff;
     }
 
@@ -534,7 +534,7 @@ public class AppStats extends Statistic {
         return activeInstallsDiff;
     }
 
-    public void setVersionCode(Integer versionCode) {
+    public void setVersionCode(final Integer versionCode) {
         this.versionCode = versionCode;
     }
 
@@ -542,11 +542,11 @@ public class AppStats extends Statistic {
         return versionCode;
     }
 
-    public void setActiveInstallsPercentString(String activeInstallsPercentString) {
+    public void setActiveInstallsPercentString(final String activeInstallsPercentString) {
         this.activeInstallsPercentString = activeInstallsPercentString;
     }
 
-    public void setAvgRatingString(String avgRatingString) {
+    public void setAvgRatingString(final String avgRatingString) {
         this.avgRatingString = avgRatingString;
     }
 
@@ -554,11 +554,11 @@ public class AppStats extends Statistic {
         return packageName;
     }
 
-    public void setPackageName(String packageName) {
+    public void setPackageName(final String packageName) {
         this.packageName = packageName;
     }
 
-    public void setNumberOfErrors(Integer numberOfErrors) {
+    public void setNumberOfErrors(final Integer numberOfErrors) {
         this.numberOfErrors = numberOfErrors;
     }
 
@@ -570,11 +570,11 @@ public class AppStats extends Statistic {
         return totalRevenue;
     }
 
-    public void setTotalRevenue(Revenue totalRevenue) {
+    public void setTotalRevenue(final Revenue totalRevenue) {
         this.totalRevenue = totalRevenue;
     }
 
-    public AppStatsDiff createDiff(AppStats previousStats, AppInfo appInfo) {
+    public AppStatsDiff createDiff(final AppStats previousStats, final AppInfo appInfo) {
         AppStatsDiff diff = new AppStatsDiff();
         diff.setAppName(appInfo.getName());
         diff.setPackageName(appInfo.getPackageName());

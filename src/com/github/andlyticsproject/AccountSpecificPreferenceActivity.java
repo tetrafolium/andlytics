@@ -37,7 +37,7 @@ public class AccountSpecificPreferenceActivity extends PreferenceActivity implem
     private AutosyncHandler autosyncHandler = new AutosyncHandler();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
@@ -64,7 +64,7 @@ public class AccountSpecificPreferenceActivity extends PreferenceActivity implem
         autosyncPref.setTitle(R.string.auto_sync);
         autosyncPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 autosyncHandler.setAutosyncEnabled(accountName, (Boolean) newValue);
                 return true;
             }
@@ -123,7 +123,7 @@ public class AccountSpecificPreferenceActivity extends PreferenceActivity implem
     }
 
     @Override
-    public void onLoadAppListTaskComplete(List<AppInfo> apps) {
+    public void onLoadAppListTaskComplete(final List<AppInfo> apps) {
         task.detach();
         task = null;
         if (apps != null && apps.size() > 0) {
@@ -154,7 +154,7 @@ public class AccountSpecificPreferenceActivity extends PreferenceActivity implem
 
     OnPreferenceChangeListener notificationAppPrefChangedListener = new OnPreferenceChangeListener() {
         @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
+        public boolean onPreferenceChange(final Preference preference, final Object newValue) {
             AndlyticsApp.getInstance().getDbAdapter()
             .setSkipNotification((String) preference.getSummary(), !(Boolean) newValue);
             return true;
@@ -163,7 +163,7 @@ public class AccountSpecificPreferenceActivity extends PreferenceActivity implem
 
     OnPreferenceChangeListener hiddenAppPrefChangedListener = new OnPreferenceChangeListener() {
         @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
+        public boolean onPreferenceChange(final Preference preference, final Object newValue) {
             AndlyticsApp.getInstance().getDbAdapter()
             .setGhost(accountName, (String) preference.getSummary(), (Boolean) newValue);
             return true;
@@ -171,7 +171,7 @@ public class AccountSpecificPreferenceActivity extends PreferenceActivity implem
     };
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
@@ -182,13 +182,13 @@ public class AccountSpecificPreferenceActivity extends PreferenceActivity implem
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         getDelegate().onPostCreate(savedInstanceState);
     }
 
     @Override
-    public void setContentView(@LayoutRes int layoutResID) {
+    public void setContentView(final @LayoutRes int layoutResID) {
         getDelegate().setContentView(layoutResID);
     }
 
@@ -210,7 +210,7 @@ public class AccountSpecificPreferenceActivity extends PreferenceActivity implem
         getDelegate().onDestroy();
     }
 
-    private void setSupportActionBar(@Nullable Toolbar toolbar) {
+    private void setSupportActionBar(final @Nullable Toolbar toolbar) {
         getDelegate().setSupportActionBar(toolbar);
     }
 

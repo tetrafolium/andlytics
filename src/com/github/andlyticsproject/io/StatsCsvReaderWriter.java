@@ -37,7 +37,7 @@ public class StatsCsvReaderWriter {
 
     private static final String TAG = StatsCsvReaderWriter.class.getSimpleName();
 
-    public static final String[] HEADER_LIST = new String[] { "PACKAGE_NAME", "DATE",
+    public static final String[] HEADER_LIST = new String[] {"PACKAGE_NAME", "DATE",
             "TOTAL_DOWNLOADS", "ACTIVE_INSTALLS", "NUMBER_OF_COMMENTS", "1_STAR_RATINGS",
             "2_STAR_RATINGS", "3_STAR_RATINGS", "4_STAR_RATINGS", "5_STAR_RATINGS", "VERSION_CODE",
             "NUM_ERRORS", "TOTAL_REVENUE", "CURRENCY"
@@ -70,11 +70,11 @@ public class StatsCsvReaderWriter {
         return new File(getExportDir(), DEFAULT_EXPORT_ZIP_FILE);
     }
 
-    public static File getExportFileForAccount(String accountName) {
+    public static File getExportFileForAccount(final String accountName) {
         return new File(getExportDir(), String.format(EXPORT_ZIP_FILE_TEMPLATE, accountName));
     }
 
-    public static String getAccountNameForExport(String filename) {
+    public static String getAccountNameForExport(final String filename) {
         int firstDashIdx = filename.indexOf('-');
         int suffixIdx = filename.indexOf(".zip");
         if (firstDashIdx == -1 || suffixIdx == -1) {
@@ -84,11 +84,11 @@ public class StatsCsvReaderWriter {
         return filename.substring(firstDashIdx + 1, suffixIdx);
     }
 
-    public StatsCsvReaderWriter(Context context) {
+    public StatsCsvReaderWriter(final Context context) {
     }
 
     @SuppressWarnings("resource")
-    public void writeStats(String packageName, List<AppStats> stats, ZipOutputStream zip)
+    public void writeStats(final String packageName, final List<AppStats> stats, final ZipOutputStream zip)
     throws IOException {
         zip.putNextEntry(new ZipEntry(packageName + CSV_SUFFIX));
 
@@ -126,8 +126,8 @@ public class StatsCsvReaderWriter {
         writer.flush();
     }
 
-    public static List<String> getImportFileNamesFromZip(String accountName,
-            List<String> packageNames, String zipFilename) throws ServiceException {
+    public static List<String> getImportFileNamesFromZip(final String accountName,
+            final List<String> packageNames, final String zipFilename) throws ServiceException {
 
         List<String> result = new ArrayList<String>();
 
@@ -156,7 +156,7 @@ public class StatsCsvReaderWriter {
 
     }
 
-    private static boolean isValidFile(String accountName, InputStream in, List<String> packageNames)
+    private static boolean isValidFile(final String accountName, final InputStream in, final List<String> packageNames)
     throws ServiceException {
 
         if (packageNames.isEmpty()) {
@@ -195,7 +195,7 @@ public class StatsCsvReaderWriter {
         return false;
     }
 
-    public static String getPackageName(String filename) {
+    public static String getPackageName(final String filename) {
         int suffixIdx = filename.indexOf(CSV_SUFFIX);
         if (suffixIdx == -1) {
             return null;
@@ -205,7 +205,7 @@ public class StatsCsvReaderWriter {
     }
 
     @SuppressWarnings("resource")
-    public List<AppStats> readStats(InputStream in) throws ServiceException {
+    public List<AppStats> readStats(final InputStream in) throws ServiceException {
 
         List<AppStats> appStats = new ArrayList<AppStats>();
 
@@ -268,15 +268,15 @@ public class StatsCsvReaderWriter {
         return appStats;
     }
 
-    private Double parseDouble(String totalRevenueStr) {
+    private Double parseDouble(final String totalRevenueStr) {
         return TextUtils.isEmpty(totalRevenueStr) ? null : Double.parseDouble(totalRevenueStr);
     }
 
-    private Integer parseInt(String intStr) {
+    private Integer parseInt(final String intStr) {
         return TextUtils.isEmpty(intStr) ? null : Integer.parseInt(intStr);
     }
 
-    public String readPackageName(String fileName) throws ServiceException {
+    public String readPackageName(final String fileName) throws ServiceException {
         try {
             return readPackageName(new FileInputStream(new File(getExportDirPath(), fileName)));
         } catch (IOException e) {
@@ -284,7 +284,7 @@ public class StatsCsvReaderWriter {
         }
     }
 
-    public String readPackageName(InputStream in) throws ServiceException {
+    public String readPackageName(final InputStream in) throws ServiceException {
         String packageName = null;
 
         CSVReader reader;

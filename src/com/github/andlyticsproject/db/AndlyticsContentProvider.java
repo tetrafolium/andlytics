@@ -36,7 +36,7 @@ public class AndlyticsContentProvider extends ContentProvider {
     private AndlyticsDb dbHelper;
 
     @Override
-    public int delete(Uri uri, String where, String[] whereArgs) {
+    public int delete(final Uri uri, final String where, final String[] whereArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int count;
         switch (sUriMatcher.match(uri)) {
@@ -68,7 +68,7 @@ public class AndlyticsContentProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(final Uri uri) {
         switch (sUriMatcher.match(uri)) {
         case ID_TABLE_STATS:
             return AppStatsTable.CONTENT_TYPE;
@@ -89,7 +89,7 @@ public class AndlyticsContentProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues initialValues) {
+    public Uri insert(final Uri uri, final ContentValues initialValues) {
 
         ContentValues values;
         if (initialValues != null) {
@@ -187,8 +187,8 @@ public class AndlyticsContentProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-                        String sortOrder) {
+    public Cursor query(final Uri uri, final String[] projection, final String selection, final String[] selectionArgs,
+                        final String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         String groupBy = null;
@@ -257,7 +257,7 @@ public class AndlyticsContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
+    public int update(final Uri uri, final ContentValues values, final String where, final String[] whereArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int count;
         switch (sUriMatcher.match(uri)) {
@@ -301,7 +301,7 @@ public class AndlyticsContentProvider extends ContentProvider {
                            ID_TABLE_REVENUE_SUMMARY);
     }
 
-    public long getAppStatsIdByDate(String packagename, Date date, SQLiteDatabase db)
+    public long getAppStatsIdByDate(final String packagename, final Date date, final SQLiteDatabase db)
     throws SQLException {
 
         long result = -1;
@@ -312,7 +312,7 @@ public class AndlyticsContentProvider extends ContentProvider {
 
         Cursor mCursor = db.query(
                              AppStatsTable.DATABASE_TABLE_NAME,
-                             new String[] { AppStatsTable.KEY_ROWID, AppStatsTable.KEY_STATS_REQUESTDATE },
+                             new String[] {AppStatsTable.KEY_ROWID, AppStatsTable.KEY_STATS_REQUESTDATE },
                              AppStatsTable.KEY_STATS_PACKAGENAME + "='" + packagename + "' and "
                              + AppStatsTable.KEY_STATS_REQUESTDATE + " BETWEEN '"
                              + dateFormatStart.format(date) + "' and '" + dateFormatEnd.format(date)
@@ -327,7 +327,7 @@ public class AndlyticsContentProvider extends ContentProvider {
         return result;
     }
 
-    private Date parseDate(String string) {
+    private Date parseDate(final String string) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             return dateFormat.parse(string);

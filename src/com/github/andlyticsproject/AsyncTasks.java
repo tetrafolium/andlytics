@@ -18,11 +18,11 @@ public class AsyncTasks {
         private List<AppInfo> mResult = null;
         private LoadAppListTaskCompleteListener mCallback;
 
-        public LoadAppListTask(LoadAppListTaskCompleteListener callback) {
+        public LoadAppListTask(final LoadAppListTaskCompleteListener callback) {
             mCallback = callback;
         }
 
-        public void attach(LoadAppListTaskCompleteListener callback) {
+        public void attach(final LoadAppListTaskCompleteListener callback) {
             mCallback = callback;
         }
 
@@ -35,12 +35,12 @@ public class AsyncTasks {
         }
 
         @Override
-        protected List<AppInfo> doInBackground(String... params) {
+        protected List<AppInfo> doInBackground(final String... params) {
             return AndlyticsApp.getInstance().getDbAdapter().getAllAppsLatestStats(params[0]);
         }
 
         @Override
-        protected void onPostExecute(List<AppInfo> result) {
+        protected void onPostExecute(final List<AppInfo> result) {
             mResult = result;
             if (mCallback != null) {
                 mCallback.onLoadAppListTaskComplete(mResult);

@@ -8,11 +8,11 @@ public abstract class DetachableAsyncTask<Params, Progress, Result, Parent> exte
 
     protected Parent activity;
 
-    public DetachableAsyncTask(Parent activity) {
+    public DetachableAsyncTask(final Parent activity) {
         this.activity = activity;
     }
 
-    public void attach(Parent activity) {
+    public void attach(final Parent activity) {
         this.activity = activity;
     }
 

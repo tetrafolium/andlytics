@@ -14,7 +14,7 @@ public class AdmobStatsSummary extends StatsSummary<AdmobStats> {
     }
 
     @Override
-    public void addStat(AdmobStats stat) {
+    public void addStat(final AdmobStats stat) {
         // hack to ignore empty Admob stats after migration
         if (stat.getRequests() == 0 && stat.getFillRate() == 0) {
             return;
@@ -52,7 +52,7 @@ public class AdmobStatsSummary extends StatsSummary<AdmobStats> {
 
 
     @Override
-    public void calculateOverallStats(int limit, boolean smoothEnabled) {
+    public void calculateOverallStats(final int limit, final boolean smoothEnabled) {
         Collections.reverse(stats);
         int count = stats.size();
         if (count > 0) {

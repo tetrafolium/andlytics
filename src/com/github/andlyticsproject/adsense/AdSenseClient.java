@@ -58,8 +58,8 @@ public class AdSenseClient {
     private AdSenseClient() {
     }
 
-    public static void foregroundSyncStats(Context context, String admobAccount,
-                                           List<String> adUnits) throws Exception {
+    public static void foregroundSyncStats(final Context context, final String admobAccount,
+                                           final List<String> adUnits) throws Exception {
         try {
             AdSense adsense = createForegroundSyncClient(context, admobAccount);
             syncStats(context, adsense, adUnits);
@@ -77,7 +77,7 @@ public class AdSenseClient {
         }
     }
 
-    private static AdSense createForegroundSyncClient(Context context, String admobAccount) {
+    private static AdSense createForegroundSyncClient(final Context context, final String admobAccount) {
         GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(context,
                                              Collections.singleton(AdSenseScopes.ADSENSE_READONLY));
         credential.setSelectedAccountName(admobAccount);
@@ -87,8 +87,8 @@ public class AdSenseClient {
         return adsense;
     }
 
-    public static void backgroundSyncStats(Context context, String admobAccount,
-                                           List<String> adUnits, Bundle extras, String authority, Bundle syncBundle)
+    public static void backgroundSyncStats(final Context context, final String admobAccount,
+                                           final List<String> adUnits, final Bundle extras, final String authority, final Bundle syncBundle)
     throws Exception {
         try {
             AdSense adsense = createBackgroundSyncClient(context, admobAccount, extras, authority,
@@ -108,7 +108,7 @@ public class AdSenseClient {
         }
     }
 
-    private static void syncStats(Context context, AdSense adsense, List<String> adUnits)
+    private static void syncStats(final Context context, final AdSense adsense, final List<String> adUnits)
     throws Exception {
         Calendar[] syncPeriod = getSyncPeriod(adUnits);
         boolean bulkInsert = false;
@@ -135,7 +135,7 @@ public class AdSenseClient {
         updateStats(context, bulkInsert, result);
     }
 
-    private static Calendar[] getSyncPeriod(List<String> adUnits) {
+    private static Calendar[] getSyncPeriod(final List<String> adUnits) {
         Calendar startDateCal = null;
         Calendar endDateCal = Calendar.getInstance();
         endDateCal.add(Calendar.DAY_OF_YEAR, 1);
@@ -160,10 +160,10 @@ public class AdSenseClient {
             }
         }
 
-        return new Calendar[] { startDateCal, endDateCal };
+        return new Calendar[] {startDateCal, endDateCal };
     }
 
-    private static String getClientId(AdSense adsense, Account account) throws IOException {
+    private static String getClientId(final AdSense adsense, final Account account) throws IOException {
         AdClients adClients = adsense.accounts().adclients().list(account.getId())
                               .setMaxResults(MAX_LIST_PAGE_SIZE).setPageToken(null).execute();
         if (adClients.getItems() == null || adClients.getItems().isEmpty()) {
@@ -174,7 +174,7 @@ public class AdSenseClient {
         return adClients.getItems().get(0).getId();
     }
 
-    private static Account getFirstAccount(AdSense adsense) throws IOException {
+    private static Account getFirstAccount(final AdSense adsense) throws IOException {
         Accounts accounts = adsense.accounts().list().execute();
 
         if (accounts.isEmpty()) {
@@ -184,7 +184,7 @@ public class AdSenseClient {
         return accounts.getItems().get(0);
     }
 
-    private static void updateStats(Context context, boolean bulkInsert, List<AdmobStats> result) {
+    private static void updateStats(final Context context, final boolean bulkInsert, final List<AdmobStats> result) {
         ContentAdapter contentAdapter = ContentAdapter.getInstance((Application) context
                                         .getApplicationContext());
         if (bulkInsert) {
@@ -207,8 +207,8 @@ public class AdSenseClient {
         }
     }
 
-    private static AdSense createBackgroundSyncClient(Context context, String admobAccount,
-            Bundle extras, String authority, Bundle syncBundle) {
+    private static AdSense createBackgroundSyncClient(final Context context, final String admobAccount,
+            final Bundle extras, final String authority, final Bundle syncBundle) {
         BackgroundGoogleAccountCredential credential = BackgroundGoogleAccountCredential
                 .usingOAuth2(context, Collections.singleton(AdSenseScopes.ADSENSE_READONLY),
                              extras, authority, syncBundle);
@@ -218,8 +218,8 @@ public class AdSenseClient {
         return adsense;
     }
 
-    private static List<AdmobStats> generateReport(AdSense adsense, Account account,
-            String adClientId, Date startDate, Date endDate) throws IOException, ParseException {
+    private static List<AdmobStats> generateReport(final AdSense adsense, final Account account,
+            final String adClientId, final Date startDate, final Date endDate) throws IOException, ParseException {
         String startDateStr = DATE_FORMATTER.format(startDate);
         String endDateStr = DATE_FORMATTER.format(endDate);
         Generate request = adsense.accounts().reports()
@@ -287,11 +287,11 @@ public class AdSenseClient {
         return result;
     }
 
-    public static String escapeFilterParameter(String parameter) {
+    public static String escapeFilterParameter(final String parameter) {
         return parameter.replace("\\", "\\\\").replace(",", "\\,");
     }
 
-    public static Map<String, String> getAdUnits(Context context, String admobAccount)
+    public static Map<String, String> getAdUnits(final Context context, final String admobAccount)
     throws IOException {
         AdSense adsense = createForegroundSyncClient(context, admobAccount);
 

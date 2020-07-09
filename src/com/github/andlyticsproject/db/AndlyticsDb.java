@@ -35,7 +35,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
 
     private Context context;
 
-    public static synchronized AndlyticsDb getInstance(Context context) {
+    public static synchronized AndlyticsDb getInstance(final Context context) {
         if (instance == null) {
             instance = new AndlyticsDb(context);
         }
@@ -43,13 +43,13 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         return instance;
     }
 
-    private AndlyticsDb(Context context) {
+    private AndlyticsDb(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(final SQLiteDatabase db) {
         Log.d(TAG, "Creating databse");
         db.execSQL(AppInfoTable.TABLE_CREATE_APPINFO);
         db.execSQL(AppStatsTable.TABLE_CREATE_STATS);
@@ -62,7 +62,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ".");
         if (oldVersion < 9) {
             Log.w(TAG, "Old version < 9 - drop all tables & recreate");
@@ -167,8 +167,8 @@ public class AndlyticsDb extends SQLiteOpenHelper {
             db.execSQL("ALTER table " + AppInfoTable.DATABASE_TABLE_NAME + " add "
                        + AppInfoTable.KEY_APP_DEVELOPER_NAME + " text");
             // XXX
-            //			db.execSQL("ALTER table " + DeveloperAccountsTable.DATABASE_TABLE_NAME + " add "
-            //					+ DeveloperAccountsTable.DEVELOPER_ID + " text");
+            //                  db.execSQL("ALTER table " + DeveloperAccountsTable.DATABASE_TABLE_NAME + " add "
+            //                                  + DeveloperAccountsTable.DEVELOPER_ID + " text");
         }
         if (oldVersion < 21) {
             Log.w(TAG, "Old version < 21 - adding revenue_summary table");
@@ -212,7 +212,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
     }
 
     @SuppressWarnings("deprecation")
-    private void migrateAppInfoPrefs(SQLiteDatabase db) {
+    private void migrateAppInfoPrefs(final SQLiteDatabase db) {
         Log.d(TAG, "Migrating app info settings from preferences...");
         int migrated = 0;
 
@@ -249,7 +249,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
                     values.put(AppInfoTable.KEY_APP_ADMOB_SITE_ID, admobSiteId);
                     values.put(AppInfoTable.KEY_APP_ADMOB_ACCOUNT, admobAccount);
                     db.update(AppInfoTable.DATABASE_TABLE_NAME, values, "_id = ?",
-                              new String[] { Long.toString(p.id) });
+                              new String[] {Long.toString(p.id) });
                 }
                 long lastCommentsUpdate = Preferences.getLastCommentsRemoteUpdateTime(context,
                                           p.name);
@@ -257,7 +257,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
                     ContentValues values = new ContentValues();
                     values.put(AppInfoTable.KEY_APP_LAST_COMMENTS_UPDATE, lastCommentsUpdate);
                     db.update(AppInfoTable.DATABASE_TABLE_NAME, values, "_id = ?",
-                              new String[] { Long.toString(p.id) });
+                              new String[] {Long.toString(p.id) });
                 }
                 migrated++;
             }
@@ -271,7 +271,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
     }
 
     @SuppressWarnings("deprecation")
-    private void migrateAccountsFromPrefs(SQLiteDatabase db) {
+    private void migrateAccountsFromPrefs(final SQLiteDatabase db) {
         Log.d(TAG, "Migrating developer accounts from preferences...");
         int migrated = 0;
 
@@ -307,17 +307,17 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         Log.d(TAG, String.format("Successfully migrated %d developer accounts", migrated));
     }
 
-    private long addDeveloperAccount(SQLiteDatabase db, DeveloperAccount account) {
+    private long addDeveloperAccount(final SQLiteDatabase db, final DeveloperAccount account) {
         ContentValues values = toValues(account);
 
         return db.insertOrThrow(DeveloperAccountsTable.DATABASE_TABLE_NAME, null, values);
     }
 
-    public synchronized long addDeveloperAccount(DeveloperAccount account) {
+    public synchronized long addDeveloperAccount(final DeveloperAccount account) {
         return addDeveloperAccount(getWritableDatabase(), account);
     }
 
-    public static ContentValues toValues(DeveloperAccount account) {
+    public static ContentValues toValues(final DeveloperAccount account) {
         ContentValues result = new ContentValues();
         result.put(DeveloperAccountsTable.NAME, account.getName());
         result.put(DeveloperAccountsTable.STATE, account.getState().ordinal());
@@ -325,13 +325,13 @@ public class AndlyticsDb extends SQLiteOpenHelper {
                           .getTime();
         result.put(DeveloperAccountsTable.LAST_STATS_UPDATE, updateTime);
         // XXX
-        //		result.put(DeveloperAccountsTable.DEVELOPER_ID, account.getDeveloperId());
+        //              result.put(DeveloperAccountsTable.DEVELOPER_ID, account.getDeveloperId());
 
         return result;
     }
 
     // account, site ID, ad unit ID (only if migrated to 'new Admob')
-    public String[] getAdmobDetails(String packageName) {
+    public String[] getAdmobDetails(final String packageName) {
         SQLiteDatabase db = getWritableDatabase();
         Cursor c = null;
         try {
@@ -339,7 +339,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
                              AppInfoTable.KEY_APP_ADMOB_ACCOUNT, AppInfoTable.KEY_APP_ADMOB_SITE_ID,
                              AppInfoTable.KEY_APP_ADMOB_AD_UNIT_ID
                          }, AppInfoTable.KEY_APP_PACKAGENAME
-                         + "=?", new String[] { packageName }, null, null, null);
+                         + "=?", new String[] {packageName }, null, null, null);
             if (!c.moveToNext()) {
                 return null;
             }
@@ -360,13 +360,13 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized void saveAdmobDetails(String packageName, String admobAccount,
-            String admobSiteId) {
+    public synchronized void saveAdmobDetails(final String packageName, final String admobAccount,
+            final String admobSiteId) {
         saveAdmobDetails(packageName, admobAccount, admobSiteId, null);
     }
 
-    public synchronized void saveAdmobDetails(String packageName, String admobAccount,
-            String admobSiteId, String admobAdUnitId) {
+    public synchronized void saveAdmobDetails(final String packageName, final String admobAccount,
+            final String admobSiteId, final String admobAdUnitId) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
@@ -378,7 +378,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
             values.put(AppInfoTable.KEY_APP_ADMOB_AD_UNIT_ID, admobAdUnitId);
 
             db.update(AppInfoTable.DATABASE_TABLE_NAME, values, "_id = ?",
-                      new String[] { Long.toString(id) });
+                      new String[] {Long.toString(id) });
 
             db.setTransactionSuccessful();
         } finally {
@@ -386,8 +386,8 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized void saveAdmobAdUnitId(String packageName, String admobAccount,
-            String admobAdUnitId) {
+    public synchronized void saveAdmobAdUnitId(final String packageName, final String admobAccount,
+            final String admobAdUnitId) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
@@ -398,7 +398,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
             values.put(AppInfoTable.KEY_APP_ADMOB_AD_UNIT_ID, admobAdUnitId);
 
             db.update(AppInfoTable.DATABASE_TABLE_NAME, values, "_id = ?",
-                      new String[] { Long.toString(id) });
+                      new String[] {Long.toString(id) });
 
             db.setTransactionSuccessful();
         } finally {
@@ -406,13 +406,13 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized long getLastCommentsRemoteUpdateTime(String packageName) {
+    public synchronized long getLastCommentsRemoteUpdateTime(final String packageName) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = null;
         try {
             c = db.query(AppInfoTable.DATABASE_TABLE_NAME,
-                         new String[] { AppInfoTable.KEY_APP_LAST_COMMENTS_UPDATE },
-                         AppInfoTable.KEY_APP_PACKAGENAME + "=?", new String[] { packageName }, null,
+                         new String[] {AppInfoTable.KEY_APP_LAST_COMMENTS_UPDATE },
+                         AppInfoTable.KEY_APP_PACKAGENAME + "=?", new String[] {packageName }, null,
                          null, null);
             if (c.getCount() != 1) {
                 Log.w(TAG,
@@ -438,7 +438,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized void saveLastCommentsRemoteUpdateTime(String packageName, long updateTime) {
+    public synchronized void saveLastCommentsRemoteUpdateTime(final String packageName, final long updateTime) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
@@ -448,7 +448,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
             values.put(AppInfoTable.KEY_APP_LAST_COMMENTS_UPDATE, updateTime);
 
             db.update(AppInfoTable.DATABASE_TABLE_NAME, values, "_id = ?",
-                      new String[] { Long.toString(id) });
+                      new String[] {Long.toString(id) });
 
             db.setTransactionSuccessful();
         } finally {
@@ -456,11 +456,11 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    private long findPackageId(SQLiteDatabase db, String packageName) {
+    private long findPackageId(final SQLiteDatabase db, final String packageName) {
         Cursor c = null;
         try {
-            c = db.query(AppInfoTable.DATABASE_TABLE_NAME, new String[] { AppInfoTable.KEY_ROWID },
-                         AppInfoTable.KEY_APP_PACKAGENAME + "=?", new String[] { packageName }, null,
+            c = db.query(AppInfoTable.DATABASE_TABLE_NAME, new String[] {AppInfoTable.KEY_ROWID },
+                         AppInfoTable.KEY_APP_PACKAGENAME + "=?", new String[] {packageName }, null,
                          null, null);
             if (c.getCount() != 1) {
                 Log.w(TAG,
@@ -481,7 +481,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized AppInfo findAppByPackageName(String packageName) {
+    public synchronized AppInfo findAppByPackageName(final String packageName) {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = null;
@@ -496,7 +496,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
                                   AppInfoTable.KEY_APP_ACCOUNT, AppInfoTable.KEY_APP_DEVELOPER_ID,
                                   AppInfoTable.KEY_APP_DEVELOPER_NAME
                               }, AppInfoTable.KEY_APP_PACKAGENAME + "=?",
-                              new String[] { packageName }, null, null, null);
+                              new String[] {packageName }, null, null, null);
 
             if (cursor.getCount() < 1 || !cursor.moveToNext()) {
                 return null;
@@ -555,7 +555,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized void fetchAppDetails(AppInfo appInfo) {
+    public synchronized void fetchAppDetails(final AppInfo appInfo) {
         if (appInfo.getId() == null) {
             // not persistent
             return;
@@ -566,7 +566,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         try {
             c = db.query(AppDetailsTable.DATABASE_TABLE_NAME, AppDetailsTable.ALL_COLUMNS,
                          AppDetailsTable.APPINFO_ID + "=?",
-                         new String[] { Long.toString(appInfo.getId()) }, null, null, null);
+                         new String[] {Long.toString(appInfo.getId()) }, null, null, null);
             if (c.getCount() < 1 || !c.moveToNext()) {
                 return;
             }
@@ -594,17 +594,17 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    private long saveAppDetails(SQLiteDatabase db, AppInfo appInfo) {
+    private long saveAppDetails(final SQLiteDatabase db, final AppInfo appInfo) {
         ContentValues values = toValues(appInfo);
 
         return db.insertOrThrow(AppDetailsTable.DATABASE_TABLE_NAME, null, values);
     }
 
-    public synchronized long saveAppDetails(AppInfo appInfo) {
+    public synchronized long saveAppDetails(final AppInfo appInfo) {
         return saveAppDetails(getWritableDatabase(), appInfo);
     }
 
-    public synchronized void updateAppDetails(AppDetails details) {
+    public synchronized void updateAppDetails(final AppDetails details) {
         ContentValues values = new ContentValues();
         values.put(AppDetailsTable.DESCRIPTION, details.getDescription());
         values.put(AppDetailsTable.CHANGELOG, details.getChangelog());
@@ -613,17 +613,17 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         values.put(AppDetailsTable.LAST_STORE_UPDATE, updateTime);
 
         getWritableDatabase().update(AppDetailsTable.DATABASE_TABLE_NAME, values, "_id = ?",
-                                     new String[] { Long.toString(details.getId()) });
+                                     new String[] {Long.toString(details.getId()) });
     }
 
-    public synchronized void insertOrUpdateAppDetails(AppInfo appInfo) {
+    public synchronized void insertOrUpdateAppDetails(final AppInfo appInfo) {
         SQLiteDatabase db = getWritableDatabase();
 
         Cursor c = null;
         try {
             c = db.query(AppDetailsTable.DATABASE_TABLE_NAME,
-                         new String[] { AppDetailsTable.ROWID }, AppDetailsTable.APPINFO_ID + "=?",
-                         new String[] { Long.toString(appInfo.getId()) }, null, null, null);
+                         new String[] {AppDetailsTable.ROWID }, AppDetailsTable.APPINFO_ID + "=?",
+                         new String[] {Long.toString(appInfo.getId()) }, null, null, null);
             if (c.getCount() < 1 || !c.moveToNext()) {
                 saveAppDetails(appInfo);
             } else {
@@ -638,7 +638,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    public static ContentValues toValues(AppInfo appInfo) {
+    public static ContentValues toValues(final AppInfo appInfo) {
         AppDetails details = appInfo.getDetails();
 
         ContentValues result = new ContentValues();
@@ -652,7 +652,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         return result;
     }
 
-    public synchronized ArrayList<Link> getLinksForApp(long appDetailsId) {
+    public synchronized ArrayList<Link> getLinksForApp(final long appDetailsId) {
         SQLiteDatabase db = getReadableDatabase();
 
         ArrayList<Link> result = new ArrayList<Link>();
@@ -661,7 +661,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         try {
             cursor = db.query(LinksTable.DATABASE_TABLE_NAME, LinksTable.ALL_COLUMNS,
                               LinksTable.APP_DETAILS_ID + " = ?",
-                              new String[] { Long.toString(appDetailsId) }, null, null, LinksTable.ROWID);
+                              new String[] {Long.toString(appDetailsId) }, null, null, LinksTable.ROWID);
             if (cursor == null) {
                 return result;
             }
@@ -683,12 +683,12 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized void deleteLink(long id) {
+    public synchronized void deleteLink(final long id) {
         getWritableDatabase().delete(LinksTable.DATABASE_TABLE_NAME, LinksTable.ROWID + "=?",
-                                     new String[] { Long.toString(id) });
+                                     new String[] {Long.toString(id) });
     }
 
-    public synchronized void addLink(AppDetails appDetails, String url, String name) {
+    public synchronized void addLink(final AppDetails appDetails, final String url, final String name) {
         ContentValues values = new ContentValues();
         values.put(LinksTable.APP_DETAILS_ID, appDetails.getId());
         values.put(LinksTable.LINK_URL, url);
@@ -696,16 +696,16 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         getWritableDatabase().insertOrThrow(LinksTable.DATABASE_TABLE_NAME, null, values);
     }
 
-    public synchronized void editLink(Long id, String url, String name) {
+    public synchronized void editLink(final Long id, final String url, final String name) {
         ContentValues values = new ContentValues();
         values.put(LinksTable.LINK_URL, url);
         values.put(LinksTable.LINK_NAME, name);
 
         getWritableDatabase().update(LinksTable.DATABASE_TABLE_NAME, values,
-                                     LinksTable.ROWID + " = ?", new String[] { Long.toString(id) });
+                                     LinksTable.ROWID + " = ?", new String[] {Long.toString(id) });
     }
 
-    public synchronized void fetchRevenueSummary(AppInfo appInfo) {
+    public synchronized void fetchRevenueSummary(final AppInfo appInfo) {
         if (appInfo.getId() == null) {
             // not persistent
             return;
@@ -716,7 +716,7 @@ public class AndlyticsDb extends SQLiteOpenHelper {
         try {
             c = db.query(RevenueSummaryTable.DATABASE_TABLE_NAME, RevenueSummaryTable.ALL_COLUMNS,
                          RevenueSummaryTable.APPINFO_ID + "=?",
-                         new String[] { Long.toString(appInfo.getId()) }, null, null,
+                         new String[] {Long.toString(appInfo.getId()) }, null, null,
                          RevenueSummaryTable.DATE + " desc", "1");
             if (c.getCount() < 1 || !c.moveToNext()) {
                 return;
