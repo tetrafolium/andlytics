@@ -40,8 +40,8 @@ dependencies {
 
 android {
 
-	compileSdkVersion 28
-	buildToolsVersion "23.0.3"
+    //compileSdkVersion 28
+    //buildToolsVersion "23.0.3"
 
     // lintOptions {
     //     checkReleaseBuilds false
