@@ -140,7 +140,7 @@ throws OperationCanceledException {
 				AndlyticsDb.getInstance(context).insertOrUpdateAppDetails(
 					appDownloadInfo);
 			}
-			Log.d(TAG, "sucessfully synced andlytics");
+			Log.d(TAG, "successfully synced andlytics");
 
 			// check for notifications
 			NotificationHandler.handleNotificaions(context, diffs, account.name);
@@ -154,7 +154,7 @@ throws OperationCanceledException {
 						context, admobAccount, admobAccountSiteMap.get(admobAccount),
 						extras, authority, null);
 				}
-				Log.d(TAG, "Sucessfully synced AdMob stats");
+				Log.d(TAG, "Successfully synced AdMob stats");
 			}
 
 			DeveloperAccountManager.getInstance(context)

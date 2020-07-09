@@ -12,9 +12,9 @@ import java.util.List;
 public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
 
 private static final int COL_DATE = 0;
-private static final int COL_TOTAL_DOWNLAODS = 1;
+private static final int COL_TOTAL_DOWNLOADS = 1;
 private static final int COL_ACTIVE_INSTALLS_TOTAL = 2;
-private static final int COL_TOTAL_DOWNLAODS_BY_DAY = 3;
+private static final int COL_TOTAL_DOWNLOADS_BY_DAY = 3;
 private static final int COL_ACTIVE_INSTALLS_PERCENT = 4;
 
 public DownloadsChartListAdapter(final Activity activity) {
@@ -44,10 +44,10 @@ throws IndexOutOfBoundsException {
 	switch (page) {
 	case 0: {
 		switch (column) {
-		case COL_TOTAL_DOWNLAODS:
+		case COL_TOTAL_DOWNLOADS:
 			return activity.getString(R.string.total_downloads);
 
-		case COL_TOTAL_DOWNLAODS_BY_DAY:
+		case COL_TOTAL_DOWNLOADS_BY_DAY:
 			return activity.getString(R.string.downloads_day);
 
 		case COL_ACTIVE_INSTALLS_PERCENT:
@@ -75,7 +75,7 @@ throws IndexOutOfBoundsException {
 	case 0: {
 
 		switch (column) {
-		case COL_TOTAL_DOWNLAODS:
+		case COL_TOTAL_DOWNLOADS:
 			tv.setText(Integer.toString(appInfo.getTotalDownloads()));
 			tv.setTextColor(textColor);
 			return;
@@ -83,7 +83,7 @@ throws IndexOutOfBoundsException {
 			tv.setText(Integer.toString(appInfo.getActiveInstalls()));
 			tv.setTextColor(textColor);
 			return;
-		case COL_TOTAL_DOWNLAODS_BY_DAY:
+		case COL_TOTAL_DOWNLOADS_BY_DAY:
 			tv.setText(Integer.toString(appInfo.getDailyDownloads()));
 			tv.setTextColor(textColor);
 			return;
@@ -105,7 +105,7 @@ public View buildChart(final Context context, final Chart baseChart,
 	switch (page) {
 	case 0: {
 		switch (column) {
-		case COL_TOTAL_DOWNLAODS:
+		case COL_TOTAL_DOWNLOADS:
 
 			handler = new DevConValueCallbackHander() {
 				@Override
@@ -116,7 +116,7 @@ public View buildChart(final Context context, final Chart baseChart,
 			return baseChart.buildLineChart(context, statsForApp.toArray(),
 			                                handler);
 
-		case COL_TOTAL_DOWNLAODS_BY_DAY:
+		case COL_TOTAL_DOWNLOADS_BY_DAY:
 
 			handler = new DevConValueCallbackHander() {
 				@Override
@@ -166,10 +166,10 @@ throws IndexOutOfBoundsException {
 	switch (page) {
 	case 0: {
 		switch (column) {
-		case COL_TOTAL_DOWNLAODS:
+		case COL_TOTAL_DOWNLOADS:
 			return Integer.toString(overallStats.getTotalDownloads());
 
-		case COL_TOTAL_DOWNLAODS_BY_DAY:
+		case COL_TOTAL_DOWNLOADS_BY_DAY:
 			return Integer.toString(overallStats.getDailyDownloads());
 
 		case COL_ACTIVE_INSTALLS_PERCENT:

@@ -1,7 +1,7 @@
 
 package com.github.andlyticsproject.admob;
 
-// TODO Could make this a RE. Also need to review the diffrent admob exceptions
+// TODO Could make this a RE. Also need to review the different admob exceptions
 public class AdmobException extends Exception {
 
 private static final long serialVersionUID = 1L;

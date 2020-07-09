@@ -112,7 +112,7 @@ throws AuthenticationException {
 					AndlyticsApp.getInstance(), accountName, OAUTH_LOGIN_SCOPE, null);
 			} catch (UserRecoverableNotifiedException userNotifiedException) {
 				throw new AuthenticationException(
-					      "Additional authentication requried, see notifications.");
+					      "Additional authentication required, see notifications.");
 			} catch (GoogleAuthException authEx) {
 				// This is likely unrecoverable.
 				Log.e(TAG,
