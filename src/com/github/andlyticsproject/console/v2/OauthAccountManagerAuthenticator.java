@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-
 import com.github.andlyticsproject.AndlyticsApp;
 import com.github.andlyticsproject.console.AuthenticationException;
 import com.github.andlyticsproject.console.NetworkException;
@@ -17,7 +16,9 @@ import com.google.android.gms.auth.GooglePlayServicesAvailabilityException;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.auth.UserRecoverableNotifiedException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -34,205 +35,219 @@ import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class OauthAccountManagerAuthenticator extends BaseAuthenticator {
 
-    private static final String TAG = OauthAccountManagerAuthenticator.class.getSimpleName();
+  private static final String TAG =
+      OauthAccountManagerAuthenticator.class.getSimpleName();
 
-    private static final String DEVELOPER_CONSOLE_URL = "https://play.google.com/apps/publish/";
+  private static final String DEVELOPER_CONSOLE_URL =
+      "https://play.google.com/apps/publish/";
 
-    private static final String OAUTH_LOGIN_SCOPE = "oauth2:https://www.google.com/accounts/OAuthLogin";
-    private static final String OAUTH_LOGIN_URL = "https://accounts.google.com/OAuthLogin?source=ChromiumBrowser&issueuberauth=1";
-    private static final String MERGE_SESSION_URL = "https://accounts.google.com/MergeSession";
+  private static final String OAUTH_LOGIN_SCOPE =
+      "oauth2:https://www.google.com/accounts/OAuthLogin";
+  private static final String OAUTH_LOGIN_URL =
+      "https://accounts.google.com/OAuthLogin?source=ChromiumBrowser&issueuberauth=1";
+  private static final String MERGE_SESSION_URL =
+      "https://accounts.google.com/MergeSession";
 
-    private static final int REQUEST_AUTHENTICATE = 42;
+  private static final int REQUEST_AUTHENTICATE = 42;
 
-    private static final boolean DEBUG = false;
+  private static final boolean DEBUG = false;
 
-    private AccountManager accountManager;
+  private AccountManager accountManager;
 
-    // includes one-time token
-    private String webloginUrl;
+  // includes one-time token
+  private String webloginUrl;
 
-    private DefaultHttpClient httpClient;
+  private DefaultHttpClient httpClient;
 
-    public OauthAccountManagerAuthenticator(final String accountName, final DefaultHttpClient httpClient) {
-        super(accountName);
-        this.accountManager = AccountManager.get(AndlyticsApp.getInstance());
-        this.httpClient = httpClient;
-    }
+  public OauthAccountManagerAuthenticator(final String accountName,
+                                          final DefaultHttpClient httpClient) {
+    super(accountName);
+    this.accountManager = AccountManager.get(AndlyticsApp.getInstance());
+    this.httpClient = httpClient;
+  }
 
-    @Override
-    public SessionCredentials authenticate(final Activity activity, final boolean invalidate)
-    throws AuthenticationException {
-        return authenticateInternal(activity, invalidate);
-    }
+  @Override
+  public SessionCredentials authenticate(final Activity activity,
+                                         final boolean invalidate)
+      throws AuthenticationException {
+    return authenticateInternal(activity, invalidate);
+  }
 
-    @Override
-    public SessionCredentials authenticateSilently(final boolean invalidate)
-    throws AuthenticationException {
-        return authenticateInternal(null, invalidate);
-    }
+  @Override
+  public SessionCredentials authenticateSilently(final boolean invalidate)
+      throws AuthenticationException {
+    return authenticateInternal(null, invalidate);
+  }
 
-    private SessionCredentials authenticateInternal(final Activity activity, final boolean invalidate)
-    throws AuthenticationException {
-        try {
-            Account[] accounts = accountManager.getAccountsByType("com.google");
-            Account account = null;
-            for (Account acc : accounts) {
-                if (acc.name.equals(accountName)) {
-                    account = acc;
-                    break;
-                }
-            }
-            if (account == null) {
-                throw new AuthenticationException(String.format("Account %s not found on device?",
-                                                  accountName));
-            }
-
-            if (invalidate && webloginUrl != null) {
-                // probably not needed, since what we are getting is a very
-                // short-lived token
-                accountManager.invalidateAuthToken(account.type, webloginUrl);
-            }
-
-            String oauthLoginToken = null;
-            if (activity == null) {
-                // background
-                try {
-                    oauthLoginToken = GoogleAuthUtil.getTokenWithNotification(
-                                          AndlyticsApp.getInstance(), accountName, OAUTH_LOGIN_SCOPE, null);
-                } catch (UserRecoverableNotifiedException userNotifiedException) {
-                    throw new AuthenticationException(
-                        "Additional authentication requried, see notifications.");
-                } catch (GoogleAuthException authEx) {
-                    // This is likely unrecoverable.
-                    Log.e(TAG, "Unrecoverable authentication exception: " + authEx.getMessage(),
-                          authEx);
-                    throw new AuthenticationException("Authentication error: "
-                                                      + authEx.getMessage());
-                } catch (IOException ioEx) {
-                    Log.w(TAG, "transient error encountered: " + ioEx.getMessage());
-                    throw new NetworkException(ioEx.getMessage());
-                }
-            } else {
-                try {
-                    oauthLoginToken = GoogleAuthUtil.getToken(activity, accountName,
-                                      OAUTH_LOGIN_SCOPE);
-                } catch (GooglePlayServicesAvailabilityException playEx) {
-                    Dialog dialog = GooglePlayServicesUtil.getErrorDialog(
-                                        playEx.getConnectionStatusCode(), activity, REQUEST_AUTHENTICATE);
-                    dialog.show();
-
-                    return null;
-                } catch (UserRecoverableAuthException recoverableException) {
-                    Intent recoveryIntent = recoverableException.getIntent();
-                    activity.startActivityForResult(recoveryIntent, REQUEST_AUTHENTICATE);
-                } catch (GoogleAuthException authEx) {
-                    // This is likely unrecoverable.
-                    Log.e(TAG, "Unrecoverable authentication exception: " + authEx.getMessage(),
-                          authEx);
-                    throw new AuthenticationException("Authentication error: "
-                                                      + authEx.getMessage());
-                } catch (IOException ioEx) {
-                    Log.w(TAG, "transient error encountered: " + ioEx.getMessage());
-                    throw new NetworkException(ioEx.getMessage());
-                }
-            }
-
-            if (oauthLoginToken == null) {
-                throw new AuthenticationException(
-                    "Unexpected authentication error: weblogin URL = null");
-            }
-            if (DEBUG) {
-                Log.d(TAG, "OAuth Login token: " + webloginUrl);
-            }
-
-            HttpGet getOauthUberToken = new HttpGet(OAUTH_LOGIN_URL);
-            getOauthUberToken.addHeader("Authorization", "OAuth " + oauthLoginToken);
-            HttpResponse response = httpClient.execute(getOauthUberToken);
-            int status = response.getStatusLine().getStatusCode();
-            if (status == HttpStatus.SC_UNAUTHORIZED) {
-                throw new AuthenticationException("Cannot get uber token: "
-                                                  + response.getStatusLine());
-            }
-            String uberToken = EntityUtils.toString(response.getEntity(), "UTF-8");
-            if (DEBUG) {
-                Log.d(TAG, "uber token: " + uberToken);
-            }
-            if (uberToken == null || "".equals(uberToken) || uberToken.contains("Error")) {
-                throw new AuthenticationException("Cannot get uber token. Got: " + uberToken);
-            }
-
-            HttpPost getConsole = new HttpPost(MERGE_SESSION_URL);
-            List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-            pairs.add(new BasicNameValuePair("uberauth", uberToken));
-            pairs.add(new BasicNameValuePair("continue", DEVELOPER_CONSOLE_URL));
-            pairs.add(new BasicNameValuePair("source", "ChromiumBrowser"));
-            // for debugging?
-            webloginUrl = Uri.parse(MERGE_SESSION_URL).buildUpon()
-                          .appendQueryParameter("source", "ChromiumBrowser")
-                          .appendQueryParameter("uberauth", uberToken)
-                          .appendQueryParameter("continue", DEVELOPER_CONSOLE_URL).build().toString();
-            if (DEBUG) {
-                Log.d(TAG, "MergeSession URL: " + webloginUrl);
-            }
-
-            UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(pairs, "UTF-8");
-            getConsole.setEntity(formEntity);
-            HttpContext context = new BasicHttpContext();
-            response = httpClient.execute(getConsole, context);
-            status = response.getStatusLine().getStatusCode();
-            if (status == HttpStatus.SC_UNAUTHORIZED) {
-                throw new AuthenticationException("Authentication token expired: "
-                                                  + response.getStatusLine());
-            }
-            if (status != HttpStatus.SC_OK) {
-                throw new AuthenticationException("Authentication error: "
-                                                  + response.getStatusLine());
-            }
-
-            String currentUrl = getCurrentUrl(context);
-            if (DEBUG) {
-                Log.d(TAG, "redirect URL" + currentUrl);
-            }
-
-            HttpEntity entity = response.getEntity();
-            if (entity == null) {
-                throw new AuthenticationException("Authentication error: null result?");
-            }
-
-            String responseStr = EntityUtils.toString(entity, "UTF-8");
-            if (DEBUG) {
-                Log.d(TAG, "Response: " + responseStr);
-            }
-
-            if (!currentUrl.contains("play.google.com")) {
-                debugAuthFailure(responseStr, currentUrl);
-
-                throw new AuthenticationException(
-                    "Couldn't connect to developer console. Additional authentication may be required.");
-            }
-
-            return createSessionCredentials(accountName, webloginUrl, responseStr, httpClient
-                                            .getCookieStore().getCookies());
-        } catch (IOException e) {
-            throw new NetworkException(e);
+  private SessionCredentials authenticateInternal(final Activity activity,
+                                                  final boolean invalidate)
+      throws AuthenticationException {
+    try {
+      Account[] accounts = accountManager.getAccountsByType("com.google");
+      Account account = null;
+      for (Account acc : accounts) {
+        if (acc.name.equals(accountName)) {
+          account = acc;
+          break;
         }
-    }
+      }
+      if (account == null) {
+        throw new AuthenticationException(
+            String.format("Account %s not found on device?", accountName));
+      }
 
-    private static String getCurrentUrl(final HttpContext context) {
-        HttpUriRequest currentReq = (HttpUriRequest) context
-                                    .getAttribute(ExecutionContext.HTTP_REQUEST);
-        HttpHost currentHost = (HttpHost) context
-                               .getAttribute(ExecutionContext.HTTP_TARGET_HOST);
-        String currentUrl = (currentReq.getURI().isAbsolute()) ? currentReq.getURI().toString()
+      if (invalidate && webloginUrl != null) {
+        // probably not needed, since what we are getting is a very
+        // short-lived token
+        accountManager.invalidateAuthToken(account.type, webloginUrl);
+      }
+
+      String oauthLoginToken = null;
+      if (activity == null) {
+        // background
+        try {
+          oauthLoginToken = GoogleAuthUtil.getTokenWithNotification(
+              AndlyticsApp.getInstance(), accountName, OAUTH_LOGIN_SCOPE, null);
+        } catch (UserRecoverableNotifiedException userNotifiedException) {
+          throw new AuthenticationException(
+              "Additional authentication requried, see notifications.");
+        } catch (GoogleAuthException authEx) {
+          // This is likely unrecoverable.
+          Log.e(TAG,
+                "Unrecoverable authentication exception: " +
+                    authEx.getMessage(),
+                authEx);
+          throw new AuthenticationException("Authentication error: " +
+                                            authEx.getMessage());
+        } catch (IOException ioEx) {
+          Log.w(TAG, "transient error encountered: " + ioEx.getMessage());
+          throw new NetworkException(ioEx.getMessage());
+        }
+      } else {
+        try {
+          oauthLoginToken =
+              GoogleAuthUtil.getToken(activity, accountName, OAUTH_LOGIN_SCOPE);
+        } catch (GooglePlayServicesAvailabilityException playEx) {
+          Dialog dialog = GooglePlayServicesUtil.getErrorDialog(
+              playEx.getConnectionStatusCode(), activity, REQUEST_AUTHENTICATE);
+          dialog.show();
+
+          return null;
+        } catch (UserRecoverableAuthException recoverableException) {
+          Intent recoveryIntent = recoverableException.getIntent();
+          activity.startActivityForResult(recoveryIntent, REQUEST_AUTHENTICATE);
+        } catch (GoogleAuthException authEx) {
+          // This is likely unrecoverable.
+          Log.e(TAG,
+                "Unrecoverable authentication exception: " +
+                    authEx.getMessage(),
+                authEx);
+          throw new AuthenticationException("Authentication error: " +
+                                            authEx.getMessage());
+        } catch (IOException ioEx) {
+          Log.w(TAG, "transient error encountered: " + ioEx.getMessage());
+          throw new NetworkException(ioEx.getMessage());
+        }
+      }
+
+      if (oauthLoginToken == null) {
+        throw new AuthenticationException(
+            "Unexpected authentication error: weblogin URL = null");
+      }
+      if (DEBUG) {
+        Log.d(TAG, "OAuth Login token: " + webloginUrl);
+      }
+
+      HttpGet getOauthUberToken = new HttpGet(OAUTH_LOGIN_URL);
+      getOauthUberToken.addHeader("Authorization", "OAuth " + oauthLoginToken);
+      HttpResponse response = httpClient.execute(getOauthUberToken);
+      int status = response.getStatusLine().getStatusCode();
+      if (status == HttpStatus.SC_UNAUTHORIZED) {
+        throw new AuthenticationException("Cannot get uber token: " +
+                                          response.getStatusLine());
+      }
+      String uberToken = EntityUtils.toString(response.getEntity(), "UTF-8");
+      if (DEBUG) {
+        Log.d(TAG, "uber token: " + uberToken);
+      }
+      if (uberToken == null || "".equals(uberToken) ||
+          uberToken.contains("Error")) {
+        throw new AuthenticationException("Cannot get uber token. Got: " +
+                                          uberToken);
+      }
+
+      HttpPost getConsole = new HttpPost(MERGE_SESSION_URL);
+      List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+      pairs.add(new BasicNameValuePair("uberauth", uberToken));
+      pairs.add(new BasicNameValuePair("continue", DEVELOPER_CONSOLE_URL));
+      pairs.add(new BasicNameValuePair("source", "ChromiumBrowser"));
+      // for debugging?
+      webloginUrl = Uri.parse(MERGE_SESSION_URL)
+                        .buildUpon()
+                        .appendQueryParameter("source", "ChromiumBrowser")
+                        .appendQueryParameter("uberauth", uberToken)
+                        .appendQueryParameter("continue", DEVELOPER_CONSOLE_URL)
+                        .build()
+                        .toString();
+      if (DEBUG) {
+        Log.d(TAG, "MergeSession URL: " + webloginUrl);
+      }
+
+      UrlEncodedFormEntity formEntity =
+          new UrlEncodedFormEntity(pairs, "UTF-8");
+      getConsole.setEntity(formEntity);
+      HttpContext context = new BasicHttpContext();
+      response = httpClient.execute(getConsole, context);
+      status = response.getStatusLine().getStatusCode();
+      if (status == HttpStatus.SC_UNAUTHORIZED) {
+        throw new AuthenticationException("Authentication token expired: " +
+                                          response.getStatusLine());
+      }
+      if (status != HttpStatus.SC_OK) {
+        throw new AuthenticationException("Authentication error: " +
+                                          response.getStatusLine());
+      }
+
+      String currentUrl = getCurrentUrl(context);
+      if (DEBUG) {
+        Log.d(TAG, "redirect URL" + currentUrl);
+      }
+
+      HttpEntity entity = response.getEntity();
+      if (entity == null) {
+        throw new AuthenticationException("Authentication error: null result?");
+      }
+
+      String responseStr = EntityUtils.toString(entity, "UTF-8");
+      if (DEBUG) {
+        Log.d(TAG, "Response: " + responseStr);
+      }
+
+      if (!currentUrl.contains("play.google.com")) {
+        debugAuthFailure(responseStr, currentUrl);
+
+        throw new AuthenticationException(
+            "Couldn't connect to developer console. Additional authentication may be required.");
+      }
+
+      return createSessionCredentials(accountName, webloginUrl, responseStr,
+                                      httpClient.getCookieStore().getCookies());
+    } catch (IOException e) {
+      throw new NetworkException(e);
+    }
+  }
+
+  private static String getCurrentUrl(final HttpContext context) {
+    HttpUriRequest currentReq =
+        (HttpUriRequest)context.getAttribute(ExecutionContext.HTTP_REQUEST);
+    HttpHost currentHost =
+        (HttpHost)context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+    String currentUrl = (currentReq.getURI().isAbsolute())
+                            ? currentReq.getURI().toString()
                             : (currentHost.toURI() + currentReq.getURI());
 
-        return currentUrl;
-    }
-
+    return currentUrl;
+  }
 }

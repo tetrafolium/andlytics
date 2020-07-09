@@ -1,13 +1,5 @@
 package com.github.andlyticsproject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -23,345 +15,369 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.github.andlyticsproject.model.Comment;
 import com.github.andlyticsproject.model.CommentGroup;
 import com.github.andlyticsproject.util.Utils;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class CommentsListAdapter extends BaseExpandableListAdapter {
 
-    private static final int TYPE_COMMENT = 0;
-    private static final int TYPE_REPLY = 1;
+  private static final int TYPE_COMMENT = 0;
+  private static final int TYPE_REPLY = 1;
 
-    private LayoutInflater layoutInflater;
+  private LayoutInflater layoutInflater;
 
-    private List<CommentGroup> commentGroups;
+  private List<CommentGroup> commentGroups;
 
-    private Activity context;
+  private Activity context;
 
-    private DateFormat commentDateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+  private DateFormat commentDateFormat =
+      DateFormat.getDateInstance(DateFormat.FULL);
 
-    private boolean canReplyToComments;
+  private boolean canReplyToComments;
 
-    public CommentsListAdapter(final Activity activity) {
-        // XXX no pretty, is there a better way?
-        if (!(activity instanceof CommentReplier)) {
-            throw new ClassCastException("Activity must implement CommentReplier.");
-        }
-        this.setCommentGroups(new ArrayList<CommentGroup>());
-        this.layoutInflater = activity.getLayoutInflater();
-        this.context = activity;
+  public CommentsListAdapter(final Activity activity) {
+    // XXX no pretty, is there a better way?
+    if (!(activity instanceof CommentReplier)) {
+      throw new ClassCastException("Activity must implement CommentReplier.");
+    }
+    this.setCommentGroups(new ArrayList<CommentGroup>());
+    this.layoutInflater = activity.getLayoutInflater();
+    this.context = activity;
+  }
+
+  @Override
+  public View getChildView(final int groupPosition, final int childPosition,
+                           final boolean isLastChild, final View convertView,
+                           final ViewGroup parent) {
+
+    final Comment comment = getChild(groupPosition, childPosition);
+    ViewHolderChild holder;
+
+    if (convertView == null) {
+      convertView = layoutInflater.inflate(
+          comment.isReply() ? R.layout.comments_list_item_reply
+                            : R.layout.comments_list_item_comment,
+          null);
+
+      holder = new ViewHolderChild();
+      holder.text =
+          (TextView)convertView.findViewById(R.id.comments_list_item_text);
+      holder.title =
+          (TextView)convertView.findViewById(R.id.comments_list_item_title);
+      holder.user =
+          (TextView)convertView.findViewById(R.id.comments_list_item_username);
+      holder.date =
+          (TextView)convertView.findViewById(R.id.comments_list_item_date);
+      holder.device =
+          (TextView)convertView.findViewById(R.id.comments_list_item_device);
+      holder.version =
+          (TextView)convertView.findViewById(R.id.comments_list_item_version);
+      holder.rating = (RatingBar)convertView.findViewById(
+          R.id.comments_list_item_app_ratingbar);
+      holder.deviceVersionContainer = (LinearLayout)convertView.findViewById(
+          R.id.comments_list_item_device_container);
+      holder.language =
+          (TextView)convertView.findViewById(R.id.comments_list_item_language);
+
+      convertView.setTag(holder);
+    } else {
+      holder = (ViewHolderChild)convertView.getTag();
     }
 
-    @Override
-    public View getChildView(final int groupPosition, final int childPosition, final boolean isLastChild,
-                             final View convertView, final ViewGroup parent) {
+    if (holder.language != null) {
+      final TextView commentText = holder.text;
+      final TextView commentTitle = holder.title;
+      holder.language.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+          boolean showTranslations =
+              Preferences.isShowCommentAutoTranslations(context);
+          if (!showTranslations || !comment.isTranslated()) {
+            return;
+          }
 
-        final Comment comment = getChild(groupPosition, childPosition);
-        ViewHolderChild holder;
-
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(
-                              comment.isReply() ? R.layout.comments_list_item_reply
-                              : R.layout.comments_list_item_comment, null);
-
-            holder = new ViewHolderChild();
-            holder.text = (TextView) convertView.findViewById(R.id.comments_list_item_text);
-            holder.title = (TextView) convertView.findViewById(R.id.comments_list_item_title);
-            holder.user = (TextView) convertView.findViewById(R.id.comments_list_item_username);
-            holder.date = (TextView) convertView.findViewById(R.id.comments_list_item_date);
-            holder.device = (TextView) convertView.findViewById(R.id.comments_list_item_device);
-            holder.version = (TextView) convertView.findViewById(R.id.comments_list_item_version);
-            holder.rating = (RatingBar) convertView
-                            .findViewById(R.id.comments_list_item_app_ratingbar);
-            holder.deviceVersionContainer = (LinearLayout) convertView
-                                            .findViewById(R.id.comments_list_item_device_container);
-            holder.language = (TextView) convertView.findViewById(R.id.comments_list_item_language);
-
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolderChild) convertView.getTag();
+          if (comment.getText().equals(commentText.getText().toString())) {
+            commentText.setText(comment.getOriginalText());
+            commentText.setTextAppearance(context, R.style.normalText);
+            commentTitle.setText(comment.getOriginalTitle());
+            commentTitle.setTextAppearance(context, R.style.boldText);
+          } else {
+            commentText.setText(comment.getText());
+            commentText.setTextAppearance(context, R.style.italicText);
+            commentTitle.setText(comment.getTitle());
+            commentTitle.setTextAppearance(context, R.style.boldItalicText);
+          }
         }
-
-        if (holder.language != null) {
-            final TextView commentText = holder.text;
-            final TextView commentTitle = holder.title;
-            holder.language.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(final View v) {
-                    boolean showTranslations = Preferences.isShowCommentAutoTranslations(context);
-                    if (!showTranslations || !comment.isTranslated()) {
-                        return;
-                    }
-
-                    if (comment.getText().equals(commentText.getText().toString())) {
-                        commentText.setText(comment.getOriginalText());
-                        commentText.setTextAppearance(context, R.style.normalText);
-                        commentTitle.setText(comment.getOriginalTitle());
-                        commentTitle.setTextAppearance(context, R.style.boldText);
-                    } else {
-                        commentText.setText(comment.getText());
-                        commentText.setTextAppearance(context, R.style.italicText);
-                        commentTitle.setText(comment.getTitle());
-                        commentTitle.setTextAppearance(context, R.style.boldItalicText);
-                    }
-                }
-            });
+      });
+    }
+    holder.replyIcon =
+        (ImageView)convertView.findViewById(R.id.comments_list_icon_reply);
+    if (holder.replyIcon != null) {
+      holder.replyIcon.setVisibility(canReplyToComments ? View.VISIBLE
+                                                        : View.INVISIBLE);
+      holder.replyIcon.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+          CommentReplier replier = (CommentReplier)context;
+          replier.showReplyDialog(comment);
         }
-        holder.replyIcon = (ImageView) convertView.findViewById(R.id.comments_list_icon_reply);
-        if (holder.replyIcon != null) {
-            holder.replyIcon.setVisibility(canReplyToComments ? View.VISIBLE : View.INVISIBLE);
-            holder.replyIcon.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(final View v) {
-                    CommentReplier replier = (CommentReplier) context;
-                    replier.showReplyDialog(comment);
-                }
-            });
-        }
-
-        if (comment.isReply()) {
-            holder.date.setText(formatCommentDate(comment.getDate()));
-            holder.text.setText(comment.getText());
-        } else {
-            boolean showTranslations = Preferences.isShowCommentAutoTranslations(context);
-            String commentText = comment.getText();
-            String commentTitle = comment.getTitle();
-            if (!showTranslations && comment.getOriginalText() != null) {
-                commentText = comment.getOriginalText();
-            }
-            if (!showTranslations && comment.getOriginalTitle() != null) {
-                commentTitle = comment.getOriginalTitle();
-            }
-
-            holder.text.setText(commentText);
-            holder.title.setText(commentTitle);
-
-            // italic for translated text
-            boolean translated = showTranslations && comment.isTranslated();
-            holder.text.setTextAppearance(context, translated ? R.style.italicText
-                                          : R.style.normalText);
-            holder.title.setTextAppearance(context, translated ? R.style.boldItalicText
-                                           : R.style.boldText);
-
-            holder.user.setText(comment.getUser() == null ? context
-                                .getString(R.string.comment_no_user_info) : comment.getUser());
-            String version = comment.getAppVersion();
-            String device = comment.getDevice();
-            String language = comment.getLanguage();
-            holder.version.setVisibility(View.GONE);
-            holder.device.setVisibility(View.GONE);
-            holder.language.setVisibility(View.GONE);
-            boolean showInfoBox = false;
-
-            // building version/device
-            if (isNotEmptyOrNull(version)) {
-                holder.version.setText(version);
-                holder.version.setVisibility(View.VISIBLE);
-                showInfoBox = true;
-            }
-            if (isNotEmptyOrNull(device)) {
-                holder.device.setText(device);
-                holder.device.setVisibility(View.VISIBLE);
-                showInfoBox = true;
-            }
-            // TODO better UI for language, option to show original text?
-            if (isNotEmptyOrNull(language)) {
-                holder.language.setText(formatLanguageString(comment.getLanguage()));
-                holder.language.setVisibility(View.VISIBLE);
-                showInfoBox = true;
-            }
-
-            if (showInfoBox) {
-                holder.deviceVersionContainer.setVisibility(View.VISIBLE);
-            } else {
-                holder.deviceVersionContainer.setVisibility(View.GONE);
-            }
-
-            int rating = comment.getRating();
-            if (rating > 0 && rating <= 5) {
-                holder.rating.setRating((float) rating);
-            }
-        }
-
-        convertView.setOnLongClickListener(new OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(final View v) {
-                String text = comment.getText();
-                String displayLanguage = Locale.getDefault().getLanguage();
-
-                if (Preferences.isUseGoogleTranslateApp(context) && isGoogleTranslateInstalled()) {
-                    sendToGoogleTranslate(text, displayLanguage);
-                    return true;
-                }
-
-                String url = "http://translate.google.de/m/translate?hl=<<lang>>&vi=m&text=<<text>>&langpair=auto|<<lang>>";
-
-                try {
-                    url = url.replaceAll("<<lang>>", URLEncoder.encode(displayLanguage, "UTF-8"));
-                    url = url.replaceAll("<<text>>", URLEncoder.encode(text, "UTF-8"));
-                    Log.d("CommentsTranslate", "lang: " + displayLanguage + " url: " + url);
-
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    context.startActivity(i);
-
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return true;
-            }
-        });
-        return convertView;
+      });
     }
 
-    private boolean isGoogleTranslateInstalled() {
-        return Utils.isPackageInstalled(context, "com.google.android.apps.translate");
+    if (comment.isReply()) {
+      holder.date.setText(formatCommentDate(comment.getDate()));
+      holder.text.setText(comment.getText());
+    } else {
+      boolean showTranslations =
+          Preferences.isShowCommentAutoTranslations(context);
+      String commentText = comment.getText();
+      String commentTitle = comment.getTitle();
+      if (!showTranslations && comment.getOriginalText() != null) {
+        commentText = comment.getOriginalText();
+      }
+      if (!showTranslations && comment.getOriginalTitle() != null) {
+        commentTitle = comment.getOriginalTitle();
+      }
+
+      holder.text.setText(commentText);
+      holder.title.setText(commentTitle);
+
+      // italic for translated text
+      boolean translated = showTranslations && comment.isTranslated();
+      holder.text.setTextAppearance(context, translated ? R.style.italicText
+                                                        : R.style.normalText);
+      holder.title.setTextAppearance(
+          context, translated ? R.style.boldItalicText : R.style.boldText);
+
+      holder.user.setText(comment.getUser() == null
+                              ? context.getString(R.string.comment_no_user_info)
+                              : comment.getUser());
+      String version = comment.getAppVersion();
+      String device = comment.getDevice();
+      String language = comment.getLanguage();
+      holder.version.setVisibility(View.GONE);
+      holder.device.setVisibility(View.GONE);
+      holder.language.setVisibility(View.GONE);
+      boolean showInfoBox = false;
+
+      // building version/device
+      if (isNotEmptyOrNull(version)) {
+        holder.version.setText(version);
+        holder.version.setVisibility(View.VISIBLE);
+        showInfoBox = true;
+      }
+      if (isNotEmptyOrNull(device)) {
+        holder.device.setText(device);
+        holder.device.setVisibility(View.VISIBLE);
+        showInfoBox = true;
+      }
+      // TODO better UI for language, option to show original text?
+      if (isNotEmptyOrNull(language)) {
+        holder.language.setText(formatLanguageString(comment.getLanguage()));
+        holder.language.setVisibility(View.VISIBLE);
+        showInfoBox = true;
+      }
+
+      if (showInfoBox) {
+        holder.deviceVersionContainer.setVisibility(View.VISIBLE);
+      } else {
+        holder.deviceVersionContainer.setVisibility(View.GONE);
+      }
+
+      int rating = comment.getRating();
+      if (rating > 0 && rating <= 5) {
+        holder.rating.setRating((float)rating);
+      }
     }
 
-    private String formatLanguageString(final String language) {
-        if (language == null || language.indexOf("_") == -1) {
-            return language;
+    convertView.setOnLongClickListener(new OnLongClickListener() {
+      @Override
+      public boolean onLongClick(final View v) {
+        String text = comment.getText();
+        String displayLanguage = Locale.getDefault().getLanguage();
+
+        if (Preferences.isUseGoogleTranslateApp(context) &&
+            isGoogleTranslateInstalled()) {
+          sendToGoogleTranslate(text, displayLanguage);
+          return true;
         }
 
-        String[] parts = language.split("_");
-        if (parts.length > 1
-                && parts[0].toUpperCase(Locale.ENGLISH)
-                .equals(parts[1].toUpperCase(Locale.ENGLISH))) {
-            return parts[1].toUpperCase(Locale.ENGLISH);
+        String url =
+            "http://translate.google.de/m/translate?hl=<<lang>>&vi=m&text=<<text>>&langpair=auto|<<lang>>";
+
+        try {
+          url = url.replaceAll("<<lang>>",
+                               URLEncoder.encode(displayLanguage, "UTF-8"));
+          url = url.replaceAll("<<text>>", URLEncoder.encode(text, "UTF-8"));
+          Log.d("CommentsTranslate",
+                "lang: " + displayLanguage + " url: " + url);
+
+          Intent i = new Intent(Intent.ACTION_VIEW);
+          i.setData(Uri.parse(url));
+          context.startActivity(i);
+
+        } catch (UnsupportedEncodingException e) {
+          e.printStackTrace();
         }
+        return true;
+      }
+    });
+    return convertView;
+  }
 
-        return language.replaceAll("_", "/");
+  private boolean isGoogleTranslateInstalled() {
+    return Utils.isPackageInstalled(context,
+                                    "com.google.android.apps.translate");
+  }
 
+  private String formatLanguageString(final String language) {
+    if (language == null || language.indexOf("_") == -1) {
+      return language;
     }
 
-    private void sendToGoogleTranslate(final String text, final String displayLanguage) {
-        Intent i = new Intent();
-        i.setAction(Intent.ACTION_VIEW);
-        i.putExtra("key_text_input", text);
-        i.putExtra("key_text_output", "");
-        i.putExtra("key_language_from", "auto");
-        i.putExtra("key_language_to", displayLanguage);
-        i.putExtra("key_suggest_translation", "");
-        i.putExtra("key_from_floating_window", false);
-        i.setComponent(new ComponentName("com.google.android.apps.translate",
-                                         "com.google.android.apps.translate.translation.TranslateActivity"));
-        context.startActivity(i);
+    String[] parts = language.split("_");
+    if (parts.length > 1 && parts[0]
+                                .toUpperCase(Locale.ENGLISH)
+                                .equals(parts[1].toUpperCase(Locale.ENGLISH))) {
+      return parts[1].toUpperCase(Locale.ENGLISH);
     }
 
-    @Override
-    public int getChildType(final int groupPosition, final int childPosition) {
-        return getChild(groupPosition, childPosition).isReply() ? TYPE_REPLY : TYPE_COMMENT;
+    return language.replaceAll("_", "/");
+  }
+
+  private void sendToGoogleTranslate(final String text,
+                                     final String displayLanguage) {
+    Intent i = new Intent();
+    i.setAction(Intent.ACTION_VIEW);
+    i.putExtra("key_text_input", text);
+    i.putExtra("key_text_output", "");
+    i.putExtra("key_language_from", "auto");
+    i.putExtra("key_language_to", displayLanguage);
+    i.putExtra("key_suggest_translation", "");
+    i.putExtra("key_from_floating_window", false);
+    i.setComponent(new ComponentName(
+        "com.google.android.apps.translate",
+        "com.google.android.apps.translate.translation.TranslateActivity"));
+    context.startActivity(i);
+  }
+
+  @Override
+  public int getChildType(final int groupPosition, final int childPosition) {
+    return getChild(groupPosition, childPosition).isReply() ? TYPE_REPLY
+                                                            : TYPE_COMMENT;
+  }
+
+  @Override
+  public int getChildTypeCount() {
+    return 2;
+  }
+
+  @Override
+  public View getGroupView(final int groupPosition, final boolean isExpanded,
+                           final View convertView, final ViewGroup parent) {
+
+    ViewHolderGroup holder;
+
+    if (convertView == null) {
+      convertView = layoutInflater.inflate(
+          R.layout.comments_list_item_group_header, null);
+      holder = new ViewHolderGroup();
+      holder.date =
+          (TextView)convertView.findViewById(R.id.comments_list_item_date);
+      convertView.setTag(holder);
+    } else {
+      holder = (ViewHolderGroup)convertView.getTag();
     }
 
-    @Override
-    public int getChildTypeCount() {
-        return 2;
-    }
+    CommentGroup commentGroup = getGroup(groupPosition);
+    holder.date.setText(formatCommentDate(commentGroup.getDate()));
 
-    @Override
-    public View getGroupView(final int groupPosition, final boolean isExpanded, final View convertView,
-                             final ViewGroup parent) {
+    return convertView;
+  }
 
-        ViewHolderGroup holder;
+  private boolean isNotEmptyOrNull(final String str) {
+    return str != null && str.length() > 0;
+  }
 
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.comments_list_item_group_header, null);
-            holder = new ViewHolderGroup();
-            holder.date = (TextView) convertView.findViewById(R.id.comments_list_item_date);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolderGroup) convertView.getTag();
-        }
+  static class ViewHolderGroup { TextView date; }
 
-        CommentGroup commentGroup = getGroup(groupPosition);
-        holder.date.setText(formatCommentDate(commentGroup.getDate()));
+  static class ViewHolderChild {
+    RatingBar rating;
+    TextView text;
+    TextView title;
+    TextView user;
+    TextView date;
+    LinearLayout deviceVersionContainer;
+    TextView device;
+    TextView version;
+    TextView language;
+    ImageView replyIcon;
+  }
 
-        return convertView;
-    }
+  @Override
+  public int getGroupCount() {
+    return getCommentGroups().size();
+  }
 
-    private boolean isNotEmptyOrNull(final String str) {
-        return str != null && str.length() > 0;
-    }
+  @Override
+  public int getChildrenCount(final int groupPosition) {
+    return getCommentGroups().get(groupPosition).getComments().size();
+  }
 
-    static class ViewHolderGroup {
-        TextView date;
-    }
+  @Override
+  public CommentGroup getGroup(final int groupPosition) {
+    return getCommentGroups().get(groupPosition);
+  }
 
-    static class ViewHolderChild {
-        RatingBar rating;
-        TextView text;
-        TextView title;
-        TextView user;
-        TextView date;
-        LinearLayout deviceVersionContainer;
-        TextView device;
-        TextView version;
-        TextView language;
-        ImageView replyIcon;
-    }
+  @Override
+  public Comment getChild(final int groupPosition, final int childPosition) {
+    return getCommentGroups()
+        .get(groupPosition)
+        .getComments()
+        .get(childPosition);
+  }
 
-    @Override
-    public int getGroupCount() {
-        return getCommentGroups().size();
-    }
+  @Override
+  public long getGroupId(final int groupPosition) {
+    return groupPosition;
+  }
 
-    @Override
-    public int getChildrenCount(final int groupPosition) {
-        return getCommentGroups().get(groupPosition).getComments().size();
-    }
+  @Override
+  public long getChildId(final int groupPosition, final int childPosition) {
+    return childPosition;
+  }
 
-    @Override
-    public CommentGroup getGroup(final int groupPosition) {
-        return getCommentGroups().get(groupPosition);
-    }
+  @Override
+  public boolean hasStableIds() {
+    return false;
+  }
 
-    @Override
-    public Comment getChild(final int groupPosition, final int childPosition) {
-        return getCommentGroups().get(groupPosition).getComments().get(childPosition);
-    }
+  @Override
+  public boolean isChildSelectable(final int groupPosition,
+                                   final int childPosition) {
+    return false;
+  }
 
-    @Override
-    public long getGroupId(final int groupPosition) {
-        return groupPosition;
-    }
+  public void setCommentGroups(final List<CommentGroup> commentGroups) {
+    this.commentGroups = commentGroups;
+  }
 
-    @Override
-    public long getChildId(final int groupPosition, final int childPosition) {
-        return childPosition;
-    }
+  public List<CommentGroup> getCommentGroups() { return commentGroups; }
 
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
+  private String formatCommentDate(final Date date) {
+    return commentDateFormat.format(date);
+  }
 
-    @Override
-    public boolean isChildSelectable(final int groupPosition, final int childPosition) {
-        return false;
-    }
+  public boolean isCanReplyToComments() { return canReplyToComments; }
 
-    public void setCommentGroups(final List<CommentGroup> commentGroups) {
-        this.commentGroups = commentGroups;
-    }
-
-    public List<CommentGroup> getCommentGroups() {
-        return commentGroups;
-    }
-
-    private String formatCommentDate(final Date date) {
-        return commentDateFormat.format(date);
-    }
-
-    public boolean isCanReplyToComments() {
-        return canReplyToComments;
-    }
-
-    public void setCanReplyToComments(final boolean canReplyToComments) {
-        this.canReplyToComments = canReplyToComments;
-    }
-
+  public void setCanReplyToComments(final boolean canReplyToComments) {
+    this.canReplyToComments = canReplyToComments;
+  }
 }

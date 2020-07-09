@@ -3,10 +3,7 @@ package com.github.andlyticsproject.admob;
 
 public class AdmobRateLimitExceededException extends AdmobException {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public AdmobRateLimitExceededException(final String string) {
-        super(string);
-    }
-
+  public AdmobRateLimitExceededException(final String string) { super(string); }
 }
