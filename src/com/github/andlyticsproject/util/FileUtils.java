@@ -46,11 +46,9 @@ public class FileUtils {
   private static File getAndlyticsDir() {
     File andlyticsDir =
         new File(Environment.getExternalStorageDirectory(), "andlytics");
-    if (!andlyticsDir.exists()) {
-      if (!andlyticsDir.mkdirs()) {
-        throw new RuntimeException("Couldn't create: " +
-                                   andlyticsDir.getAbsolutePath());
-      }
+    if ((!andlyticsDir.exists()) && (!andlyticsDir.mkdirs())) {
+      throw new RuntimeException("Couldn't create: " +
+                                 andlyticsDir.getAbsolutePath());
     }
     return andlyticsDir;
   }
@@ -58,11 +56,9 @@ public class FileUtils {
   public static void writeToDebugDir(final String filename, final String str) {
     File andlyticsDir = getAndlyticsDir();
     File debugDir = new File(andlyticsDir, "debug");
-    if (!debugDir.exists()) {
-      if (!debugDir.mkdirs()) {
-        throw new RuntimeException("Couldn't create: " +
-                                   debugDir.getAbsolutePath());
-      }
+    if ((!debugDir.exists()) && (!debugDir.mkdirs())) {
+      throw new RuntimeException("Couldn't create: " +
+                                 debugDir.getAbsolutePath());
     }
 
     writeToFile(new File(debugDir, filename), str);

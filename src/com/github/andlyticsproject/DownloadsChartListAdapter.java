@@ -189,6 +189,6 @@ public class DownloadsChartListAdapter extends ChartListAdapter<AppStats> {
 
   @Override
   protected boolean isSmothValue(final int page, final int position) {
-    return page == 0 ? getItem(position).isSmoothingApplied() : false;
+    return page == 0 && getItem(position).isSmoothingApplied();
   }
 }

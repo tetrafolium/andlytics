@@ -38,11 +38,9 @@ public class LRUBitmapCache {
       protected boolean removeEldestEntry(
           final Map.Entry<String, Bitmap> eldest) {
         boolean result = size() > LRUBitmapCache.this.cacheSize;
-        if (result) {
-          if (eldest.getValue() != null) {
-            Log.d(TAG, "Recycling bitmap: " + eldest.getKey() +
-                           " current cache size: " + size());
-          }
+        if ((result) && (eldest.getValue() != null)) {
+          Log.d(TAG, "Recycling bitmap: " + eldest.getKey() +
+                         " current cache size: " + size());
         }
         return result;
       }

@@ -84,10 +84,8 @@ public class AppStatsSummary extends StatsSummary<AppStats> {
       int newerActiveValue = stats.get(currentIndex).getActiveInstalls();
       int activeValueDiff = newerActiveValue - olderActiveValue;
 
-      if (nullStartIndex > -1) {
-        if (totalValueDiff > 0) {
-          greaterNullDetected = true;
-        }
+      if ((nullStartIndex > -1) && (totalValueDiff > 0)) {
+        greaterNullDetected = true;
       }
 
       if (totalValueDiff == 0 && nullStartIndex < 0) {

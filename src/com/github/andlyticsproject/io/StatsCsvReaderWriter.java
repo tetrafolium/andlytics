@@ -174,20 +174,18 @@ public class StatsCsvReaderWriter {
       reader = new CSVReader(new InputStreamReader(in));
 
       String[] firstLine = reader.readNext();
-      if (firstLine != null) {
-        if (HEADER_LIST.length >= firstLine.length) {
-          for (int i = 0; i < firstLine.length - 1; i++) {
-            if (!HEADER_LIST[i].equals(firstLine[i])) {
-              return false;
-            }
+      if ((firstLine != null) && (HEADER_LIST.length >= firstLine.length)) {
+        for (int i = 0; i < firstLine.length - 1; i++) {
+          if (!HEADER_LIST[i].equals(firstLine[i])) {
+            return false;
           }
+        }
 
-          // validate package name
-          String[] secondLine = reader.readNext();
-          String packageName = secondLine[0];
-          if (secondLine != null) {
-            return packageNames.contains(packageName);
-          }
+        // validate package name
+        String[] secondLine = reader.readNext();
+        String packageName = secondLine[0];
+        if (secondLine != null) {
+          return packageNames.contains(packageName);
         }
       }
     } catch (FileNotFoundException e) {

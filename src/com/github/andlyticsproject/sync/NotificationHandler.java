@@ -57,44 +57,42 @@ public class NotificationHandler {
     for (int i = 0; i < diffs.size(); i++) {
 
       AppStatsDiff diff = diffs.get(i);
-      if (!diff.isSkipNotification()) {
+      
+      if ((!diff.isSkipNotification()) && (diff.hasChanges())) {
 
-        if (diff.hasChanges()) {
+        List<String> changeProperties = new ArrayList<String>();
 
-          List<String> changeProperties = new ArrayList<String>();
+        if (commentsEnabled && diff.getCommentsChange() != 0) {
+          changeProperties.add(context.getString(R.string.comments));
+          number++;
+        }
+        if (ratingsEnabled && diff.getAvgRatingChange() != 0) {
+          changeProperties.add(context.getString(R.string.ratings));
+          number++;
+        }
+        if (downloadsEnabled && diff.getDownloadsChange() != 0) {
+          changeProperties.add(context.getString(R.string.downloads));
+          number++;
+        }
 
-          if (commentsEnabled && diff.getCommentsChange() != 0) {
-            changeProperties.add(context.getString(R.string.comments));
-            number++;
-          }
-          if (ratingsEnabled && diff.getAvgRatingChange() != 0) {
-            changeProperties.add(context.getString(R.string.ratings));
-            number++;
-          }
-          if (downloadsEnabled && diff.getDownloadsChange() != 0) {
-            changeProperties.add(context.getString(R.string.downloads));
-            number++;
-          }
-
-          if (changeProperties.size() > 0) {
-            String name = diff.getAppName();
-            name += " (";
-            for (int j = 0; j < changeProperties.size(); j++) {
-              name += changeProperties.get(j);
-              if (j < changeProperties.size() - 1) {
-                name += ", ";
-              }
+        if (changeProperties.size() > 0) {
+          String name = diff.getAppName();
+          name += " (";
+          for (int j = 0; j < changeProperties.size(); j++) {
+            name += changeProperties.get(j);
+            if (j < changeProperties.size() - 1) {
+              name += ", ";
             }
-            name += ")";
-
-            if (appNameList.size() == 0) {
-              // Record the icon of the first app with changes that we are
-              // interested in that also has notifications turned on
-              iconName = diff.getIconName();
-            }
-
-            appNameList.add(name);
           }
+          name += ")";
+
+          if (appNameList.size() == 0) {
+            // Record the icon of the first app with changes that we are
+            // interested in that also has notifications turned on
+            iconName = diff.getIconName();
+          }
+
+          appNameList.add(name);
         }
       }
     }
