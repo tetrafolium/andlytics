@@ -21,105 +21,105 @@ import org.apache.http.util.EntityUtils;
 
 public class PasswordAuthenticator extends BaseAuthenticator {
 
-  private static final String TAG = PasswordAuthenticator.class.getSimpleName();
+private static final String TAG = PasswordAuthenticator.class.getSimpleName();
 
-  private static final boolean DEBUG = false;
+private static final boolean DEBUG = false;
 
-  private static final String LOGIN_PAGE_URL =
-      "https://accounts.google.com/ServiceLogin?service=androiddeveloper";
-  private static final String AUTHENTICATE_URL =
-      "https://accounts.google.com/ServiceLoginAuth?service=androiddeveloper";
-  private static final String DEV_CONSOLE_URL =
-      "https://play.google.com/apps/publish/v2/";
+private static final String LOGIN_PAGE_URL =
+	"https://accounts.google.com/ServiceLogin?service=androiddeveloper";
+private static final String AUTHENTICATE_URL =
+	"https://accounts.google.com/ServiceLoginAuth?service=androiddeveloper";
+private static final String DEV_CONSOLE_URL =
+	"https://play.google.com/apps/publish/v2/";
 
-  private DefaultHttpClient httpClient;
-  private String password;
+private DefaultHttpClient httpClient;
+private String password;
 
-  public PasswordAuthenticator(final String accountName, final String password,
-                               final DefaultHttpClient httpClient) {
-    super(accountName);
-    this.httpClient = httpClient;
-    this.password = password;
-  }
+public PasswordAuthenticator(final String accountName, final String password,
+                             final DefaultHttpClient httpClient) {
+	super(accountName);
+	this.httpClient = httpClient;
+	this.password = password;
+}
 
-  // 1. Get GALX from https://accounts.google.com/ServiceLogin
-  // 2. Post along with auth info to
-  // https://accounts.google.com/ServiceLoginAuth
-  // 3. Get redirected to https://play.google.com/apps/publish/v2/ on success
-  // (all needed cookies are in HttpClient's cookie jar at this point)
+// 1. Get GALX from https://accounts.google.com/ServiceLogin
+// 2. Post along with auth info to
+// https://accounts.google.com/ServiceLoginAuth
+// 3. Get redirected to https://play.google.com/apps/publish/v2/ on success
+// (all needed cookies are in HttpClient's cookie jar at this point)
 
-  @Override
-  public SessionCredentials authenticate(final Activity activity,
-                                         final boolean invalidate)
-      throws AuthenticationException {
-    return authenticate();
-  }
+@Override
+public SessionCredentials authenticate(final Activity activity,
+                                       final boolean invalidate)
+throws AuthenticationException {
+	return authenticate();
+}
 
-  @Override
-  public SessionCredentials authenticateSilently(final boolean invalidate)
-      throws AuthenticationException {
-    return authenticate();
-  }
+@Override
+public SessionCredentials authenticateSilently(final boolean invalidate)
+throws AuthenticationException {
+	return authenticate();
+}
 
-  private SessionCredentials authenticate() throws AuthenticationException {
-    try {
-      HttpGet get = new HttpGet(LOGIN_PAGE_URL);
-      HttpResponse response = httpClient.execute(get);
-      if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-        throw new AuthenticationException("Auth error: " +
-                                          response.getStatusLine());
-      }
+private SessionCredentials authenticate() throws AuthenticationException {
+	try {
+		HttpGet get = new HttpGet(LOGIN_PAGE_URL);
+		HttpResponse response = httpClient.execute(get);
+		if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+			throw new AuthenticationException("Auth error: " +
+			                                  response.getStatusLine());
+		}
 
-      String galxValue = null;
-      CookieStore cookieStore = httpClient.getCookieStore();
-      List<Cookie> cookies = cookieStore.getCookies();
-      for (Cookie c : cookies) {
-        if ("GALX".equals(c.getName())) {
-          galxValue = c.getValue();
-        }
-      }
-      if (DEBUG) {
-        Log.d(TAG, "GALX: " + galxValue);
-      }
+		String galxValue = null;
+		CookieStore cookieStore = httpClient.getCookieStore();
+		List<Cookie> cookies = cookieStore.getCookies();
+		for (Cookie c : cookies) {
+			if ("GALX".equals(c.getName())) {
+				galxValue = c.getValue();
+			}
+		}
+		if (DEBUG) {
+			Log.d(TAG, "GALX: " + galxValue);
+		}
 
-      HttpPost post = new HttpPost(AUTHENTICATE_URL);
-      List<NameValuePair> parameters = createAuthParameters(galxValue);
-      UrlEncodedFormEntity formEntity =
-          new UrlEncodedFormEntity(parameters, "UTF-8");
-      post.setEntity(formEntity);
+		HttpPost post = new HttpPost(AUTHENTICATE_URL);
+		List<NameValuePair> parameters = createAuthParameters(galxValue);
+		UrlEncodedFormEntity formEntity =
+			new UrlEncodedFormEntity(parameters, "UTF-8");
+		post.setEntity(formEntity);
 
-      response = httpClient.execute(post);
-      if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-        throw new AuthenticationException("Auth error: " +
-                                          response.getStatusLine());
-      }
+		response = httpClient.execute(post);
+		if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+			throw new AuthenticationException("Auth error: " +
+			                                  response.getStatusLine());
+		}
 
-      String responseStr = EntityUtils.toString(response.getEntity());
-      if (DEBUG) {
-        Log.d(TAG, "Response: " + responseStr);
-      }
+		String responseStr = EntityUtils.toString(response.getEntity());
+		if (DEBUG) {
+			Log.d(TAG, "Response: " + responseStr);
+		}
 
-      return createSessionCredentials(accountName, AUTHENTICATE_URL,
-                                      responseStr,
-                                      httpClient.getCookieStore().getCookies());
-    } catch (ClientProtocolException e) {
-      throw new AuthenticationException(e);
-    } catch (IOException e) {
-      throw new AuthenticationException(e);
-    }
-  }
+		return createSessionCredentials(accountName, AUTHENTICATE_URL,
+		                                responseStr,
+		                                httpClient.getCookieStore().getCookies());
+	} catch (ClientProtocolException e) {
+		throw new AuthenticationException(e);
+	} catch (IOException e) {
+		throw new AuthenticationException(e);
+	}
+}
 
-  private List<NameValuePair> createAuthParameters(final String galxValue) {
-    List<NameValuePair> result = new ArrayList<NameValuePair>();
-    NameValuePair email = new BasicNameValuePair("Email", accountName);
-    result.add(email);
-    NameValuePair passwd = new BasicNameValuePair("Passwd", password);
-    result.add(passwd);
-    NameValuePair galx = new BasicNameValuePair("GALX", galxValue);
-    result.add(galx);
-    NameValuePair cont = new BasicNameValuePair("continue", DEV_CONSOLE_URL);
-    result.add(cont);
+private List<NameValuePair> createAuthParameters(final String galxValue) {
+	List<NameValuePair> result = new ArrayList<NameValuePair>();
+	NameValuePair email = new BasicNameValuePair("Email", accountName);
+	result.add(email);
+	NameValuePair passwd = new BasicNameValuePair("Passwd", password);
+	result.add(passwd);
+	NameValuePair galx = new BasicNameValuePair("GALX", galxValue);
+	result.add(galx);
+	NameValuePair cont = new BasicNameValuePair("continue", DEV_CONSOLE_URL);
+	result.add(cont);
 
-    return result;
-  }
+	return result;
+}
 }

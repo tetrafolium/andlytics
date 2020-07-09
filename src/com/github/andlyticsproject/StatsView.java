@@ -5,11 +5,11 @@ import com.github.andlyticsproject.model.StatsSummary;
 
 public interface StatsView<T extends Statistic> {
 
-  public void updateView(StatsSummary<T> appStatsList);
+public void updateView(StatsSummary<T> appStatsList);
 
-  public String getTitle();
+public String getTitle();
 
-  public void setCurrentChart(int currentPage, int column);
+public void setCurrentChart(int currentPage, int column);
 
-  public int getCurrentChart();
+public int getCurrentChart();
 }

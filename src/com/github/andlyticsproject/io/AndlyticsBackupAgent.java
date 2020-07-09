@@ -10,41 +10,41 @@ import java.io.IOException;
 
 public class AndlyticsBackupAgent extends BackupAgentHelper {
 
-  private static final String TAG = AndlyticsBackupAgent.class.getSimpleName();
+private static final String TAG = AndlyticsBackupAgent.class.getSimpleName();
 
-  private static final String PREFS_BACKUP_KEY = "prefs";
-  private static final String PREFS = "andlytics_pref";
-  private static final String STATS_BACKUP_KEY = "stats";
-  private static final String STATS_DB = "andlytics";
+private static final String PREFS_BACKUP_KEY = "prefs";
+private static final String PREFS = "andlytics_pref";
+private static final String STATS_BACKUP_KEY = "stats";
+private static final String STATS_DB = "andlytics";
 
-  private Object fileLock = new Object();
+private Object fileLock = new Object();
 
-  @Override
-  public void onCreate() {
-    addHelper(PREFS_BACKUP_KEY,
-              new SharedPreferencesBackupHelper(
-                  this, PREFS, getPackageName() + "_preferences"));
-    addHelper(STATS_BACKUP_KEY, new DbBackupHelper(this, STATS_DB));
-  }
+@Override
+public void onCreate() {
+	addHelper(PREFS_BACKUP_KEY,
+	          new SharedPreferencesBackupHelper(
+			  this, PREFS, getPackageName() + "_preferences"));
+	addHelper(STATS_BACKUP_KEY, new DbBackupHelper(this, STATS_DB));
+}
 
-  @Override
-  public void onBackup(final ParcelFileDescriptor oldState,
-                       final BackupDataOutput data,
-                       final ParcelFileDescriptor newState) throws IOException {
-    Log.d(TAG, "onBackup");
+@Override
+public void onBackup(final ParcelFileDescriptor oldState,
+                     final BackupDataOutput data,
+                     final ParcelFileDescriptor newState) throws IOException {
+	Log.d(TAG, "onBackup");
 
-    synchronized (fileLock) { super.onBackup(oldState, data, newState); }
-  }
+	synchronized (fileLock) { super.onBackup(oldState, data, newState); }
+}
 
-  @Override
-  public void onRestore(final BackupDataInput data, final int appVersionCode,
-                        final ParcelFileDescriptor newState)
-      throws IOException {
-    Log.d(TAG, "onRestore appVersionCode = " + appVersionCode);
+@Override
+public void onRestore(final BackupDataInput data, final int appVersionCode,
+                      final ParcelFileDescriptor newState)
+throws IOException {
+	Log.d(TAG, "onRestore appVersionCode = " + appVersionCode);
 
-    synchronized (fileLock) {
-      Log.d(TAG, "onRestore in-lock");
-      super.onRestore(data, appVersionCode, newState);
-    }
-  }
+	synchronized (fileLock) {
+		Log.d(TAG, "onRestore in-lock");
+		super.onRestore(data, appVersionCode, newState);
+	}
+}
 }

@@ -3,21 +3,25 @@ package com.github.andlyticsproject.util;
 import android.os.AsyncTask;
 
 public abstract class DetachableAsyncTask<Params, Progress, Result, Parent>
-    extends AsyncTask<Params, Progress, Result> {
+	extends AsyncTask<Params, Progress, Result> {
 
-  protected Parent activity;
+protected Parent activity;
 
-  public DetachableAsyncTask(final Parent activity) {
-    this.activity = activity;
-  }
+public DetachableAsyncTask(final Parent activity) {
+	this.activity = activity;
+}
 
-  public void attach(final Parent activity) { this.activity = activity; }
+public void attach(final Parent activity) {
+	this.activity = activity;
+}
 
-  public DetachableAsyncTask<Params, Progress, Result, Parent> detach() {
-    activity = null;
+public DetachableAsyncTask<Params, Progress, Result, Parent> detach() {
+	activity = null;
 
-    return this;
-  }
+	return this;
+}
 
-  Parent getParent() { return activity; }
+Parent getParent() {
+	return activity;
+}
 }
